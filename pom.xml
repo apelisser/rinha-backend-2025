@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.3</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.apelisser</groupId>
+    <artifactId>rinha2025</artifactId>
+    <version>0.0.1</version>
+    <name>Rinha Backend 2025</name>
+    <description>Rinha Backend 2025</description>
+    <url/>
+    <licenses>
+        <license/>
+    </licenses>
+    <developers>
+        <developer/>
+    </developers>
+    <scm>
+        <connection/>
+        <developerConnection/>
+        <tag/>
+        <url/>
+    </scm>
+    <properties>
+        <java.version>21</java.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-spring-boot3</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-retry</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                <version>3.14.0</version> &lt;!&ndash; Use a versão mais recente, como a que apareceu no erro &ndash;&gt;-->
+<!--                <configuration>-->
+<!--                    <source>${java.version}</source>-->
+<!--                    <target>${java.version}</target>-->
+<!--                    <release>${java.version}</release> &lt;!&ndash; Esta é a mais importante para JDKs mais recentes &ndash;&gt;-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+
+<!--              <plugin>-->
+<!--                  <groupId>org.apache.maven.plugins</groupId>-->
+<!--                  <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                  &lt;!&ndash; Mantenha a versão explícita aqui para garantir que seja a 3.14.0 ou superior &ndash;&gt;-->
+<!--                  <version>3.14.0</version>-->
+<!--                  <configuration>-->
+<!--                      <release>${java.version}</release>-->
+<!--                  </configuration>-->
+<!--                  &lt;!&ndash; Adicione esta execução para garantir que a configuração seja aplicada &ndash;&gt;-->
+<!--                  <executions>-->
+<!--                      <execution>-->
+<!--                          <id>default-compile</id>-->
+<!--                          <phase>compile</phase>-->
+<!--                          <goals>-->
+<!--                              <goal>compile</goal>-->
+<!--                          </goals>-->
+<!--                      </execution>-->
+<!--                      <execution>-->
+<!--                          <id>default-testCompile</id>-->
+<!--                          <phase>test-compile</phase>-->
+<!--                          <goals>-->
+<!--                              <goal>testCompile</goal>-->
+<!--                          </goals>-->
+<!--                      </execution>-->
+<!--                  </executions>-->
+<!--              </plugin>-->
+
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.apelisser.rinha2025.RinhaBackend2025Application</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>native</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.graalvm.buildtools</groupId>
+                        <artifactId>native-maven-plugin</artifactId>
+                        <version>0.10.6</version> <!-- É bom especificar uma versão -->
+                        <extensions>true</extensions>
+                        <executions>
+                            <execution>
+                                <id>build-native</id>
+                                <goals>
+                                    <goal>compile-no-fork</goal> <!-- Usa o processo do Maven, mais eficiente -->
+                                </goals>
+                                <phase>package</phase>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <!-- Argumentos de build para otimização máxima -->
+                            <buildArgs>
+                                <buildArg>--no-fallback</buildArg>
+                                <buildArg>-O3</buildArg> <!-- Otimização agressiva de performance -->
+                                <buildArg>--static</buildArg> <!-- Gera um binário estaticamente linkado, ideal para containers distroless -->
+                                <buildArg>--libc=musl</buildArg>
+                                <buildArg>-march=native</buildArg> <!-- Otimiza para a CPU específica onde o build está rodando -->
+                            </buildArgs>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>
