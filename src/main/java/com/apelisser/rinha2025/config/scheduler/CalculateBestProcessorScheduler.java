@@ -14,8 +14,8 @@ public class CalculateBestProcessorScheduler {
     }
 
     @Scheduled(
-        fixedDelayString = "${best-processor-selection.scheduler.interval.ms}",
-        initialDelayString = "${best-processor-selection.scheduler.initial-delay.ms}")
+        fixedDelayString = "${payment-processor-selection.scheduler.interval.ms}",
+        initialDelayString = "${payment-processor-selection.scheduler.initial-delay.ms}")
     public void execute() {
         processorSelectionService.updateBestProcessor();
     }

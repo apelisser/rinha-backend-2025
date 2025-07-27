@@ -1,12 +1,16 @@
 package com.apelisser.rinha2025.service;
 
 import com.apelisser.rinha2025.enums.PaymentProcessor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class ProcessorSelectionService {
+
+    @Value("${payment-processor-selection.default.advantage}")
+    private double defaultAdvantage;
 
     private final AtomicReference<PaymentProcessor> bestProcessor = new AtomicReference<>();
     private final HealthStatusHolder healthStatusHolder;
@@ -48,7 +52,7 @@ public class ProcessorSelectionService {
         long score = healthInfo.minResponseTime();
 
         if (isDefault) {
-            long advantage = (long) (score * 0.10);
+            long advantage = (long) (score * defaultAdvantage);
             advantage = Math.max(1, advantage);
             score -= advantage;
         }
