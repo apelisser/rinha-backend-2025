@@ -1,10 +1,12 @@
 package com.apelisser.rinha2025.entity;
 
+import com.apelisser.rinha2025.enums.PaymentStatus;
+import com.apelisser.rinha2025.enums.ProcessorType;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Table("payment")
@@ -13,12 +15,13 @@ public record Payment(
     Long id,
     UUID correlationId,
     BigDecimal amount,
-    boolean defaultProcessor,
-    Instant requestedAt
+    ProcessorType processor,
+    PaymentStatus status,
+    OffsetDateTime requestedAt
 ) {
 
-    public Payment(UUID correlationId, BigDecimal amount, boolean defaultProcessor, Instant requestedAt) {
-        this(null, correlationId, amount, defaultProcessor, requestedAt);
+    public Payment(UUID correlationId, BigDecimal amount) {
+        this(null, correlationId, amount, null, PaymentStatus.PENDING, OffsetDateTime.now());
     }
 
 }

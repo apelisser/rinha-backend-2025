@@ -27,10 +27,12 @@ x-service-templates:
     volumes:
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
+      - TZ=UTC
+      - PGTZ=UTC
       - POSTGRES_DB=rinha_2025
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    command: postgres -c max_connections=40 -c shared_buffers=32MB -c effective_cache_size=100MB -c work_mem=2MB -c maintenance_work_mem=16MB -c synchronous_commit=off -c fsync=off
+    command: postgres -c timezone=UTC -c max_connections=40 -c shared_buffers=32MB -c effective_cache_size=100MB -c work_mem=2MB -c maintenance_work_mem=16MB -c synchronous_commit=off -c fsync=off
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d rinha_2025"]
       interval: 5s
@@ -39,26 +41,11 @@ x-service-templates:
       start_period: 10s
 
   backend-application: &backend-application
-    image: rinha-2025-backend:0.0.1
+    image: rinha-2025-backend:0.0.2
     environment:
-      - JAVA_OPTS=-Xmx64m
       - SERVER_PORT=8080
 
-      - DEFAULT_PAYMENT_PROCESSOR_URL=http://payment-processor-default:8080
-      - DEFAULT_PAYMENT_PROCESSOR_CONNECT_TIMEOUT=100ms
-      - DEFAULT_PAYMENT_PROCESSOR_READ_TIMEOUT=10000ms
-      - CB_DEFAULT_SLOW_CALL_RATE_THRESHOLD=50
-      - CB_DEFAULT_SLOW_CALL_DURATION_THRESHOLD=100ms
-      - CB_DEFAULT_WAIT_DURATION_IN_OPEN_STATE=300ms
-
-      - FALLBACK_PAYMENT_PROCESSOR_URL=http://payment-processor-fallback:8080
-      - FALLBACK_PAYMENT_PROCESSOR_CONNECT_TIMEOUT=100ms
-      - FALLBACK_PAYMENT_PROCESSOR_READ_TIMEOUT=10000ms
-      - CB_FALLBACK_SLOW_CALL_RATE_THRESHOLD=50
-      - CB_FALLBACK_SLOW_CALL_DURATION_THRESHOLD=3000ms
-      - CB_FALLBACK_WAIT_DURATION_IN_OPEN_STATE=300ms
-
-      - DB_URL=jdbc:postgresql://backend-database:5432/rinha_2025
+      - DB_URL=jdbc:postgresql://backend-database:5432/rinha_2025?stringtype=unspecified
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
 

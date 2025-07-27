@@ -1,6 +1,6 @@
 package com.apelisser.rinha2025.config;
 
-import com.apelisser.rinha2025.service.PaymentProcessorClient;
+import com.apelisser.rinha2025.infrastructure.paymentprocessor.PaymentProcessorClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

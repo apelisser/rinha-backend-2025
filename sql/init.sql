@@ -1,13 +1,52 @@
 set statement_timeout = 0;
 set lock_timeout = 0;
-set idle_in_transaction_session_timeout = 0;
+set idle_in_transaction_session_timeout = 5000;
 
-create table payment (
-    id bigserial primary key,
-    correlation_id uuid not null unique,
-    amount numeric(10,2) not null,
-    default_processor boolean not null,
-    requested_at timestamptz not null default now()
+-- TYPES
+CREATE TYPE payment_processor AS ENUM ('DEFAULT', 'FALLBACK');
+CREATE TYPE payment_status AS ENUM ('PENDING', 'PROCESSING', 'PROCESSED', 'FAILED');
+
+SET session_replication_role = 'replica';
+
+-- TABLES
+CREATE TABLE payment (
+    id BIGSERIAL PRIMARY KEY,
+    correlation_id UUID NOT NULL UNIQUE,
+    amount NUMERIC(15, 2) NOT NULL,
+    processor payment_processor,
+    status payment_status NOT NULL,
+    requested_at TIMESTAMPTZ NOT NULL
 );
 
-create index idx_payment_summary on payment (requested_at, default_processor);
+CREATE TABLE outbox_event (
+    id BIGSERIAL PRIMARY KEY,
+    payment_id BIGINT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL
+);
+
+CREATE TABLE scheduler_locks (
+    lock_name VARCHAR(255) PRIMARY KEY,
+    last_execution TIMESTAMPTZ NOT NULL
+);
+
+CREATE TABLE health_check_status (
+    processor_name payment_processor PRIMARY KEY,
+    is_failing BOOLEAN NOT NULL,
+    min_response_time BIGINT NOT NULL,
+    last_checked TIMESTAMPTZ NOT NULL
+);
+
+-- INSERTS
+INSERT INTO scheduler_locks (lock_name, last_execution)
+VALUES ('health_check_leader', NOW() - INTERVAL '1 minute');
+
+INSERT INTO health_check_status (processor_name, is_failing, min_response_time, last_checked)
+VALUES ('DEFAULT', false, 0, NOW()),
+       ('FALLBACK', false, 0, NOW());
+
+SET session_replication_role = 'origin';
+
+-- INDEXES
+CREATE INDEX idx_payments_status_requested_at ON payment (status, requested_at);
+CREATE INDEX idx_outbox_events_created_at ON outbox_event (created_at);
+CREATE INDEX idx_payments_summary ON payment (processor, requested_at) WHERE status = 'PROCESSED';

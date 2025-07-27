@@ -26,7 +26,7 @@ public class PaymentController {
     @PostMapping(value = "/payments", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void payment(@RequestBody PaymentInput paymentInput) {
-        paymentService.processPayment(paymentInput);
+        paymentService.createIntention(paymentInput);
     }
 
     @GetMapping(value = "/payments-summary")
