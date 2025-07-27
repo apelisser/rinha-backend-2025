@@ -53,7 +53,6 @@ public class PaymentService {
     @Transactional
     public void confirmPayment(Long paymentId, PaymentProcessor usedProcessor) {
         paymentRepository.confirm(paymentId, usedProcessor);
-        outboxEventRepository.deleteByPaymentId(paymentId);
     }
 
     public void failPayment(Long paymentId) {

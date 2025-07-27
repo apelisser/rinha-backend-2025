@@ -69,6 +69,8 @@
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/config/scheduler/CalculateBestProcessorScheduler.class\\E"
   }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/config/scheduler/CleanupOutboxScheduler.class\\E"
+  }, {
     "pattern":"\\Qcom/apelisser/rinha2025/config/scheduler/HealthCheckCacheUpdateScheduler.class\\E"
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/config/scheduler/HealthCheckStatusScheduler.class\\E"
@@ -93,7 +95,11 @@
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/service/HealthStatusHolder.class\\E"
   }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/service/OutboxCleanupService.class\\E"
+  }, {
     "pattern":"\\Qcom/apelisser/rinha2025/service/PaymentProcessorGateway.class\\E"
+  }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/service/PaymentProcessorService$ProcessorType.class\\E"
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/service/PaymentProcessorService.class\\E"
   }, {
@@ -608,16 +614,10 @@
     "pattern":"jdk.jfr:\\Qjdk/jfr/internal/query/view.ini\\E"
   }]},
   "bundles":[{
-    "name":"jakarta.servlet.LocalStrings",
-    "locales":[""]
-  }, {
     "name":"jakarta.servlet.http.LocalStrings",
     "locales":[""]
   }, {
     "name":"org.apache.catalina.authenticator.LocalStrings",
-    "locales":[""]
-  }, {
-    "name":"org.apache.catalina.authenticator.jaspic.LocalStrings",
     "locales":[""]
   }, {
     "name":"org.apache.catalina.connector.LocalStrings",
@@ -663,9 +663,6 @@
     "locales":[""]
   }, {
     "name":"org.apache.coyote.http11.LocalStrings",
-    "locales":[""]
-  }, {
-    "name":"org.apache.coyote.http11.filters.LocalStrings",
     "locales":[""]
   }, {
     "name":"org.apache.naming.LocalStrings",

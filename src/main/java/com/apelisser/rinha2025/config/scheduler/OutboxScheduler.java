@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class OutboxScheduler {
 
-    @Value("${outbox.pull.max-amount}")
+    @Value("${outbox-processor.pull.max-amount}")
     private int maxQuantity;
 
     private final PaymentProcessorService paymentProcessorService;
@@ -18,8 +18,8 @@ public class OutboxScheduler {
     }
 
     @Scheduled(
-        fixedDelayString = "${outbox.scheduler.interval.ms}",
-        initialDelayString = "${outbox.scheduler.initial-delay.ms}")
+        fixedDelayString = "${outbox-processor.scheduler.interval.ms}",
+        initialDelayString = "${outbox-processor.scheduler.initial-delay.ms}")
     private void execute() {
         paymentProcessorService.process(maxQuantity);
     }

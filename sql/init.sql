@@ -47,6 +47,7 @@ VALUES ('DEFAULT', false, 0, NOW()),
 SET session_replication_role = 'origin';
 
 -- INDEXES
-CREATE INDEX idx_payments_status_requested_at ON payment (status, requested_at);
-CREATE INDEX idx_outbox_events_created_at ON outbox_event (created_at);
+CREATE INDEX idx_payments_pending_work ON payment (requested_at) WHERE status IN ('PENDING', 'FAILED');
 CREATE INDEX idx_payments_summary ON payment (processor, requested_at) WHERE status = 'PROCESSED';
+CREATE INDEX idx_outbox_event_created_at ON outbox_event (created_at);
+CREATE INDEX idx_outbox_event_payment_id ON outbox_event (payment_id);

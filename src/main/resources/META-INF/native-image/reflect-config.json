@@ -45,9 +45,6 @@
   "name":"[Ljava.lang.String;"
 },
 {
-  "name":"[Ljava.lang.annotation.Annotation;"
-},
-{
   "name":"[Ljava.rmi.server.ObjID;"
 },
 {
@@ -164,6 +161,13 @@
   "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.service.ProcessorSelectionService"] }, {"name":"execute","parameterTypes":[] }]
 },
 {
+  "name":"com.apelisser.rinha2025.config.scheduler.CleanupOutboxScheduler",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.service.OutboxCleanupService"] }, {"name":"execute","parameterTypes":[] }]
+},
+{
   "name":"com.apelisser.rinha2025.config.scheduler.HealthCheckCacheUpdateScheduler",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
@@ -189,7 +193,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.service.PaymentService"] }, {"name":"payment","parameterTypes":["com.apelisser.rinha2025.model.PaymentInput"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.service.PaymentService"] }]
 },
 {
   "name":"com.apelisser.rinha2025.entity.HealthCheckStatus",
@@ -199,7 +203,7 @@
   "queryAllDeclaredConstructors":true
 },
 {
-  "name":"com.apelisser.rinha2025.entity.HealthCheckStatus_Instantiator_t4xyz0",
+  "name":"com.apelisser.rinha2025.entity.HealthCheckStatus_Instantiator_ptlmee",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
@@ -212,50 +216,18 @@
   "methods":[{"name":"<init>","parameterTypes":["java.lang.Long","java.lang.Long","java.time.OffsetDateTime"] }]
 },
 {
-  "name":"com.apelisser.rinha2025.entity.OutboxEvent_Accessor_xaw899",
-  "queryAllPublicConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.entity.OutboxEvent"] }]
-},
-{
-  "name":"com.apelisser.rinha2025.entity.OutboxEvent_Instantiator_xaw899",
-  "methods":[{"name":"<init>","parameterTypes":[] }]
-},
-{
   "name":"com.apelisser.rinha2025.entity.Payment",
   "allDeclaredFields":true,
   "allRecordComponents":true,
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["java.lang.Long","java.util.UUID","java.math.BigDecimal","com.apelisser.rinha2025.enums.ProcessorType","com.apelisser.rinha2025.enums.PaymentStatus","java.time.OffsetDateTime"] }]
-},
-{
-  "name":"com.apelisser.rinha2025.entity.Payment_Accessor_87r8j5",
-  "queryAllPublicConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.entity.Payment"] }]
-},
-{
-  "name":"com.apelisser.rinha2025.entity.Payment_Instantiator_87r8j5",
-  "methods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Long","java.util.UUID","java.math.BigDecimal","com.apelisser.rinha2025.enums.PaymentProcessor","com.apelisser.rinha2025.enums.PaymentStatus","java.time.OffsetDateTime"] }]
 },
 {
   "name":"com.apelisser.rinha2025.infrastructure.paymentprocessor.PaymentProcessorClient",
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true
-},
-{
-  "name":"com.apelisser.rinha2025.infrastructure.paymentprocessor.model.HealthCheckResponse",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["boolean","int"] }]
-},
-{
-  "name":"com.apelisser.rinha2025.infrastructure.paymentprocessor.model.PaymentProcessorRequest",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"amount","parameterTypes":[] }, {"name":"correlationId","parameterTypes":[] }, {"name":"requestedAt","parameterTypes":[] }]
 },
 {
   "name":"com.apelisser.rinha2025.infrastructure.repository.SchedulerLockRepositoryImpl",
@@ -274,13 +246,6 @@
   "queryAllDeclaredConstructors":true
 },
 {
-  "name":"com.apelisser.rinha2025.model.PaymentInput",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["java.util.UUID","java.math.BigDecimal"] }]
-},
-{
   "name":"com.apelisser.rinha2025.model.ProcessablePaymentEvent",
   "queryAllDeclaredConstructors":true
 },
@@ -293,13 +258,12 @@
   "name":"com.apelisser.rinha2025.repository.OutboxEventRepository",
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
-  "methods":[{"name":"deleteByPaymentId","parameterTypes":["java.lang.Long"] }, {"name":"findAndLockProcessableEvents","parameterTypes":["int"] }]
+  "methods":[{"name":"deleteAllAlreadyProcessed","parameterTypes":[] }, {"name":"findAndLockProcessableEvents","parameterTypes":["int"] }]
 },
 {
   "name":"com.apelisser.rinha2025.repository.PaymentRepository",
   "queryAllDeclaredMethods":true,
-  "queryAllPublicMethods":true,
-  "methods":[{"name":"confirm","parameterTypes":["java.lang.Long","com.apelisser.rinha2025.enums.ProcessorType"] }, {"name":"updateStatus","parameterTypes":["java.util.List","com.apelisser.rinha2025.enums.PaymentStatus"] }]
+  "queryAllPublicMethods":true
 },
 {
   "name":"com.apelisser.rinha2025.repository.SchedulerLockRepository",
@@ -321,6 +285,18 @@
   "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.repository.HealthStatusRepository"] }]
 },
 {
+  "name":"com.apelisser.rinha2025.service.OutboxCleanupService",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.repository.OutboxEventRepository"] }, {"name":"cleanAlreadyProcessed","parameterTypes":[] }]
+},
+{
+  "name":"com.apelisser.rinha2025.service.OutboxCleanupService$$SpringCGLIB$$0",
+  "fields":[{"name":"CGLIB$CALLBACK_FILTER"}, {"name":"CGLIB$FACTORY_DATA"}],
+  "methods":[{"name":"CGLIB$SET_THREAD_CALLBACKS","parameterTypes":["org.springframework.cglib.proxy.Callback[]"] }]
+},
+{
   "name":"com.apelisser.rinha2025.service.PaymentProcessorGateway",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
@@ -332,14 +308,14 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.service.PaymentService","com.apelisser.rinha2025.service.PaymentProcessorGateway"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.service.PaymentService","com.apelisser.rinha2025.service.PaymentProcessorGateway","com.apelisser.rinha2025.service.PaymentProcessorService$ProcessorType"] }]
 },
 {
   "name":"com.apelisser.rinha2025.service.PaymentService",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.repository.PaymentRepository","com.apelisser.rinha2025.repository.OutboxEventRepository"] }, {"name":"confirmPayment","parameterTypes":["java.lang.Long","com.apelisser.rinha2025.enums.ProcessorType"] }, {"name":"createIntention","parameterTypes":["com.apelisser.rinha2025.model.PaymentInput"] }, {"name":"findAndLockProcessablePayments","parameterTypes":["int"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.repository.PaymentRepository","com.apelisser.rinha2025.repository.OutboxEventRepository"] }, {"name":"findAndLockProcessablePayments","parameterTypes":["int"] }]
 },
 {
   "name":"com.apelisser.rinha2025.service.PaymentService$$SpringCGLIB$$0",
@@ -361,6 +337,14 @@
 },
 {
   "name":"com.datastax.oss.driver.api.core.CqlSession"
+},
+{
+  "name":"com.fasterxml.jackson.annotation.JacksonAnnotation",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.fasterxml.jackson.annotation.JsonProperty",
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"com.fasterxml.jackson.core.JsonGenerator"
@@ -829,8 +813,7 @@
 {
   "name":"java.io.Serializable",
   "queryAllDeclaredMethods":true,
-  "queryAllPublicMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }, {"name":"from","parameterTypes":["java.lang.String"] }, {"name":"of","parameterTypes":["java.lang.String"] }, {"name":"valueOf","parameterTypes":["java.lang.String"] }]
+  "queryAllPublicMethods":true
 },
 {
   "name":"java.lang.AutoCloseable",
@@ -854,7 +837,7 @@
 {
   "name":"java.lang.Class",
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }, {"name":"accessFlags","parameterTypes":[] }, {"name":"from","parameterTypes":["java.lang.String"] }, {"name":"getRecordComponents","parameterTypes":[] }, {"name":"of","parameterTypes":["java.lang.String"] }, {"name":"valueOf","parameterTypes":["java.lang.String"] }]
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }, {"name":"accessFlags","parameterTypes":[] }, {"name":"from","parameterTypes":["java.lang.String"] }, {"name":"of","parameterTypes":["java.lang.String"] }, {"name":"valueOf","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"java.lang.ClassLoader",
@@ -863,11 +846,6 @@
 },
 {
   "name":"java.lang.CloneNotSupportedException"
-},
-{
-  "name":"java.lang.Comparable",
-  "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }, {"name":"from","parameterTypes":["java.lang.String"] }, {"name":"of","parameterTypes":["java.lang.String"] }, {"name":"valueOf","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"java.lang.Deprecated",
@@ -903,11 +881,6 @@
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"java.lang.Number",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true
-},
-{
   "name":"java.lang.Object",
   "allDeclaredClasses":true,
   "queryAllDeclaredMethods":true,
@@ -936,8 +909,7 @@
 {
   "name":"java.lang.String",
   "queryAllDeclaredMethods":true,
-  "fields":[{"name":"TYPE"}],
-  "methods":[{"name":"<init>","parameterTypes":["java.io.Serializable"] }, {"name":"<init>","parameterTypes":["java.lang.Comparable"] }, {"name":"<init>","parameterTypes":["java.lang.constant.Constable"] }]
+  "fields":[{"name":"TYPE"}]
 },
 {
   "name":"java.lang.System",
@@ -985,8 +957,7 @@
 },
 {
   "name":"java.lang.constant.Constable",
-  "queryAllPublicMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }, {"name":"from","parameterTypes":["java.lang.String"] }, {"name":"of","parameterTypes":["java.lang.String"] }, {"name":"valueOf","parameterTypes":["java.lang.String"] }]
+  "queryAllPublicMethods":true
 },
 {
   "name":"java.lang.invoke.TypeDescriptor$OfField",
@@ -1069,10 +1040,6 @@
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"java.lang.reflect.RecordComponent",
-  "methods":[{"name":"getName","parameterTypes":[] }, {"name":"getType","parameterTypes":[] }]
-},
-{
   "name":"java.lang.reflect.Type",
   "queryAllPublicMethods":true
 },
@@ -1089,10 +1056,7 @@
   "methods":[{"name":"getLowerBounds","parameterTypes":[] }, {"name":"getUpperBounds","parameterTypes":[] }]
 },
 {
-  "name":"java.math.BigDecimal",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true
+  "name":"java.math.BigDecimal"
 },
 {
   "name":"java.math.BigInteger"
@@ -1227,14 +1191,7 @@
   "methods":[{"name":"getFirst","parameterTypes":[] }]
 },
 {
-  "name":"java.util.UUID",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true
-},
-{
-  "name":"java.util.concurrent.Callable",
-  "methods":[{"name":"call","parameterTypes":[] }]
+  "name":"java.util.UUID"
 },
 {
   "name":"java.util.concurrent.Executor",
@@ -4248,7 +4205,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["org.springframework.data.jdbc.core.JdbcAggregateOperations","org.springframework.data.mapping.PersistentEntity","org.springframework.data.jdbc.core.convert.JdbcConverter"] }, {"name":"confirm","parameterTypes":["java.lang.Long","com.apelisser.rinha2025.enums.ProcessorType"] }, {"name":"count","parameterTypes":[] }, {"name":"count","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"delete","parameterTypes":["java.lang.Object"] }, {"name":"deleteAll","parameterTypes":[] }, {"name":"deleteAll","parameterTypes":["java.lang.Iterable"] }, {"name":"deleteAllById","parameterTypes":["java.lang.Iterable"] }, {"name":"deleteById","parameterTypes":["java.lang.Object"] }, {"name":"deleteByPaymentId","parameterTypes":["java.lang.Long"] }, {"name":"exists","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"existsById","parameterTypes":["java.lang.Object"] }, {"name":"findAll","parameterTypes":[] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example","org.springframework.data.domain.Pageable"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example","org.springframework.data.domain.Sort"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Pageable"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Sort"] }, {"name":"findAllById","parameterTypes":["java.lang.Iterable"] }, {"name":"findAndLockProcessableEvents","parameterTypes":["int"] }, {"name":"findBy","parameterTypes":["org.springframework.data.domain.Example","java.util.function.Function"] }, {"name":"findById","parameterTypes":["java.lang.Object"] }, {"name":"findOne","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"save","parameterTypes":["java.lang.Object"] }, {"name":"saveAll","parameterTypes":["java.lang.Iterable"] }, {"name":"update","parameterTypes":["com.apelisser.rinha2025.enums.ProcessorType","boolean","long","java.time.OffsetDateTime"] }, {"name":"updateStatus","parameterTypes":["java.util.List","com.apelisser.rinha2025.enums.PaymentStatus"] }]
+  "methods":[{"name":"<init>","parameterTypes":["org.springframework.data.jdbc.core.JdbcAggregateOperations","org.springframework.data.mapping.PersistentEntity","org.springframework.data.jdbc.core.convert.JdbcConverter"] }, {"name":"count","parameterTypes":[] }, {"name":"count","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"delete","parameterTypes":["java.lang.Object"] }, {"name":"deleteAll","parameterTypes":[] }, {"name":"deleteAll","parameterTypes":["java.lang.Iterable"] }, {"name":"deleteAllAlreadyProcessed","parameterTypes":[] }, {"name":"deleteAllById","parameterTypes":["java.lang.Iterable"] }, {"name":"deleteById","parameterTypes":["java.lang.Object"] }, {"name":"exists","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"existsById","parameterTypes":["java.lang.Object"] }, {"name":"findAll","parameterTypes":[] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example","org.springframework.data.domain.Pageable"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example","org.springframework.data.domain.Sort"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Pageable"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Sort"] }, {"name":"findAllById","parameterTypes":["java.lang.Iterable"] }, {"name":"findAndLockProcessableEvents","parameterTypes":["int"] }, {"name":"findBy","parameterTypes":["org.springframework.data.domain.Example","java.util.function.Function"] }, {"name":"findById","parameterTypes":["java.lang.Object"] }, {"name":"findOne","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"save","parameterTypes":["java.lang.Object"] }, {"name":"saveAll","parameterTypes":["java.lang.Iterable"] }, {"name":"update","parameterTypes":["com.apelisser.rinha2025.enums.PaymentProcessor","boolean","long","java.time.OffsetDateTime"] }]
 },
 {
   "name":"org.springframework.data.jpa.repository.JpaRepository"
@@ -4353,18 +4310,9 @@
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"org.springframework.data.relational.core.mapping.event.AfterSaveCallback",
-  "queryAllDeclaredMethods":true
-},
-{
-  "name":"org.springframework.data.relational.core.mapping.event.BeforeConvertCallback",
-  "queryAllDeclaredMethods":true
-},
-{
   "name":"org.springframework.data.relational.core.mapping.event.BeforeSaveCallback",
   "queryAllDeclaredMethods":true,
-  "queryAllPublicMethods":true,
-  "methods":[{"name":"onBeforeSave","parameterTypes":["java.lang.Object","org.springframework.data.relational.core.conversion.MutableAggregateChange"] }]
+  "queryAllPublicMethods":true
 },
 {
   "name":"org.springframework.data.repository.CrudRepository",

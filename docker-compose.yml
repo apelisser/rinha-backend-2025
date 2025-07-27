@@ -28,11 +28,10 @@ x-service-templates:
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       - TZ=UTC
-      - PGTZ=UTC
       - POSTGRES_DB=rinha_2025
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    command: postgres -c timezone=UTC -c max_connections=40 -c shared_buffers=32MB -c effective_cache_size=100MB -c work_mem=2MB -c maintenance_work_mem=16MB -c synchronous_commit=off -c fsync=off
+    command: postgres -c timezone=UTC -c max_connections=40 -c shared_buffers=32MB -c effective_cache_size=100MB -c work_mem=2MB -c maintenance_work_mem=16MB -c synchronous_commit=off -c fsync=off -c wal_buffers=1MB -c commit_delay=100
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d rinha_2025"]
       interval: 5s
@@ -44,16 +43,12 @@ x-service-templates:
     image: rinha-2025-backend:0.0.2
     environment:
       - SERVER_PORT=8080
+
       - DEFAULT_PAYMENT_PROCESSOR_URL=http://payment-processor-default:8080
-      - FALLBACK_PAYMENT_PROCESSOR_URL=http://payment-processor-fallback:8080
-
       - DEFAULT_PAYMENT_PROCESSOR_READ_TIMEOUT=5000
-      - FALLBACK_PAYMENT_PROCESSOR_READ_TIMEOUT=10000
 
-      - OUTBOX_PULL_MAX_AMOUNT=50
-      - OUTBOX_SCHEDULER_INTERVAL_MS=300
-      - OUTBOX_SCHEDULER_INITIAL_DELAY_MS=3000
-      - PAYMENT_PROCESSOR_CONCURRENCY_TYPE=parallel_vt
+      - FALLBACK_PAYMENT_PROCESSOR_URL=http://payment-processor-fallback:8080
+      - FALLBACK_PAYMENT_PROCESSOR_READ_TIMEOUT=10000
 
       - DB_URL=jdbc:postgresql://backend-database:5432/rinha_2025?stringtype=unspecified
       - DB_USERNAME=postgres
@@ -62,6 +57,14 @@ x-service-templates:
       - DB_POOL_MINIMUM_SIZE=10
       - DB_POOL_MAXIMUM_SIZE=20
       - DB_POOL_IDLE_TIMEOUT=30000
+
+      - OUTBOX_PROCESSOR_PULL_MAX_AMOUNT=50
+      - OUTBOX_PROCESSOR_SCHEDULER_INTERVAL_MS=300
+      - OUTBOX_PROCESSOR_SCHEDULER_INITIAL_DELAY_MS=3000
+      - PAYMENT_PROCESSOR_CONCURRENCY_TYPE=parallel_vt
+
+      - OUTBOX_CLEANER_SCHEDULER_INTERVAL_MS=10000
+      - OUTBOX_CLEANER_SCHEDULER_INITIAL_DELAY_MS=5000
     networks:
       - rinha-net
       - payment-processor
@@ -90,7 +93,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.4"
+          cpus: "0.5"
           memory: "150MB"
 
   backend01:
@@ -102,7 +105,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.5"
+          cpus: "0.45"
           memory: "90MB"
 
   backend02:
@@ -114,7 +117,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.5"
+          cpus: "0.45"
           memory: "90MB"
 
 networks:
