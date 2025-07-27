@@ -1,7 +1,7 @@
 package com.apelisser.rinha2025.entity;
 
 import com.apelisser.rinha2025.enums.PaymentStatus;
-import com.apelisser.rinha2025.enums.ProcessorType;
+import com.apelisser.rinha2025.enums.PaymentProcessor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -15,7 +15,7 @@ public record Payment(
     Long id,
     UUID correlationId,
     BigDecimal amount,
-    ProcessorType processor,
+    PaymentProcessor processor,
     PaymentStatus status,
     OffsetDateTime requestedAt
 ) {

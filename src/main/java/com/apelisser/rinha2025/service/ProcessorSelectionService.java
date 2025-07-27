@@ -1,6 +1,6 @@
 package com.apelisser.rinha2025.service;
 
-import com.apelisser.rinha2025.enums.ProcessorType;
+import com.apelisser.rinha2025.enums.PaymentProcessor;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @Service
 public class ProcessorSelectionService {
 
-    private final AtomicReference<ProcessorType> bestProcessor = new AtomicReference<>();
+    private final AtomicReference<PaymentProcessor> bestProcessor = new AtomicReference<>();
     private final HealthStatusHolder healthStatusHolder;
 
     public ProcessorSelectionService(HealthStatusHolder healthStatusHolder) {
@@ -16,28 +16,28 @@ public class ProcessorSelectionService {
     }
 
     public void updateBestProcessor() {
-        ProcessorType processor = this.chooseBestProcessor();
+        PaymentProcessor processor = this.chooseBestProcessor();
         this.bestProcessor.set(processor);
     }
 
-    public ProcessorType getBestProcessor() {
+    public PaymentProcessor getBestProcessor() {
         return this.bestProcessor.get();
     }
 
-    private ProcessorType chooseBestProcessor() {
+    private PaymentProcessor chooseBestProcessor() {
         HealthStatusHolder.HealthInfo defaultHealth = healthStatusHolder.getDefaultStatus();
         HealthStatusHolder.HealthInfo fallbackHealth = healthStatusHolder.getFallbackStatus();
 
         if (defaultHealth == null && fallbackHealth == null) {
-            return ProcessorType.DEFAULT;
+            return PaymentProcessor.DEFAULT;
         }
 
         long defaultScore = calculateScore(defaultHealth, true);
         long fallbackScore = calculateScore(fallbackHealth, false);
 
         return defaultScore <= fallbackScore
-            ? ProcessorType.DEFAULT
-            : ProcessorType.FALLBACK;
+            ? PaymentProcessor.DEFAULT
+            : PaymentProcessor.FALLBACK;
     }
 
     private long calculateScore(HealthStatusHolder.HealthInfo healthInfo, boolean isDefault) {

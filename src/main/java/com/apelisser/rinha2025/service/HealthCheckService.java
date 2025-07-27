@@ -1,6 +1,6 @@
 package com.apelisser.rinha2025.service;
 
-import com.apelisser.rinha2025.enums.ProcessorType;
+import com.apelisser.rinha2025.enums.PaymentProcessor;
 import com.apelisser.rinha2025.infrastructure.paymentprocessor.PaymentProcessorClient;
 import com.apelisser.rinha2025.infrastructure.paymentprocessor.model.HealthCheckResponse;
 import com.apelisser.rinha2025.repository.HealthStatusRepository;
@@ -32,12 +32,12 @@ public class HealthCheckService {
     public void performAndUpdateHealthCheck() {
         boolean acquiredLock = schedulerLockRepository.tryAcquireLock("health_check_leader", 5);
         if (acquiredLock) {
-            this.updateHealthInfo(ProcessorType.DEFAULT, defaultPaymentProcessor);
-            this.updateHealthInfo(ProcessorType.FALLBACK, fallbackPaymentProcessor);
+            this.updateHealthInfo(PaymentProcessor.DEFAULT, defaultPaymentProcessor);
+            this.updateHealthInfo(PaymentProcessor.FALLBACK, fallbackPaymentProcessor);
         }
     }
 
-    private void updateHealthInfo(ProcessorType processor, PaymentProcessorClient client) {
+    private void updateHealthInfo(PaymentProcessor processor, PaymentProcessorClient client) {
         try {
             HealthCheckResponse healthCheckResponse = client.healthCheck();
             healthStatusRepository.update(

@@ -1,14 +1,14 @@
 package com.apelisser.rinha2025.repository;
 
 import com.apelisser.rinha2025.entity.HealthCheckStatus;
-import com.apelisser.rinha2025.enums.ProcessorType;
+import com.apelisser.rinha2025.enums.PaymentProcessor;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 
 import java.time.OffsetDateTime;
 
-public interface HealthStatusRepository extends ListCrudRepository<HealthCheckStatus, ProcessorType> {
+public interface HealthStatusRepository extends ListCrudRepository<HealthCheckStatus, PaymentProcessor> {
 
     @Modifying
     @Query("""
@@ -21,6 +21,6 @@ public interface HealthStatusRepository extends ListCrudRepository<HealthCheckSt
         WHERE
             processor_name = :processorName
     """)
-    void update(ProcessorType processorName, boolean isFailing, long minResponseTime, OffsetDateTime lastChecked);
+    void update(PaymentProcessor processorName, boolean isFailing, long minResponseTime, OffsetDateTime lastChecked);
 
 }

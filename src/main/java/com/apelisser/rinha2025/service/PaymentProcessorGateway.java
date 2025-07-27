@@ -1,6 +1,6 @@
 package com.apelisser.rinha2025.service;
 
-import com.apelisser.rinha2025.enums.ProcessorType;
+import com.apelisser.rinha2025.enums.PaymentProcessor;
 import com.apelisser.rinha2025.infrastructure.paymentprocessor.PaymentProcessorClient;
 import com.apelisser.rinha2025.infrastructure.paymentprocessor.model.PaymentProcessorRequest;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,14 +22,14 @@ public class PaymentProcessorGateway {
         this.processorSelectionService = processorSelectionService;
     }
 
-    public ProcessorType process(PaymentProcessorRequest paymentRequest) {
-        ProcessorType bestChoice = processorSelectionService.getBestProcessor();
+    public PaymentProcessor process(PaymentProcessorRequest paymentRequest) {
+        PaymentProcessor bestChoice = processorSelectionService.getBestProcessor();
 
         if (bestChoice == null) {
-            bestChoice = ProcessorType.DEFAULT;
+            bestChoice = PaymentProcessor.DEFAULT;
         }
 
-        if (bestChoice == ProcessorType.DEFAULT) {
+        if (bestChoice == PaymentProcessor.DEFAULT) {
             try {
                 return processWithDefault(paymentRequest);
             } catch (Exception e) {
@@ -44,14 +44,14 @@ public class PaymentProcessorGateway {
         }
     }
 
-    private ProcessorType processWithDefault(PaymentProcessorRequest paymentRequest) {
+    private PaymentProcessor processWithDefault(PaymentProcessorRequest paymentRequest) {
         defaultPaymentProcessor.processPayment(paymentRequest);
-        return ProcessorType.DEFAULT;
+        return PaymentProcessor.DEFAULT;
     }
 
-    private ProcessorType processWithFallback(PaymentProcessorRequest paymentRequest) {
+    private PaymentProcessor processWithFallback(PaymentProcessorRequest paymentRequest) {
         fallbackPaymentProcessor.processPayment(paymentRequest);
-        return ProcessorType.FALLBACK;
+        return PaymentProcessor.FALLBACK;
     }
 
 }

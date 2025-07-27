@@ -2,7 +2,7 @@ package com.apelisser.rinha2025.repository;
 
 import com.apelisser.rinha2025.entity.Payment;
 import com.apelisser.rinha2025.enums.PaymentStatus;
-import com.apelisser.rinha2025.enums.ProcessorType;
+import com.apelisser.rinha2025.enums.PaymentProcessor;
 import com.apelisser.rinha2025.model.AggregatedSummary;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
@@ -26,7 +26,7 @@ public interface PaymentRepository extends ListCrudRepository<Payment, Long> {
         WHERE
             id = :paymentId
     """)
-    void confirm(Long paymentId, ProcessorType processor);
+    void confirm(Long paymentId, PaymentProcessor processor);
 
     @Modifying
     @Query("""

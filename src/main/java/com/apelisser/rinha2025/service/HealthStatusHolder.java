@@ -8,8 +8,8 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static com.apelisser.rinha2025.enums.ProcessorType.DEFAULT;
-import static com.apelisser.rinha2025.enums.ProcessorType.FALLBACK;
+import static com.apelisser.rinha2025.enums.PaymentProcessor.DEFAULT;
+import static com.apelisser.rinha2025.enums.PaymentProcessor.FALLBACK;
 
 @Component
 public class HealthStatusHolder {

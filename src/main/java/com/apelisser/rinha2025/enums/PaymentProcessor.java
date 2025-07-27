@@ -1,6 +1,6 @@
 package com.apelisser.rinha2025.enums;
 
-public enum ProcessorType {
+public enum PaymentProcessor {
 
     DEFAULT,
     FALLBACK

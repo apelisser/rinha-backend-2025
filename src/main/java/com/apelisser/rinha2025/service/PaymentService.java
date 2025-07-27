@@ -3,7 +3,7 @@ package com.apelisser.rinha2025.service;
 import com.apelisser.rinha2025.entity.OutboxEvent;
 import com.apelisser.rinha2025.entity.Payment;
 import com.apelisser.rinha2025.enums.PaymentStatus;
-import com.apelisser.rinha2025.enums.ProcessorType;
+import com.apelisser.rinha2025.enums.PaymentProcessor;
 import com.apelisser.rinha2025.model.AggregatedSummary;
 import com.apelisser.rinha2025.model.PaymentInput;
 import com.apelisser.rinha2025.model.PaymentSummaryResponse;
@@ -51,7 +51,7 @@ public class PaymentService {
     }
 
     @Transactional
-    public void confirmPayment(Long paymentId, ProcessorType usedProcessor) {
+    public void confirmPayment(Long paymentId, PaymentProcessor usedProcessor) {
         paymentRepository.confirm(paymentId, usedProcessor);
         outboxEventRepository.deleteByPaymentId(paymentId);
     }
