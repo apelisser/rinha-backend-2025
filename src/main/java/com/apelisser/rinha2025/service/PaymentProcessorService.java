@@ -19,14 +19,21 @@ public class PaymentProcessorService {
         SEQUENTIAL, PARALLEL, PARALLEL_VT, PARALLEL_VT_NO_WAIT
     }
 
+    @Value("${payment-processor.confirmation.number-of-retries}")
+    private int numberOfRetries;
+
     private final ExecutorService virtualThreadExecutor;
     private final Consumer<List<ProcessablePaymentEvent>> processablePaymentConsumer;
 
     private final PaymentService paymentService;
     private final PaymentProcessorGateway paymentProcessorGateway;
+    private final PaymentConfirmationService paymentConfirmationService;
 
-    public PaymentProcessorService(PaymentService paymentService, PaymentProcessorGateway paymentProcessorGateway,
-        @Value("${payment-processor.concurrency.type}") ProcessorType processorType) {
+    public PaymentProcessorService(
+            PaymentService paymentService,
+            PaymentProcessorGateway paymentProcessorGateway,
+            @Value("${payment-processor.concurrency.type}") ProcessorType processorType,
+            PaymentConfirmationService paymentConfirmationService) {
         this.paymentService = paymentService;
         this.paymentProcessorGateway = paymentProcessorGateway;
 
@@ -35,6 +42,7 @@ public class PaymentProcessorService {
             : null;
 
         this.processablePaymentConsumer = this.selectConsumer(processorType);
+        this.paymentConfirmationService = paymentConfirmationService;
     }
 
     public void process(int maxQuantity) {
@@ -45,9 +53,19 @@ public class PaymentProcessorService {
     private void processPayment(ProcessablePaymentEvent processablePayment) {
         try {
             PaymentProcessor usedProcessor = paymentProcessorGateway.process(processablePayment.toProcessorRequest());
-            paymentService.confirmPayment(processablePayment.paymentId(), usedProcessor);
+            this.confirmPayment(processablePayment.paymentId(), usedProcessor);
         } catch (Exception e) {
             paymentService.failPayment(processablePayment.paymentId());
+        }
+    }
+
+    private void confirmPayment(Long paymentId, PaymentProcessor usedProcessor) {
+        try {
+            paymentConfirmationService.confirmPayment(paymentId, usedProcessor);
+        } catch (Exception e) {
+            if (numberOfRetries > 0) {
+                paymentConfirmationService.confirmPaymentAsyncWithRetries(paymentId, usedProcessor, numberOfRetries);
+            }
         }
     }
 
