@@ -36,6 +36,9 @@ CREATE TABLE health_check_status (
     last_checked TIMESTAMPTZ NOT NULL
 );
 
+-- FILLFACTOR
+ALTER TABLE payment SET (fillfactor = 90);
+
 -- INSERTS
 INSERT INTO scheduler_locks (lock_name, last_execution)
 VALUES ('health_check_leader', NOW() - INTERVAL '1 minute');

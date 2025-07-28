@@ -43,6 +43,7 @@ x-service-templates:
     image: rinha-2025-backend:0.0.2
     environment:
       - SERVER_PORT=8080
+      - PAYMENT_API_SUMMARY_DELAY=50
 
       - DEFAULT_PAYMENT_PROCESSOR_URL=http://payment-processor-default:8080
       - DEFAULT_PAYMENT_PROCESSOR_READ_TIMEOUT=5000
@@ -54,17 +55,22 @@ x-service-templates:
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
 
-      - DB_POOL_MINIMUM_SIZE=10
+      - DB_POOL_MINIMUM_SIZE=20
       - DB_POOL_MAXIMUM_SIZE=20
       - DB_POOL_IDLE_TIMEOUT=30000
 
-      - OUTBOX_PROCESSOR_PULL_MAX_AMOUNT=50
-      - OUTBOX_PROCESSOR_SCHEDULER_INTERVAL_MS=300
+      - OUTBOX_PROCESSOR_PULL_MAX_AMOUNT=100
+      - OUTBOX_PROCESSOR_SCHEDULER_INTERVAL_MS=200
       - OUTBOX_PROCESSOR_SCHEDULER_INITIAL_DELAY_MS=3000
       - PAYMENT_PROCESSOR_CONCURRENCY_TYPE=parallel_vt
-
+      - PAYMENT_PROCESSOR_SELECTION_DEFAULT_ADVANTAGE=0.3
       - OUTBOX_CLEANER_SCHEDULER_INTERVAL_MS=10000
       - OUTBOX_CLEANER_SCHEDULER_INITIAL_DELAY_MS=5000
+      - JAVA_OPTS= >-
+        -Xms58m
+        -Xmx64m
+        -XX:-FlightRecorder
+        -Xlog:disable
     networks:
       - rinha-net
       - payment-processor
@@ -73,6 +79,16 @@ x-service-templates:
         condition: service_healthy
 
 services:
+  database:
+    <<: *database
+    container_name: rinha-backend-db
+    hostname: backend-database
+    deploy:
+      resources:
+        limits:
+          cpus: "0.6"
+          memory: "170MB"
+
   load-balancer:
     <<: *load-balancer
     hostname: nginx
@@ -86,16 +102,6 @@ services:
           cpus: "0.1"
           memory: "20MB"
 
-  database:
-    <<: *database
-    container_name: rinha-backend-db
-    hostname: backend-database
-    deploy:
-      resources:
-        limits:
-          cpus: "0.5"
-          memory: "150MB"
-
   backend01:
     <<: *backend-application
     hostname: backend-instance-01
@@ -105,8 +111,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.45"
-          memory: "90MB"
+          cpus: "0.4"
+          memory: "80MB"
 
   backend02:
     <<: *backend-application
@@ -117,8 +123,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.45"
-          memory: "90MB"
+          cpus: "0.4"
+          memory: "80MB"
 
 networks:
   rinha-net:

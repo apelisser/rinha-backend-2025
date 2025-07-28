@@ -3,6 +3,8 @@ package com.apelisser.rinha2025.controller;
 import com.apelisser.rinha2025.model.PaymentInput;
 import com.apelisser.rinha2025.model.PaymentSummaryResponse;
 import com.apelisser.rinha2025.service.PaymentService;
+import com.apelisser.rinha2025.util.ThreadUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,9 @@ import java.time.Instant;
 
 @RestController
 public class PaymentController {
+
+    @Value("${payment.api.summary-delay.ms}")
+    private int sleepTimeMillis;
 
     private final PaymentService paymentService;
 
@@ -33,6 +38,7 @@ public class PaymentController {
     public PaymentSummaryResponse getSummary(
             @RequestParam(required = false) Instant from,
             @RequestParam(required = false) Instant to) {
+        ThreadUtil.sleep(sleepTimeMillis);
         return paymentService.getSummary(from, to);
     }
 
