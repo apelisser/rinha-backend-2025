@@ -51,14 +51,76 @@ graph TD
 - **Health Check:** Um sistema de health check monitora a saúde dos processadores de pagamento, permitindo que a aplicação troque para um processador de fallback caso o principal fique indisponível.
 - **Agendadores (Schedulers):** Tarefas agendadas são utilizadas para processar os eventos da outbox, limpar a tabela de eventos e atualizar o status dos health checks.
 
-## 🌊 Fluxo da Aplicação
+## 🌊 Fluxos Detalhados da Aplicação
 
-1.  O cliente envia uma requisição de pagamento para o Nginx.
-2.  O Nginx, atuando como load balancer, encaminha a requisição para uma das instâncias do backend.
-3.  A aplicação backend recebe a requisição e salva os dados do pagamento no banco de dados com o status inicial.
-4.  Um evento de pagamento é criado na tabela `outbox`.
-5.  Um processo assíncrono (scheduler) lê os eventos da tabela `outbox` e os envia para o processador de pagamentos externo.
-6.  O status do pagamento é atualizado no banco de dados com base na resposta do processador.
+### Fluxo de API (Cliente)
+```mermaid
+graph TD
+    A[Cliente]
+    API{API Backend}
+    DB[(PostgreSQL)]
+
+    subgraph "Criação de Pagamento"
+      A -- "POST /payments" --> API
+      API -- "Salva pagamento (pending) e cria evento na Outbox" --> DB
+    end
+
+    subgraph "Consulta de Sumário"
+      A -- "GET /payments-summary" --> API
+      API -- "Lê e agrega dados" --> DB
+    end
+```
+
+### Fluxo de Health Check
+```mermaid
+graph TD
+    DB[(PostgreSQL)]
+    E[Health Check Service]
+    F[Default Processor]
+    G[Fallback Processor]
+
+    E -- "GET /service-health" --> F
+    E -- "GET /service-health" --> G
+    E -- "Atualiza status no banco" --> DB
+```
+
+### Fluxo de Cache de Health Check
+```mermaid
+graph TD
+    DB[(PostgreSQL)]
+    E[Health Check Cache]
+
+    E -- "Lê status do Health Check" --> DB
+```
+
+### Fluxo de Seleção de Processador
+```mermaid
+graph TD
+    E[Best Payment Processor Calculator]
+    F[Health-Check Cache]
+    G[Best Payment Processor Holder]
+
+    E -- "Lê dados do cache" --> F
+    E -- "Define o melhor processador" --> G
+```
+
+### Fluxo de Processamento de Pagamentos (Worker)
+```mermaid
+graph TD
+    DB[(PostgreSQL)]
+    A[Worker]
+    B[Best Processor Holder]
+    C[Payment Gateway]
+    D[Default Processor]
+    E[Fallback Processor]
+
+    A -- "Carrega pagamentos não processados (com lock)" --> DB
+    A -- "Envia para o gateway" --> C
+    C -- "Obtém o melhor processador" --> B
+    C -- "POST /payments" --> D
+    C -- "POST /payments" --> E
+    A -- "Atualiza status do pagamento" --> DB
+```
 
 ## ⚙️ Como Executar
 
