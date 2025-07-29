@@ -31,19 +31,19 @@ x-service-templates:
       - POSTGRES_DB=rinha_2025
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    command: postgres -c timezone=UTC -c max_connections=40 -c shared_buffers=32MB -c effective_cache_size=100MB -c work_mem=2MB -c maintenance_work_mem=16MB -c synchronous_commit=off -c fsync=off -c wal_buffers=1MB -c commit_delay=100
+    command: postgres -c timezone=UTC -c max_connections=40 -c shared_buffers=32MB -c effective_cache_size=100MB -c work_mem=2MB -c maintenance_work_mem=16MB -c synchronous_commit=off -c fsync=off -c wal_buffers=4MB -c checkpoint_timeout=600 -c max_wal_size=4096 -c commit_delay=100 -c full_page_writes=off
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d rinha_2025"]
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
+      start_period: 6s
 
   backend-application: &backend-application
     image: rinha-2025-backend:0.0.2
     environment:
       - SERVER_PORT=8080
-      - PAYMENT_API_SUMMARY_DELAY=100
+      - PAYMENT_API_SUMMARY_DELAY=10
 
       - DEFAULT_PAYMENT_PROCESSOR_URL=http://payment-processor-default:8080
       - DEFAULT_PAYMENT_PROCESSOR_READ_TIMEOUT=7000
@@ -55,24 +55,19 @@ x-service-templates:
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
 
-      - DB_POOL_MINIMUM_SIZE=20
+      - DB_POOL_MINIMUM_SIZE=10
       - DB_POOL_MAXIMUM_SIZE=20
       - DB_POOL_IDLE_TIMEOUT=30000
 
-      - OUTBOX_PROCESSOR_PULL_MAX_AMOUNT=100
-      - OUTBOX_PROCESSOR_SCHEDULER_INTERVAL_MS=200
+      - OUTBOX_PROCESSOR_PULL_MAX_AMOUNT=40
+      - OUTBOX_PROCESSOR_SCHEDULER_INTERVAL_MS=180
       - OUTBOX_PROCESSOR_SCHEDULER_INITIAL_DELAY_MS=3000
       - PAYMENT_PROCESSOR_CONCURRENCY_TYPE=parallel_vt
-      - PAYMENT_PROCESSOR_SELECTION_DEFAULT_ADVANTAGE=0.3
-      - PAYMENT_PROCESSOR_CONFIRMATION_NUMBER_OF_RETRIES=3
+      - PAYMENT_PROCESSOR_SELECTION_DEFAULT_ADVANTAGE=0.5
+      - PAYMENT_PROCESSOR_CONFIRMATION_NUMBER_OF_RETRIES=0
       - PAYMENT_PROCESSOR_CONFIRMATION_INTERVAL_RETRIES_EXECUTION_MS=50
-      - OUTBOX_CLEANER_SCHEDULER_INTERVAL_MS=10000
+      - OUTBOX_CLEANER_SCHEDULER_INTERVAL_MS=8000
       - OUTBOX_CLEANER_SCHEDULER_INITIAL_DELAY_MS=5000
-      - JAVA_OPTS= >-
-        -Xms58m
-        -Xmx58m
-        -XX:-FlightRecorder
-        -Xlog:disable
     networks:
       - rinha-net
       - payment-processor
@@ -88,8 +83,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.6"
-          memory: "170MB"
+          cpus: "0.7"
+          memory: "180MB"
 
   load-balancer:
     <<: *load-balancer
@@ -113,8 +108,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.4"
-          memory: "80MB"
+          cpus: "0.35"
+          memory: "75MB"
 
   backend02:
     <<: *backend-application
@@ -125,8 +120,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.4"
-          memory: "80MB"
+          cpus: "0.35"
+          memory: "75MB"
 
 networks:
   rinha-net:

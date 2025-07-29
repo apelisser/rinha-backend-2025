@@ -37,7 +37,7 @@ CREATE TABLE health_check_status (
 );
 
 -- FILLFACTOR
-ALTER TABLE payment SET (fillfactor = 90);
+--ALTER TABLE payment SET (fillfactor = 90);
 
 -- INSERTS
 INSERT INTO scheduler_locks (lock_name, last_execution)
