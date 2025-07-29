@@ -97,6 +97,8 @@
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/service/OutboxCleanupService.class\\E"
   }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/service/PaymentConfirmationService.class\\E"
+  }, {
     "pattern":"\\Qcom/apelisser/rinha2025/service/PaymentProcessorGateway.class\\E"
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/service/PaymentProcessorService$ProcessorType.class\\E"
