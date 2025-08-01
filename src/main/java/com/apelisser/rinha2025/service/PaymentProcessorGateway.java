@@ -26,22 +26,12 @@ public class PaymentProcessorGateway {
         PaymentProcessor bestChoice = processorSelectionService.getBestProcessor();
 
         if (bestChoice == null) {
-            bestChoice = PaymentProcessor.DEFAULT;
+            throw new RuntimeException("Could not choose a payment processor");
         }
 
-        if (bestChoice == PaymentProcessor.DEFAULT) {
-            try {
-                return processWithDefault(paymentRequest);
-            } catch (Exception e) {
-                return processWithFallback(paymentRequest);
-            }
-        } else {
-            try {
-                return processWithFallback(paymentRequest);
-            } catch (Exception e) {
-                return processWithDefault(paymentRequest);
-            }
-        }
+        return bestChoice == PaymentProcessor.DEFAULT
+            ? this.processWithDefault(paymentRequest)
+            : this.processWithFallback(paymentRequest);
     }
 
     private PaymentProcessor processWithDefault(PaymentInput paymentRequest) {

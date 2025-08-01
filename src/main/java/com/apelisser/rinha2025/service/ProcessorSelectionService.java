@@ -10,7 +10,10 @@ import java.util.concurrent.atomic.AtomicReference;
 public class ProcessorSelectionService {
 
     @Value("${payment-processor-selection.default.advantage}")
-    private double defaultAdvantage;
+    private float defaultAdvantage;
+
+    @Value("${payment-processor-selection.fallback.enabled}")
+    private boolean isFallbackEnabled;
 
     private final AtomicReference<PaymentProcessor> bestProcessor = new AtomicReference<>();
     private final HealthStatusHolder healthStatusHolder;
@@ -29,6 +32,10 @@ public class ProcessorSelectionService {
     }
 
     private PaymentProcessor chooseBestProcessor() {
+        if (!isFallbackEnabled) {
+            return PaymentProcessor.DEFAULT;
+        }
+
         HealthStatusHolder.HealthInfo defaultHealth = healthStatusHolder.getDefaultStatus();
         HealthStatusHolder.HealthInfo fallbackHealth = healthStatusHolder.getFallbackStatus();
 
@@ -36,8 +43,8 @@ public class ProcessorSelectionService {
             return PaymentProcessor.DEFAULT;
         }
 
-        long defaultScore = calculateScore(defaultHealth, true);
-        long fallbackScore = calculateScore(fallbackHealth, false);
+        long defaultScore = this.calculateScore(defaultHealth, true);
+        long fallbackScore = this.calculateScore(fallbackHealth, false);
 
         return defaultScore <= fallbackScore
             ? PaymentProcessor.DEFAULT
@@ -51,7 +58,7 @@ public class ProcessorSelectionService {
 
         long score = healthInfo.minResponseTime();
 
-        if (isDefault) {
+        if (isDefault && defaultAdvantage > 0) {
             long advantage = (long) (score * defaultAdvantage);
             advantage = Math.max(1, advantage);
             score -= advantage;

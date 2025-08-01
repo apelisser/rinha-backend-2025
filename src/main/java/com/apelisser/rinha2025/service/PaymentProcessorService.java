@@ -28,11 +28,14 @@ public class PaymentProcessorService {
     private final PaymentProcessorGateway paymentProcessorGateway;
     private final InputPaymentQueue inputPaymentQueue;
     private final ProcessedPaymentQueue processedPaymentQueue;
+    private final HealthStatusHolder healthStatusHolder;
 
     public PaymentProcessorService(
             PaymentProcessorGateway paymentProcessorGateway,
             @Value("${payment-processor.concurrency.type}") ProcessorType processorType,
-        InputPaymentQueue inputPaymentQueue, ProcessedPaymentQueue processedPaymentQueue) {
+            InputPaymentQueue inputPaymentQueue,
+            ProcessedPaymentQueue processedPaymentQueue,
+            HealthStatusHolder healthStatusHolder) {
         this.paymentProcessorGateway = paymentProcessorGateway;
 
         this.virtualThreadExecutor = this.needInitializeExecutor(processorType)
@@ -42,14 +45,17 @@ public class PaymentProcessorService {
         this.processablePaymentConsumer = this.selectConsumer(processorType);
         this.inputPaymentQueue = inputPaymentQueue;
         this.processedPaymentQueue = processedPaymentQueue;
+        this.healthStatusHolder = healthStatusHolder;
     }
 
     public void process(int maxQuantity) {
+        if (allProcessorsIsFailing()) return;
         List<PaymentInput> processablePayments = inputPaymentQueue.dequeue(maxQuantity);
         processablePaymentConsumer.accept(processablePayments);
     }
 
     public void process() {
+        if (allProcessorsIsFailing()) return;
         List<PaymentInput> processablePayments = inputPaymentQueue.dequeue();
         processablePaymentConsumer.accept(processablePayments);
     }
@@ -108,6 +114,11 @@ public class PaymentProcessorService {
                 virtualThreadExecutor.submit(() -> processPayment(payment));
             }
         };
+    }
+
+    private boolean allProcessorsIsFailing() {
+        return healthStatusHolder.getDefaultStatus().isFailing()
+            && healthStatusHolder.getFallbackStatus().isFailing();
     }
 
 }

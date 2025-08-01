@@ -180,7 +180,7 @@
   "queryAllDeclaredConstructors":true
 },
 {
-  "name":"com.apelisser.rinha2025.entity.HealthCheckStatus_Instantiator_svhmjy",
+  "name":"com.apelisser.rinha2025.entity.HealthCheckStatus_Instantiator_eyuew8",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
@@ -290,7 +290,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.service.PaymentProcessorGateway","com.apelisser.rinha2025.service.PaymentProcessorService$ProcessorType","com.apelisser.rinha2025.queue.InputPaymentQueue","com.apelisser.rinha2025.queue.ProcessedPaymentQueue"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.service.PaymentProcessorGateway","com.apelisser.rinha2025.service.PaymentProcessorService$ProcessorType","com.apelisser.rinha2025.queue.InputPaymentQueue","com.apelisser.rinha2025.queue.ProcessedPaymentQueue","com.apelisser.rinha2025.service.HealthStatusHolder"] }]
 },
 {
   "name":"com.apelisser.rinha2025.service.PaymentService",
