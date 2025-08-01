@@ -5,11 +5,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HealthCheckStatusScheduler {
+public class HealthCheckScheduler {
 
     private final HealthCheckService healthCheckService;
 
-    public HealthCheckStatusScheduler(HealthCheckService healthCheckService) {
+    public HealthCheckScheduler(HealthCheckService healthCheckService) {
         this.healthCheckService = healthCheckService;
     }
 

@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.apelisser</groupId>
     <artifactId>rinha2025</artifactId>
-    <version>0.0.2</version>
+    <version>1.0.0</version>
     <name>Rinha Backend 2025</name>
     <description>Rinha Backend 2025</description>
 

@@ -6,9 +6,6 @@
     "interfaces":["com.apelisser.rinha2025.repository.HealthStatusRepository","org.springframework.data.repository.Repository","org.springframework.transaction.interceptor.TransactionalProxy","org.springframework.aop.framework.Advised","org.springframework.core.DecoratingProxy"]
   },
   {
-    "interfaces":["com.apelisser.rinha2025.repository.OutboxEventRepository","org.springframework.data.repository.Repository","org.springframework.transaction.interceptor.TransactionalProxy","org.springframework.aop.framework.Advised","org.springframework.core.DecoratingProxy"]
-  },
-  {
     "interfaces":["com.apelisser.rinha2025.repository.PaymentRepository","org.springframework.data.repository.Repository","org.springframework.transaction.interceptor.TransactionalProxy","org.springframework.aop.framework.Advised","org.springframework.core.DecoratingProxy"]
   },
   {

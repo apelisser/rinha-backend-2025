@@ -8,7 +8,7 @@ import com.apelisser.rinha2025.repository.SchedulerLockRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 @Service
 public class HealthCheckService {
@@ -30,7 +30,7 @@ public class HealthCheckService {
     }
 
     public void performAndUpdateHealthCheck() {
-        boolean acquiredLock = schedulerLockRepository.tryAcquireLock("health_check_leader", 5);
+        boolean acquiredLock = schedulerLockRepository.tryAcquireLock("health_check_leader", 5_010);
         if (acquiredLock) {
             this.updateHealthInfo(PaymentProcessor.DEFAULT, defaultPaymentProcessor);
             this.updateHealthInfo(PaymentProcessor.FALLBACK, fallbackPaymentProcessor);
@@ -41,16 +41,16 @@ public class HealthCheckService {
         try {
             HealthCheckResponse healthCheckResponse = client.healthCheck();
             healthStatusRepository.update(
-                processor,
+                processor.isDefaultProcessor(),
                 healthCheckResponse.failing(),
                 healthCheckResponse.minResponseTime(),
-                OffsetDateTime.now());
+                Instant.now());
         } catch (Exception e) {
             healthStatusRepository.update(
-                processor,
+                processor.isDefaultProcessor(),
                 true,
                 Integer.MAX_VALUE,
-                OffsetDateTime.now());
+                Instant.now());
         }
     }
 

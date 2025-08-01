@@ -63,29 +63,33 @@
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/\\E"
   }, {
-    "pattern":"\\Qcom/apelisser/rinha2025/config/JdbcConfig.class\\E"
-  }, {
     "pattern":"\\Qcom/apelisser/rinha2025/config/RestClientConfig.class\\E"
-  }, {
-    "pattern":"\\Qcom/apelisser/rinha2025/config/scheduler/CalculateBestProcessorScheduler.class\\E"
-  }, {
-    "pattern":"\\Qcom/apelisser/rinha2025/config/scheduler/CleanupOutboxScheduler.class\\E"
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/config/scheduler/HealthCheckCacheUpdateScheduler.class\\E"
   }, {
-    "pattern":"\\Qcom/apelisser/rinha2025/config/scheduler/HealthCheckStatusScheduler.class\\E"
+    "pattern":"\\Qcom/apelisser/rinha2025/config/scheduler/HealthCheckScheduler.class\\E"
   }, {
-    "pattern":"\\Qcom/apelisser/rinha2025/config/scheduler/OutboxScheduler.class\\E"
+    "pattern":"\\Qcom/apelisser/rinha2025/config/scheduler/ProcessorSelectionScheduler.class\\E"
+  }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/config/threadpool/PaymentConfirmationPool.class\\E"
+  }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/config/threadpool/PaymentProcessorPool.class\\E"
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/controller/PaymentController.class\\E"
   }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/infrastructure/repository/PaymentRepositoryQueriesImpl.class\\E"
+  }, {
     "pattern":"\\Qcom/apelisser/rinha2025/infrastructure/repository/SchedulerLockRepositoryImpl.class\\E"
+  }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/queue/InputPaymentQueue.class\\E"
+  }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/queue/ProcessedPaymentQueue.class\\E"
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/repository/HealthStatusRepository.class\\E"
   }, {
-    "pattern":"\\Qcom/apelisser/rinha2025/repository/OutboxEventRepository.class\\E"
-  }, {
     "pattern":"\\Qcom/apelisser/rinha2025/repository/PaymentRepository.class\\E"
+  }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/repository/PaymentRepositoryQueries.class\\E"
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/repository/SchedulerLockRepository.class\\E"
   }, {
@@ -95,9 +99,7 @@
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/service/HealthStatusHolder.class\\E"
   }, {
-    "pattern":"\\Qcom/apelisser/rinha2025/service/OutboxCleanupService.class\\E"
-  }, {
-    "pattern":"\\Qcom/apelisser/rinha2025/service/PaymentConfirmationService.class\\E"
+    "pattern":"\\Qcom/apelisser/rinha2025/service/PaymentConfirmationWorker.class\\E"
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/service/PaymentProcessorGateway.class\\E"
   }, {

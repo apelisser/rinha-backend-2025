@@ -1,7 +1,10 @@
 package com.apelisser.rinha2025.service;
 
 import com.apelisser.rinha2025.enums.PaymentProcessor;
-import com.apelisser.rinha2025.model.ProcessablePaymentEvent;
+import com.apelisser.rinha2025.model.PaymentInput;
+import com.apelisser.rinha2025.model.PaymentProcessed;
+import com.apelisser.rinha2025.queue.InputPaymentQueue;
+import com.apelisser.rinha2025.queue.ProcessedPaymentQueue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,22 +22,17 @@ public class PaymentProcessorService {
         SEQUENTIAL, PARALLEL, PARALLEL_VT, PARALLEL_VT_NO_WAIT
     }
 
-    @Value("${payment-processor.confirmation.number-of-retries}")
-    private int numberOfRetries;
-
     private final ExecutorService virtualThreadExecutor;
-    private final Consumer<List<ProcessablePaymentEvent>> processablePaymentConsumer;
+    private final Consumer<List<PaymentInput>> processablePaymentConsumer;
 
-    private final PaymentService paymentService;
     private final PaymentProcessorGateway paymentProcessorGateway;
-    private final PaymentConfirmationService paymentConfirmationService;
+    private final InputPaymentQueue inputPaymentQueue;
+    private final ProcessedPaymentQueue processedPaymentQueue;
 
     public PaymentProcessorService(
-            PaymentService paymentService,
             PaymentProcessorGateway paymentProcessorGateway,
             @Value("${payment-processor.concurrency.type}") ProcessorType processorType,
-            PaymentConfirmationService paymentConfirmationService) {
-        this.paymentService = paymentService;
+        InputPaymentQueue inputPaymentQueue, ProcessedPaymentQueue processedPaymentQueue) {
         this.paymentProcessorGateway = paymentProcessorGateway;
 
         this.virtualThreadExecutor = this.needInitializeExecutor(processorType)
@@ -42,30 +40,26 @@ public class PaymentProcessorService {
             : null;
 
         this.processablePaymentConsumer = this.selectConsumer(processorType);
-        this.paymentConfirmationService = paymentConfirmationService;
+        this.inputPaymentQueue = inputPaymentQueue;
+        this.processedPaymentQueue = processedPaymentQueue;
     }
 
     public void process(int maxQuantity) {
-        List<ProcessablePaymentEvent> processablePayments = paymentService.findAndLockProcessablePayments(maxQuantity);
+        List<PaymentInput> processablePayments = inputPaymentQueue.dequeue(maxQuantity);
         processablePaymentConsumer.accept(processablePayments);
     }
 
-    private void processPayment(ProcessablePaymentEvent processablePayment) {
-        try {
-            PaymentProcessor usedProcessor = paymentProcessorGateway.process(processablePayment.toProcessorRequest());
-            this.confirmPayment(processablePayment.paymentId(), usedProcessor);
-        } catch (Exception e) {
-            paymentService.failPayment(processablePayment.paymentId());
-        }
+    public void process() {
+        List<PaymentInput> processablePayments = inputPaymentQueue.dequeue();
+        processablePaymentConsumer.accept(processablePayments);
     }
 
-    private void confirmPayment(Long paymentId, PaymentProcessor usedProcessor) {
+    private void processPayment(PaymentInput paymentInput) {
         try {
-            paymentConfirmationService.confirmPayment(paymentId, usedProcessor);
+            PaymentProcessor usedProcessor = paymentProcessorGateway.process(paymentInput);
+            processedPaymentQueue.enqueue(new PaymentProcessed(paymentInput, usedProcessor));
         } catch (Exception e) {
-            if (numberOfRetries > 0) {
-                paymentConfirmationService.confirmPaymentAsyncWithRetries(paymentId, usedProcessor, numberOfRetries);
-            }
+            inputPaymentQueue.enqueue(paymentInput);
         }
     }
 
@@ -73,7 +67,7 @@ public class PaymentProcessorService {
         return processorType == ProcessorType.PARALLEL_VT || processorType == ProcessorType.PARALLEL_VT_NO_WAIT;
     }
 
-    private Consumer<List<ProcessablePaymentEvent>> selectConsumer(ProcessorType processorType) {
+    private Consumer<List<PaymentInput>> selectConsumer(ProcessorType processorType) {
         return switch (processorType) {
             case SEQUENTIAL -> this.sequentialConsumer();
             case PARALLEL -> this.parallelStreamConsumer();
@@ -82,18 +76,18 @@ public class PaymentProcessorService {
         };
     }
 
-    public Consumer<List<ProcessablePaymentEvent>> sequentialConsumer() {
+    public Consumer<List<PaymentInput>> sequentialConsumer() {
         return processablePayments -> processablePayments.forEach(this::processPayment);
     }
 
-    public Consumer<List<ProcessablePaymentEvent>> parallelStreamConsumer() {
+    public Consumer<List<PaymentInput>> parallelStreamConsumer() {
         return processablePayments -> processablePayments.parallelStream().forEach(this::processPayment);
     }
 
-    public Consumer<List<ProcessablePaymentEvent>> virtualThreadsConsumer() {
+    public Consumer<List<PaymentInput>> virtualThreadsConsumer() {
         return processablePayments -> {
             List<Future<?>> futures = new ArrayList<>(processablePayments.size());
-            for (ProcessablePaymentEvent payment : processablePayments) {
+            for (PaymentInput payment : processablePayments) {
                 Future<?> future = virtualThreadExecutor.submit(() -> processPayment(payment));
                 futures.add(future);
             }
@@ -108,9 +102,9 @@ public class PaymentProcessorService {
         };
     }
 
-    public Consumer<List<ProcessablePaymentEvent>> virtualThreadsNoWaitConsumer() {
+    public Consumer<List<PaymentInput>> virtualThreadsNoWaitConsumer() {
         return processablePayments -> {
-            for (ProcessablePaymentEvent payment : processablePayments) {
+            for (PaymentInput payment : processablePayments) {
                 virtualThreadExecutor.submit(() -> processPayment(payment));
             }
         };

@@ -14,12 +14,12 @@ public class SchedulerLockRepositoryImpl implements SchedulerLockRepository {
     }
 
     @Override
-    public boolean tryAcquireLock(String lockName, int lockIntervalInSeconds) {
+    public boolean tryAcquireLock(String lockName, int lockIntervalInMillis) {
         final String leadershipQuery = """
                 UPDATE scheduler_locks
                 SET last_execution = NOW()
-                WHERE lock_name = ? AND last_execution < NOW() - INTERVAL '%d seconds'
-            """.formatted(lockIntervalInSeconds);
+                WHERE lock_name = ? AND last_execution < NOW() - INTERVAL '%d milliseconds'
+            """.formatted(lockIntervalInMillis);
 
         int rowsUpdated = jdbcTemplate.update(leadershipQuery, lockName);
         return rowsUpdated > 0;

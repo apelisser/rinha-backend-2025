@@ -5,11 +5,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CalculateBestProcessorScheduler {
+public class ProcessorSelectionScheduler {
 
     private final ProcessorSelectionService processorSelectionService;
 
-    public CalculateBestProcessorScheduler(ProcessorSelectionService processorSelectionService) {
+    public ProcessorSelectionScheduler(ProcessorSelectionService processorSelectionService) {
         this.processorSelectionService = processorSelectionService;
     }
 

@@ -1,16 +1,15 @@
 package com.apelisser.rinha2025.entity;
 
-import com.apelisser.rinha2025.enums.PaymentProcessor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 @Table("health_check_status")
 public record HealthCheckStatus(
     @Id
-    PaymentProcessor processorName,
+    boolean defaultProcessor,
     boolean isFailing,
     long minResponseTime,
-    OffsetDateTime lastChecked
+    Instant lastChecked
 ) {}

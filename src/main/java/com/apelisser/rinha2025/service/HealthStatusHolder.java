@@ -4,12 +4,9 @@ import com.apelisser.rinha2025.entity.HealthCheckStatus;
 import com.apelisser.rinha2025.repository.HealthStatusRepository;
 import org.springframework.stereotype.Component;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
-
-import static com.apelisser.rinha2025.enums.PaymentProcessor.DEFAULT;
-import static com.apelisser.rinha2025.enums.PaymentProcessor.FALLBACK;
 
 @Component
 public class HealthStatusHolder {
@@ -33,9 +30,9 @@ public class HealthStatusHolder {
                 dbStatus.lastChecked()
             );
 
-            if (dbStatus.processorName() == DEFAULT) {
+            if (dbStatus.defaultProcessor()) {
                 defaultStatusCache.set(healthInfo);
-            } else if (dbStatus.processorName() == FALLBACK) {
+            } else {
                 fallbackStatusCache.set(healthInfo);
             }
         }
@@ -52,8 +49,7 @@ public class HealthStatusHolder {
     public record HealthInfo(
         boolean isFailing,
         long minResponseTime,
-        OffsetDateTime
-        lastChecked
+        Instant lastChecked
     ) {}
 
 }

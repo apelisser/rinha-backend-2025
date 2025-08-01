@@ -31,7 +31,21 @@ x-service-templates:
       - POSTGRES_DB=rinha_2025
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    command: postgres -c timezone=UTC -c max_connections=40 -c shared_buffers=32MB -c effective_cache_size=100MB -c work_mem=2MB -c maintenance_work_mem=16MB -c synchronous_commit=off -c fsync=off -c wal_buffers=4MB -c checkpoint_timeout=600 -c max_wal_size=4096 -c commit_delay=100 -c full_page_writes=off
+    command: postgres
+      -c max_connections=18
+      -c shared_buffers=32MB
+      -c work_mem=8MB
+      -c effective_cache_size=128MB
+      -c synchronous_commit=off
+      -c fsync=off
+      -c full_page_writes=off
+      -c autovacuum=off
+      -c wal_level=minimal
+      -c max_wal_senders=0
+      -c log_min_messages=fatal
+      -c wal_writer_delay=1000ms
+      -c commit_delay=100
+#    command: postgres -c timezone=UTC -c max_connections=30 -c shared_buffers=16MB -c effective_cache_size=100MB -c work_mem=8MB -c maintenance_work_mem=16MB -c synchronous_commit=off -c fsync=off -c wal_buffers=4MB -c checkpoint_timeout=600 -c max_wal_size=4096 -c commit_delay=100 -c full_page_writes=off
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d rinha_2025"]
       interval: 5s
@@ -40,10 +54,11 @@ x-service-templates:
       start_period: 6s
 
   backend-application: &backend-application
-    image: rinha-2025-backend:0.0.2
+    image: rinha-2025-backend:1.0.0
     environment:
       - SERVER_PORT=8080
-      - PAYMENT_API_SUMMARY_DELAY=10
+      - PAYMENT_API_SUMMARY_DELAY=500
+      - PAYMENT_API_ASYNC_INPUT=false
 
       - DEFAULT_PAYMENT_PROCESSOR_URL=http://payment-processor-default:8080
       - DEFAULT_PAYMENT_PROCESSOR_READ_TIMEOUT=7000
@@ -51,23 +66,40 @@ x-service-templates:
       - FALLBACK_PAYMENT_PROCESSOR_URL=http://payment-processor-fallback:8080
       - FALLBACK_PAYMENT_PROCESSOR_READ_TIMEOUT=10000
 
-      - DB_URL=jdbc:postgresql://backend-database:5432/rinha_2025?stringtype=unspecified
+      - DB_URL=jdbc:postgresql://backend-database:5432/rinha_2025
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
 
-      - DB_POOL_MINIMUM_SIZE=10
-      - DB_POOL_MAXIMUM_SIZE=20
+      - DB_POOL_MINIMUM_SIZE=5
+      - DB_POOL_MAXIMUM_SIZE=9
       - DB_POOL_IDLE_TIMEOUT=30000
 
-      - OUTBOX_PROCESSOR_PULL_MAX_AMOUNT=40
-      - OUTBOX_PROCESSOR_SCHEDULER_INTERVAL_MS=180
-      - OUTBOX_PROCESSOR_SCHEDULER_INITIAL_DELAY_MS=3000
+      # payment processor selection
+      - PAYMENT_PROCESSOR_SELECTION_DEFAULT_ADVANTAGE=0.2
+      - PAYMENT_PROCESSOR_SELECTION_SCHEDULER_INTERVAL_MS=200
+      - PAYMENT_PROCESSOR_SELECTION_SCHEDULER_INITIAL_DELAY_MS=1000
+
+      # health check update cache
+      - HEALTH_CHECK_CACHE_SCHEDULER_INITIAL_DELAY_MS=1000
+      - HEALTH_CHECK_CACHE_SCHEDULER_INTERVAL_MS=500
+
+      # payment processor
+      - PAYMENT_PROCESSOR_MAX_QUANTITY=250
+      - PAYMENT_PROCESSOR_THREAD_POOL_SIZE=2
+      - PAYMENT_PROCESSOR_THREAD_INTERVAL_EXECUTION_MS=900
       - PAYMENT_PROCESSOR_CONCURRENCY_TYPE=parallel_vt
-      - PAYMENT_PROCESSOR_SELECTION_DEFAULT_ADVANTAGE=0.5
-      - PAYMENT_PROCESSOR_CONFIRMATION_NUMBER_OF_RETRIES=0
-      - PAYMENT_PROCESSOR_CONFIRMATION_INTERVAL_RETRIES_EXECUTION_MS=50
-      - OUTBOX_CLEANER_SCHEDULER_INTERVAL_MS=8000
-      - OUTBOX_CLEANER_SCHEDULER_INITIAL_DELAY_MS=5000
+#      - PAYMENT_PROCESSOR_SCHEDULER_INTERVAL_MS=200
+#      - PAYMENT_PROCESSOR_SCHEDULER_INITIAL_DELAY_MS=1000
+
+      # payment confirmation
+      - PAYMENT_CONFIRMATION_MAX_QUANTITY=250
+      - PAYMENT_CONFIRMATION_THREAD_POOL_SIZE=2
+      - PAYMENT_CONFIRMATION_THREAD_INTERVAL_EXECUTION_MS=1000
+      - PAYMENT_CONFIRMATION_PERSISTENCE_COPY_THRESHOLD=500
+      - PAYMENT_CONFIRMATION_NUMBER_OF_RETRIES=1
+      - PAYMENT_CONFIRMATION_INTERVAL_RETRIES_EXECUTION_MS=20
+#      - PAYMENT_CONFIRMATION_SCHEDULER_INITIAL_DELAY_MS=1000
+#      - PAYMENT_CONFIRMATION_SCHEDULER_INTERVAL_MS=200
     networks:
       - rinha-net
       - payment-processor
@@ -83,8 +115,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.7"
-          memory: "180MB"
+          cpus: "0.4"
+          memory: "150MB"
 
   load-balancer:
     <<: *load-balancer
@@ -108,8 +140,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.35"
-          memory: "75MB"
+          cpus: "0.5"
+          memory: "90MB"
 
   backend02:
     <<: *backend-application
@@ -120,8 +152,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.35"
-          memory: "75MB"
+          cpus: "0.5"
+          memory: "90MB"
 
 networks:
   rinha-net:

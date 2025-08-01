@@ -6,7 +6,7 @@ import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 public interface HealthStatusRepository extends ListCrudRepository<HealthCheckStatus, PaymentProcessor> {
 
@@ -19,8 +19,8 @@ public interface HealthStatusRepository extends ListCrudRepository<HealthCheckSt
             min_response_time = :minResponseTime,
             last_checked = :lastChecked
         WHERE
-            processor_name = :processorName
+            default_processor = :isDefaultProcessor
     """)
-    void update(PaymentProcessor processorName, boolean isFailing, long minResponseTime, OffsetDateTime lastChecked);
+    void update(boolean isDefaultProcessor, boolean isFailing, long minResponseTime, Instant lastChecked);
 
 }

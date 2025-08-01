@@ -2,7 +2,7 @@ package com.apelisser.rinha2025.service;
 
 import com.apelisser.rinha2025.enums.PaymentProcessor;
 import com.apelisser.rinha2025.infrastructure.paymentprocessor.PaymentProcessorClient;
-import com.apelisser.rinha2025.infrastructure.paymentprocessor.model.PaymentProcessorRequest;
+import com.apelisser.rinha2025.model.PaymentInput;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +22,7 @@ public class PaymentProcessorGateway {
         this.processorSelectionService = processorSelectionService;
     }
 
-    public PaymentProcessor process(PaymentProcessorRequest paymentRequest) {
+    public PaymentProcessor process(PaymentInput paymentRequest) {
         PaymentProcessor bestChoice = processorSelectionService.getBestProcessor();
 
         if (bestChoice == null) {
@@ -44,12 +44,12 @@ public class PaymentProcessorGateway {
         }
     }
 
-    private PaymentProcessor processWithDefault(PaymentProcessorRequest paymentRequest) {
+    private PaymentProcessor processWithDefault(PaymentInput paymentRequest) {
         defaultPaymentProcessor.processPayment(paymentRequest);
         return PaymentProcessor.DEFAULT;
     }
 
-    private PaymentProcessor processWithFallback(PaymentProcessorRequest paymentRequest) {
+    private PaymentProcessor processWithFallback(PaymentInput paymentRequest) {
         fallbackPaymentProcessor.processPayment(paymentRequest);
         return PaymentProcessor.FALLBACK;
     }
