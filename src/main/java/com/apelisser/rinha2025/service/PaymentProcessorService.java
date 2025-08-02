@@ -117,7 +117,6 @@ public class PaymentProcessorService {
         return processablePayments -> {
             List<Future<?>> futures = new ArrayList<>(processablePayments.size());
             for (PaymentInput payment : processablePayments) {
-                virtualThreadExecutor.execute(() -> processPayment(payment));
                 Future<?> future = virtualThreadExecutor.submit(() -> processPayment(payment));
                 futures.add(future);
             }
