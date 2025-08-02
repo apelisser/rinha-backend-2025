@@ -56,6 +56,7 @@ x-service-templates:
   backend-application: &backend-application
     image: rinha-2025-backend:1.0.0
     environment:
+      - SPRING_PROFILES_ACTIVE=prod
       - SERVER_PORT=8080
       - LOGGING_LEVEL=OFF
       - PAYMENT_API_SUMMARY_DELAY=500
