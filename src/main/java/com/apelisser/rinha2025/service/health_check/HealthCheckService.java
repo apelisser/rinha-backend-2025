@@ -1,5 +1,6 @@
-package com.apelisser.rinha2025.service;
+package com.apelisser.rinha2025.service.health_check;
 
+import com.apelisser.rinha2025.config.ProcessorProperties;
 import com.apelisser.rinha2025.enums.PaymentProcessor;
 import com.apelisser.rinha2025.infrastructure.paymentprocessor.PaymentProcessorClient;
 import com.apelisser.rinha2025.infrastructure.paymentprocessor.model.HealthCheckResponse;
@@ -17,23 +18,28 @@ public class HealthCheckService {
     private final HealthStatusRepository healthStatusRepository;
     private final PaymentProcessorClient defaultPaymentProcessor;
     private final PaymentProcessorClient fallbackPaymentProcessor;
+    private final ProcessorProperties processorProperties;
 
     public HealthCheckService(
             SchedulerLockRepository schedulerLockRepository,
             HealthStatusRepository healthStatusRepository,
             @Qualifier("defaultPaymentClient") PaymentProcessorClient defaultPaymentProcessor,
-            @Qualifier("fallbackPaymentClient") PaymentProcessorClient fallbackPaymentProcessor) {
+            @Qualifier("fallbackPaymentClient") PaymentProcessorClient fallbackPaymentProcessor,
+        ProcessorProperties processorProperties) {
         this.schedulerLockRepository = schedulerLockRepository;
         this.healthStatusRepository = healthStatusRepository;
         this.defaultPaymentProcessor = defaultPaymentProcessor;
         this.fallbackPaymentProcessor = fallbackPaymentProcessor;
+        this.processorProperties = processorProperties;
     }
 
     public void performAndUpdateHealthCheck() {
         boolean acquiredLock = schedulerLockRepository.tryAcquireLock("health_check_leader", 5_010);
         if (acquiredLock) {
             this.updateHealthInfo(PaymentProcessor.DEFAULT, defaultPaymentProcessor);
-            this.updateHealthInfo(PaymentProcessor.FALLBACK, fallbackPaymentProcessor);
+            if (processorProperties.isFallbackEnabled()) {
+                this.updateHealthInfo(PaymentProcessor.FALLBACK, fallbackPaymentProcessor);
+            }
         }
     }
 

@@ -1,6 +1,6 @@
 package com.apelisser.rinha2025.config.scheduler;
 
-import com.apelisser.rinha2025.service.HealthCheckService;
+import com.apelisser.rinha2025.service.health_check.HealthCheckService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

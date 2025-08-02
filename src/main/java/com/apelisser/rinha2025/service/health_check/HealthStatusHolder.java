@@ -1,5 +1,6 @@
-package com.apelisser.rinha2025.service;
+package com.apelisser.rinha2025.service.health_check;
 
+import com.apelisser.rinha2025.config.ProcessorProperties;
 import com.apelisser.rinha2025.entity.HealthCheckStatus;
 import com.apelisser.rinha2025.repository.HealthStatusRepository;
 import org.springframework.stereotype.Component;
@@ -15,27 +16,31 @@ public class HealthStatusHolder {
     private final AtomicReference<HealthInfo> fallbackStatusCache = new AtomicReference<>();
 
     private final HealthStatusRepository healthStatusRepository;
+    private final ProcessorProperties processorProperties;
 
-    public HealthStatusHolder(HealthStatusRepository healthStatusRepository) {
+    public HealthStatusHolder(HealthStatusRepository healthStatusRepository, ProcessorProperties processorProperties) {
         this.healthStatusRepository = healthStatusRepository;
+        this.processorProperties = processorProperties;
     }
 
     public void refreshCache() {
         List<HealthCheckStatus> statusesFromDb = healthStatusRepository.findAll();
 
         for (HealthCheckStatus dbStatus : statusesFromDb) {
-            HealthInfo healthInfo = new HealthInfo(
-                dbStatus.isFailing(),
-                dbStatus.minResponseTime(),
-                dbStatus.lastChecked()
-            );
-
             if (dbStatus.defaultProcessor()) {
-                defaultStatusCache.set(healthInfo);
-            } else {
-                fallbackStatusCache.set(healthInfo);
+                defaultStatusCache.set(this.mapToHealthInfo(dbStatus));
+            } else if (processorProperties.isFallbackEnabled()) {
+                fallbackStatusCache.set(this.mapToHealthInfo(dbStatus));
             }
         }
+    }
+
+    private HealthInfo mapToHealthInfo(HealthCheckStatus status) {
+        return new HealthInfo(
+            status.isFailing(),
+            status.minResponseTime(),
+            status.lastChecked()
+        );
     }
 
     public HealthInfo getDefaultStatus() {
@@ -44,6 +49,14 @@ public class HealthStatusHolder {
 
     public HealthInfo getFallbackStatus() {
         return fallbackStatusCache.get();
+    }
+
+    public boolean isDefaultFailing() {
+        return defaultStatusCache.get() == null || defaultStatusCache.get().isFailing();
+    }
+
+    public boolean isFallbackFailing() {
+        return fallbackStatusCache.get() == null || fallbackStatusCache.get().isFailing();
     }
 
     public record HealthInfo(

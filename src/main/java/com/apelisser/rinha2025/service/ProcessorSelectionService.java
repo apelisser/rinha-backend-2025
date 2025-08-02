@@ -1,25 +1,27 @@
 package com.apelisser.rinha2025.service;
 
+import com.apelisser.rinha2025.config.ProcessorProperties;
 import com.apelisser.rinha2025.enums.PaymentProcessor;
-import org.springframework.beans.factory.annotation.Value;
+import com.apelisser.rinha2025.service.health_check.HealthStatusHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class ProcessorSelectionService {
 
-    @Value("${payment-processor-selection.default.advantage}")
-    private float defaultAdvantage;
-
-    @Value("${payment-processor-selection.fallback.enabled}")
-    private boolean isFallbackEnabled;
-
     private final AtomicReference<PaymentProcessor> bestProcessor = new AtomicReference<>();
     private final HealthStatusHolder healthStatusHolder;
+    private final ProcessorProperties processorProperties;
 
-    public ProcessorSelectionService(HealthStatusHolder healthStatusHolder) {
+    public ProcessorSelectionService(HealthStatusHolder healthStatusHolder, ProcessorProperties processorProperties) {
         this.healthStatusHolder = healthStatusHolder;
+        this.processorProperties = processorProperties;
+    }
+
+    public Optional<PaymentProcessor> getBestProcessor() {
+        return Optional.ofNullable(bestProcessor.get());
     }
 
     public void updateBestProcessor() {
@@ -27,24 +29,20 @@ public class ProcessorSelectionService {
         this.bestProcessor.set(processor);
     }
 
-    public PaymentProcessor getBestProcessor() {
-        return this.bestProcessor.get();
-    }
-
     private PaymentProcessor chooseBestProcessor() {
-        if (!isFallbackEnabled) {
+        if (!processorProperties.isFallbackEnabled()) {
+            if (healthStatusHolder.isDefaultFailing()) {
+                return null;
+            }
             return PaymentProcessor.DEFAULT;
         }
 
-        HealthStatusHolder.HealthInfo defaultHealth = healthStatusHolder.getDefaultStatus();
-        HealthStatusHolder.HealthInfo fallbackHealth = healthStatusHolder.getFallbackStatus();
+        long defaultScore = this.calculateScore(healthStatusHolder.getDefaultStatus(), true);
+        long fallbackScore = this.calculateScore(healthStatusHolder.getFallbackStatus(), false);
 
-        if (defaultHealth == null && fallbackHealth == null) {
-            return PaymentProcessor.DEFAULT;
+        if (defaultScore == Long.MAX_VALUE && fallbackScore == Long.MAX_VALUE) {
+            return null;
         }
-
-        long defaultScore = this.calculateScore(defaultHealth, true);
-        long fallbackScore = this.calculateScore(fallbackHealth, false);
 
         return defaultScore <= fallbackScore
             ? PaymentProcessor.DEFAULT
@@ -58,8 +56,8 @@ public class ProcessorSelectionService {
 
         long score = healthInfo.minResponseTime();
 
-        if (isDefault && defaultAdvantage > 0) {
-            long advantage = (long) (score * defaultAdvantage);
+        if (isDefault && processorProperties.getDefaultAdvantage() > 0) {
+            long advantage = (long) (score * processorProperties.getDefaultAdvantage());
             advantage = Math.max(1, advantage);
             score -= advantage;
         }

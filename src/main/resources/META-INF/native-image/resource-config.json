@@ -63,6 +63,8 @@
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/\\E"
   }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/config/ProcessorProperties.class\\E"
+  }, {
     "pattern":"\\Qcom/apelisser/rinha2025/config/RestClientConfig.class\\E"
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/config/scheduler/HealthCheckCacheUpdateScheduler.class\\E"
@@ -93,12 +95,6 @@
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/repository/SchedulerLockRepository.class\\E"
   }, {
-    "pattern":"\\Qcom/apelisser/rinha2025/service/HealthCheckService.class\\E"
-  }, {
-    "pattern":"\\Qcom/apelisser/rinha2025/service/HealthStatusHolder$HealthInfo.class\\E"
-  }, {
-    "pattern":"\\Qcom/apelisser/rinha2025/service/HealthStatusHolder.class\\E"
-  }, {
     "pattern":"\\Qcom/apelisser/rinha2025/service/PaymentConfirmationWorker.class\\E"
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/service/PaymentProcessorGateway.class\\E"
@@ -110,6 +106,12 @@
     "pattern":"\\Qcom/apelisser/rinha2025/service/PaymentService.class\\E"
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/service/ProcessorSelectionService.class\\E"
+  }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/service/health_check/HealthCheckService.class\\E"
+  }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/service/health_check/HealthStatusHolder$HealthInfo.class\\E"
+  }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/service/health_check/HealthStatusHolder.class\\E"
   }, {
     "pattern":"\\Qconfig/application-default.properties\\E"
   }, {

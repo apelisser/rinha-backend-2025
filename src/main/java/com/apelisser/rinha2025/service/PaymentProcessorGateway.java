@@ -6,6 +6,8 @@ import com.apelisser.rinha2025.model.PaymentInput;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class PaymentProcessorGateway {
 
@@ -22,16 +24,11 @@ public class PaymentProcessorGateway {
         this.processorSelectionService = processorSelectionService;
     }
 
-    public PaymentProcessor process(PaymentInput paymentRequest) {
-        PaymentProcessor bestChoice = processorSelectionService.getBestProcessor();
-
-        if (bestChoice == null) {
-            throw new RuntimeException("Could not choose a payment processor");
-        }
-
-        return bestChoice == PaymentProcessor.DEFAULT
-            ? this.processWithDefault(paymentRequest)
-            : this.processWithFallback(paymentRequest);
+    public Optional<PaymentProcessor> process(PaymentInput paymentRequest) {
+        return processorSelectionService.getBestProcessor()
+            .map(bestChoice -> bestChoice == PaymentProcessor.DEFAULT
+                ? this.processWithDefault(paymentRequest)
+                : this.processWithFallback(paymentRequest));
     }
 
     private PaymentProcessor processWithDefault(PaymentInput paymentRequest) {

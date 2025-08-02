@@ -108,6 +108,13 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"com.apelisser.rinha2025.config.ProcessorProperties",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"com.apelisser.rinha2025.config.RestClientConfig",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
@@ -135,14 +142,14 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.service.HealthStatusHolder"] }, {"name":"execute","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.service.health_check.HealthStatusHolder"] }, {"name":"execute","parameterTypes":[] }]
 },
 {
   "name":"com.apelisser.rinha2025.config.scheduler.HealthCheckScheduler",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.service.HealthCheckService"] }, {"name":"execute","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.service.health_check.HealthCheckService"] }, {"name":"execute","parameterTypes":[] }]
 },
 {
   "name":"com.apelisser.rinha2025.config.scheduler.ProcessorSelectionScheduler",
@@ -180,7 +187,7 @@
   "queryAllDeclaredConstructors":true
 },
 {
-  "name":"com.apelisser.rinha2025.entity.HealthCheckStatus_Instantiator_eyuew8",
+  "name":"com.apelisser.rinha2025.entity.HealthCheckStatus_Instantiator_vj3je8",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
@@ -194,6 +201,13 @@
   "name":"com.apelisser.rinha2025.infrastructure.paymentprocessor.PaymentProcessorClient",
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true
+},
+{
+  "name":"com.apelisser.rinha2025.infrastructure.paymentprocessor.model.HealthCheckResponse",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["boolean","int"] }]
 },
 {
   "name":"com.apelisser.rinha2025.infrastructure.repository.PaymentRepositoryQueriesImpl",
@@ -258,20 +272,6 @@
   "queryAllPublicMethods":true
 },
 {
-  "name":"com.apelisser.rinha2025.service.HealthCheckService",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.repository.SchedulerLockRepository","com.apelisser.rinha2025.repository.HealthStatusRepository","com.apelisser.rinha2025.infrastructure.paymentprocessor.PaymentProcessorClient","com.apelisser.rinha2025.infrastructure.paymentprocessor.PaymentProcessorClient"] }]
-},
-{
-  "name":"com.apelisser.rinha2025.service.HealthStatusHolder",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.repository.HealthStatusRepository"] }]
-},
-{
   "name":"com.apelisser.rinha2025.service.PaymentConfirmationWorker",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
@@ -290,7 +290,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.service.PaymentProcessorGateway","com.apelisser.rinha2025.service.PaymentProcessorService$ProcessorType","com.apelisser.rinha2025.queue.InputPaymentQueue","com.apelisser.rinha2025.queue.ProcessedPaymentQueue","com.apelisser.rinha2025.service.HealthStatusHolder"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.service.PaymentProcessorGateway","com.apelisser.rinha2025.queue.InputPaymentQueue","com.apelisser.rinha2025.queue.ProcessedPaymentQueue","com.apelisser.rinha2025.service.health_check.HealthStatusHolder","com.apelisser.rinha2025.config.ProcessorProperties"] }]
 },
 {
   "name":"com.apelisser.rinha2025.service.PaymentService",
@@ -309,7 +309,21 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.service.HealthStatusHolder"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.service.health_check.HealthStatusHolder","com.apelisser.rinha2025.config.ProcessorProperties"] }]
+},
+{
+  "name":"com.apelisser.rinha2025.service.health_check.HealthCheckService",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.repository.SchedulerLockRepository","com.apelisser.rinha2025.repository.HealthStatusRepository","com.apelisser.rinha2025.infrastructure.paymentprocessor.PaymentProcessorClient","com.apelisser.rinha2025.infrastructure.paymentprocessor.PaymentProcessorClient","com.apelisser.rinha2025.config.ProcessorProperties"] }]
+},
+{
+  "name":"com.apelisser.rinha2025.service.health_check.HealthStatusHolder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.repository.HealthStatusRepository","com.apelisser.rinha2025.config.ProcessorProperties"] }]
 },
 {
   "name":"com.couchbase.client.java.Bucket"
@@ -820,7 +834,7 @@
 {
   "name":"java.lang.Class",
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }, {"name":"accessFlags","parameterTypes":[] }, {"name":"from","parameterTypes":["java.lang.String"] }, {"name":"of","parameterTypes":["java.lang.String"] }, {"name":"valueOf","parameterTypes":["java.lang.String"] }]
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }, {"name":"accessFlags","parameterTypes":[] }, {"name":"from","parameterTypes":["java.lang.String"] }, {"name":"getRecordComponents","parameterTypes":[] }, {"name":"of","parameterTypes":["java.lang.String"] }, {"name":"valueOf","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"java.lang.ClassLoader",
@@ -1021,6 +1035,10 @@
   "name":"java.lang.reflect.Proxy",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.reflect.RecordComponent",
+  "methods":[{"name":"getName","parameterTypes":[] }, {"name":"getType","parameterTypes":[] }]
 },
 {
   "name":"java.lang.reflect.Type",
@@ -3440,6 +3458,9 @@
   "queryAllDeclaredConstructors":true,
   "queryAllPublicConstructors":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.springframework.boot.logging.LogLevelEditor"
 },
 {
   "name":"org.springframework.boot.logging.java.JavaLoggingSystem$Factory",

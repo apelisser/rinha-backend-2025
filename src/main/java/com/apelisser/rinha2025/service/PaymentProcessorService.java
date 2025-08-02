@@ -1,15 +1,17 @@
 package com.apelisser.rinha2025.service;
 
+import com.apelisser.rinha2025.config.ProcessorProperties;
 import com.apelisser.rinha2025.enums.PaymentProcessor;
 import com.apelisser.rinha2025.model.PaymentInput;
 import com.apelisser.rinha2025.model.PaymentProcessed;
 import com.apelisser.rinha2025.queue.InputPaymentQueue;
 import com.apelisser.rinha2025.queue.ProcessedPaymentQueue;
-import org.springframework.beans.factory.annotation.Value;
+import com.apelisser.rinha2025.service.health_check.HealthStatusHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -29,28 +31,30 @@ public class PaymentProcessorService {
     private final InputPaymentQueue inputPaymentQueue;
     private final ProcessedPaymentQueue processedPaymentQueue;
     private final HealthStatusHolder healthStatusHolder;
+    private final ProcessorProperties processorProperties;
 
     public PaymentProcessorService(
             PaymentProcessorGateway paymentProcessorGateway,
-            @Value("${payment-processor.concurrency.type}") ProcessorType processorType,
             InputPaymentQueue inputPaymentQueue,
             ProcessedPaymentQueue processedPaymentQueue,
-            HealthStatusHolder healthStatusHolder) {
+            HealthStatusHolder healthStatusHolder,
+            ProcessorProperties processorProperties) {
         this.paymentProcessorGateway = paymentProcessorGateway;
 
-        this.virtualThreadExecutor = this.needInitializeExecutor(processorType)
+        this.virtualThreadExecutor = this.needInitializeExecutor(processorProperties.getProcessorType())
             ? Executors.newVirtualThreadPerTaskExecutor()
             : null;
 
-        this.processablePaymentConsumer = this.selectConsumer(processorType);
+        this.processablePaymentConsumer = this.selectConsumer(processorProperties.getProcessorType());
         this.inputPaymentQueue = inputPaymentQueue;
         this.processedPaymentQueue = processedPaymentQueue;
         this.healthStatusHolder = healthStatusHolder;
+        this.processorProperties = processorProperties;
     }
 
     public void process(int maxQuantity) {
         if (allProcessorsIsFailing()) return;
-        List<PaymentInput> processablePayments = inputPaymentQueue.dequeue(maxQuantity);
+        List<PaymentInput> processablePayments = inputPaymentQueue.dequeue(this.calculateMaxQuantity(maxQuantity));
         processablePaymentConsumer.accept(processablePayments);
     }
 
@@ -60,10 +64,29 @@ public class PaymentProcessorService {
         processablePaymentConsumer.accept(processablePayments);
     }
 
+    private int calculateMaxQuantity(int maxQuantity) {
+        if (this.needReduceQuantity()) {
+            float reduction = processorProperties.getReductionPercentage();
+            return maxQuantity - (int) (maxQuantity * reduction);
+        }
+        return maxQuantity;
+    }
+
+    private boolean needReduceQuantity() {
+        return this.onlyDefaultProcessorIsFailing()
+            && processorProperties.isFallbackEnabled()
+            && processorProperties.hasReductionWhenDefaultIsOut();
+    }
+
     private void processPayment(PaymentInput paymentInput) {
         try {
-            PaymentProcessor usedProcessor = paymentProcessorGateway.process(paymentInput);
-            processedPaymentQueue.enqueue(new PaymentProcessed(paymentInput, usedProcessor));
+            Optional<PaymentProcessor> usedProcessor = paymentProcessorGateway.process(paymentInput);
+
+            if (usedProcessor.isPresent()) {
+                processedPaymentQueue.enqueue(new PaymentProcessed(paymentInput, usedProcessor.get()));
+            } else {
+                inputPaymentQueue.enqueue(paymentInput);
+            }
         } catch (Exception e) {
             inputPaymentQueue.enqueue(paymentInput);
         }
@@ -94,6 +117,7 @@ public class PaymentProcessorService {
         return processablePayments -> {
             List<Future<?>> futures = new ArrayList<>(processablePayments.size());
             for (PaymentInput payment : processablePayments) {
+                virtualThreadExecutor.execute(() -> processPayment(payment));
                 Future<?> future = virtualThreadExecutor.submit(() -> processPayment(payment));
                 futures.add(future);
             }
@@ -116,9 +140,14 @@ public class PaymentProcessorService {
         };
     }
 
+    private boolean onlyDefaultProcessorIsFailing() {
+        return healthStatusHolder.isDefaultFailing()
+            && !healthStatusHolder.isFallbackFailing();
+    }
+
     private boolean allProcessorsIsFailing() {
-        return healthStatusHolder.getDefaultStatus().isFailing()
-            && healthStatusHolder.getFallbackStatus().isFailing();
+        return healthStatusHolder.isDefaultFailing()
+            && healthStatusHolder.isFallbackFailing();
     }
 
 }
