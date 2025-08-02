@@ -45,6 +45,9 @@
   "name":"[Ljava.lang.String;"
 },
 {
+  "name":"[Ljava.lang.annotation.Annotation;"
+},
+{
   "name":"[Ljava.rmi.server.ObjID;"
 },
 {
@@ -177,7 +180,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.queue.InputPaymentQueue","com.apelisser.rinha2025.service.PaymentService","boolean"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.queue.InputPaymentQueue","com.apelisser.rinha2025.service.PaymentService","boolean"] }, {"name":"payment","parameterTypes":["com.apelisser.rinha2025.model.PaymentInput"] }]
 },
 {
   "name":"com.apelisser.rinha2025.entity.HealthCheckStatus",
@@ -187,7 +190,7 @@
   "queryAllDeclaredConstructors":true
 },
 {
-  "name":"com.apelisser.rinha2025.entity.HealthCheckStatus_Instantiator_vj3je8",
+  "name":"com.apelisser.rinha2025.entity.HealthCheckStatus_Instantiator_f4i7dm",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
@@ -236,6 +239,13 @@
 {
   "name":"com.apelisser.rinha2025.model.AggregatedSummary",
   "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.apelisser.rinha2025.model.PaymentInput",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getAmount","parameterTypes":[] }, {"name":"getCorrelationId","parameterTypes":[] }, {"name":"getRequestedAt","parameterTypes":[] }, {"name":"setAmount","parameterTypes":["float"] }, {"name":"setCorrelationId","parameterTypes":["java.util.UUID"] }]
 },
 {
   "name":"com.apelisser.rinha2025.queue.InputPaymentQueue",
@@ -297,7 +307,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.repository.PaymentRepository","com.apelisser.rinha2025.repository.PaymentRepositoryQueries"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.repository.PaymentRepository","com.apelisser.rinha2025.repository.PaymentRepositoryQueries"] }, {"name":"saveProcessedPayments","parameterTypes":["java.util.List"] }]
 },
 {
   "name":"com.apelisser.rinha2025.service.PaymentService$$SpringCGLIB$$0",
@@ -336,6 +346,10 @@
 },
 {
   "name":"com.fasterxml.jackson.annotation.JacksonAnnotation",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.fasterxml.jackson.annotation.JsonIgnore",
   "queryAllDeclaredMethods":true
 },
 {
@@ -605,6 +619,10 @@
   "methods":[{"name":"from","parameterTypes":["javax.management.openmbean.CompositeData"] }]
 },
 {
+  "name":"float",
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"freemarker.template.Configuration"
 },
 {
@@ -843,6 +861,10 @@
 },
 {
   "name":"java.lang.CloneNotSupportedException"
+},
+{
+  "name":"java.lang.Comparable",
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"java.lang.Deprecated",
@@ -1192,7 +1214,14 @@
   "methods":[{"name":"getFirst","parameterTypes":[] }]
 },
 {
-  "name":"java.util.UUID"
+  "name":"java.util.UUID",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"java.util.concurrent.Callable",
+  "methods":[{"name":"call","parameterTypes":[] }]
 },
 {
   "name":"java.util.concurrent.Executor",

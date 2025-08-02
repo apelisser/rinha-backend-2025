@@ -23,6 +23,9 @@ public class ProcessorProperties {
     @Value("${payment-processor.max-quantity.reduction-percentage}")
     private float reductionWhenDefaultIsOut;
 
+    @Value("${payment-processor.max-requeue}")
+    private int maxRetries;
+
     public float getDefaultAdvantage() {
         return defaultAdvantage;
     }
@@ -39,6 +42,10 @@ public class ProcessorProperties {
         if (reductionWhenDefaultIsOut > 1) return 1;
         if (reductionWhenDefaultIsOut < 0) return 0;
         return reductionWhenDefaultIsOut;
+    }
+
+    public int getMaxRetries() {
+        return maxRetries;
     }
 
     public boolean hasReductionWhenDefaultIsOut() {

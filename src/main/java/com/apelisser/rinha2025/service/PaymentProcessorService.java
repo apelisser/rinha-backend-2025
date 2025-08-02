@@ -85,9 +85,16 @@ public class PaymentProcessorService {
             if (usedProcessor.isPresent()) {
                 processedPaymentQueue.enqueue(new PaymentProcessed(paymentInput, usedProcessor.get()));
             } else {
-                inputPaymentQueue.enqueue(paymentInput);
+                this.requeuePayment(paymentInput);
             }
         } catch (Exception e) {
+            this.requeuePayment(paymentInput);
+        }
+    }
+
+    private void requeuePayment(PaymentInput paymentInput) {
+        if (paymentInput.getRetries() < processorProperties.getMaxRetries()) {
+            paymentInput.incrementRetries();
             inputPaymentQueue.enqueue(paymentInput);
         }
     }

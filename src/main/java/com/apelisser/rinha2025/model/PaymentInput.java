@@ -1,5 +1,7 @@
 package com.apelisser.rinha2025.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.Instant;
 import java.util.UUID;
 
@@ -8,6 +10,7 @@ public class PaymentInput {
     private UUID correlationId;
     private float amount;
     private final Instant requestedAt = Instant.now();
+    private int retries = 0;
 
     public UUID getCorrelationId() {
         return correlationId;
@@ -27,6 +30,15 @@ public class PaymentInput {
 
     public Instant getRequestedAt() {
         return requestedAt;
+    }
+
+    @JsonIgnore
+    public int getRetries() {
+        return retries;
+    }
+
+    public void incrementRetries() {
+        retries++;
     }
 
 }
