@@ -190,7 +190,7 @@
   "queryAllDeclaredConstructors":true
 },
 {
-  "name":"com.apelisser.rinha2025.entity.HealthCheckStatus_Instantiator_plwp8s",
+  "name":"com.apelisser.rinha2025.entity.HealthCheckStatus_Instantiator_e4q9h",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
@@ -204,13 +204,6 @@
   "name":"com.apelisser.rinha2025.infrastructure.paymentprocessor.PaymentProcessorClient",
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true
-},
-{
-  "name":"com.apelisser.rinha2025.infrastructure.paymentprocessor.model.HealthCheckResponse",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["boolean","int"] }]
 },
 {
   "name":"com.apelisser.rinha2025.infrastructure.repository.PaymentRepositoryQueriesImpl",
@@ -245,14 +238,14 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getAmount","parameterTypes":[] }, {"name":"getCorrelationId","parameterTypes":[] }, {"name":"getRequestedAt","parameterTypes":[] }, {"name":"setAmount","parameterTypes":["float"] }, {"name":"setCorrelationId","parameterTypes":["java.util.UUID"] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setAmount","parameterTypes":["float"] }, {"name":"setCorrelationId","parameterTypes":["java.util.UUID"] }]
 },
 {
   "name":"com.apelisser.rinha2025.queue.InputPaymentQueue",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.config.ProcessorProperties"] }]
 },
 {
   "name":"com.apelisser.rinha2025.queue.ProcessedPaymentQueue",
@@ -307,7 +300,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.repository.PaymentRepository","com.apelisser.rinha2025.repository.PaymentRepositoryQueries"] }, {"name":"saveProcessedPayments","parameterTypes":["java.util.List"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.repository.PaymentRepository","com.apelisser.rinha2025.repository.PaymentRepositoryQueries"] }]
 },
 {
   "name":"com.apelisser.rinha2025.service.PaymentService$$SpringCGLIB$$0",
@@ -617,10 +610,6 @@
   "queryAllPublicMethods":true,
   "queryAllPublicConstructors":true,
   "methods":[{"name":"from","parameterTypes":["javax.management.openmbean.CompositeData"] }]
-},
-{
-  "name":"float",
-  "queryAllDeclaredMethods":true
 },
 {
   "name":"freemarker.template.Configuration"
@@ -937,10 +926,6 @@
   "methods":[{"name":"charset","parameterTypes":[] }, {"name":"isTerminal","parameterTypes":[] }]
 },
 {
-  "name":"java.io.IOException",
-  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }]
-},
-{
   "name":"java.io.Reader",
   "methods":[{"name":"of","parameterTypes":["java.lang.CharSequence"] }]
 },
@@ -971,7 +956,7 @@
 {
   "name":"java.lang.Class",
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }, {"name":"accessFlags","parameterTypes":[] }, {"name":"from","parameterTypes":["java.lang.String"] }, {"name":"getRecordComponents","parameterTypes":[] }, {"name":"of","parameterTypes":["java.lang.String"] }, {"name":"valueOf","parameterTypes":["java.lang.String"] }]
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }, {"name":"accessFlags","parameterTypes":[] }, {"name":"from","parameterTypes":["java.lang.String"] }, {"name":"of","parameterTypes":["java.lang.String"] }, {"name":"valueOf","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"java.lang.ClassLoader",
@@ -980,10 +965,6 @@
 },
 {
   "name":"java.lang.CloneNotSupportedException"
-},
-{
-  "name":"java.lang.Comparable",
-  "queryAllDeclaredMethods":true
 },
 {
   "name":"java.lang.Deprecated",
@@ -1170,10 +1151,6 @@
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"java.lang.reflect.RecordComponent",
-  "methods":[{"name":"getName","parameterTypes":[] }, {"name":"getType","parameterTypes":[] }]
-},
-{
   "name":"java.lang.reflect.Type",
   "queryAllPublicMethods":true
 },
@@ -1283,10 +1260,7 @@
   "methods":[{"name":"getFirst","parameterTypes":[] }]
 },
 {
-  "name":"java.util.UUID",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true
+  "name":"java.util.UUID"
 },
 {
   "name":"java.util.concurrent.Callable",

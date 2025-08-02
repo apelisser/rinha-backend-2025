@@ -26,6 +26,12 @@ public class ProcessorProperties {
     @Value("${payment-processor.max-requeue}")
     private int maxRetries;
 
+    @Value("${payment-processor.use-fixed-queue-size}")
+    private boolean fixedQueueSize;
+
+    @Value("${payment-processor.fixed-queue-size}")
+    private int queueSize;
+
     public float getDefaultAdvantage() {
         return defaultAdvantage;
     }
@@ -46,6 +52,14 @@ public class ProcessorProperties {
 
     public int getMaxRetries() {
         return maxRetries;
+    }
+
+    public boolean isFixedQueueSize() {
+        return fixedQueueSize;
+    }
+
+    public int getQueueSize() {
+        return queueSize;
     }
 
     public boolean hasReductionWhenDefaultIsOut() {
