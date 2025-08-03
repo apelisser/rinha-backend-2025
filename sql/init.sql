@@ -33,8 +33,8 @@ INSERT INTO scheduler_locks (lock_name, last_execution)
 VALUES ('health_check_leader', NOW() - INTERVAL '1 minute');
 
 INSERT INTO health_check_status (default_processor, is_failing, min_response_time, last_checked)
-VALUES (true, false, 0, NOW()),
-       (false, false, 0, NOW());
+VALUES (true, true, 0, NOW()),
+       (false, true, 0, NOW());
 
 SET session_replication_role = 'origin';
 

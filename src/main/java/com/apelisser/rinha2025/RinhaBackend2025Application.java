@@ -10,7 +10,6 @@ import java.util.TimeZone;
 import static java.time.ZoneOffset.UTC;
 
 @EnableAsync
-@EnableScheduling
 @SpringBootApplication
 public class RinhaBackend2025Application {
 

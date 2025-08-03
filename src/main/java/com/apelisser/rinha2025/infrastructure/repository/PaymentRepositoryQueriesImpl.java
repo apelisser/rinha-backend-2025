@@ -1,12 +1,9 @@
 package com.apelisser.rinha2025.infrastructure.repository;
 
-import com.apelisser.rinha2025.enums.PaymentProcessor;
-import com.apelisser.rinha2025.model.PaymentInput;
-import com.apelisser.rinha2025.model.PaymentProcessed;
-import com.apelisser.rinha2025.repository.PaymentRepositoryQueries;
+import com.apelisser.rinha2025.domain.model.PaymentProcessed;
+import com.apelisser.rinha2025.domain.repository.PaymentRepositoryQueries;
 import org.postgresql.copy.CopyManager;
 import org.postgresql.core.BaseConnection;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -23,10 +20,15 @@ import java.util.List;
 @Repository
 public class PaymentRepositoryQueriesImpl implements PaymentRepositoryQueries {
 
-    private static final String BATCH_INSERT_SQL = "INSERT INTO payment (correlation_id, amount, requested_at, default_processor) VALUES (?, ?, ?, ?)";
+    private static final String INSERT_IGNORE_SQL = """
+    INSERT INTO payment (correlation_id, amount, requested_at, default_processor)
+    VALUES (?, ?, ?, ?)
+    ON CONFLICT (correlation_id) DO NOTHING
+    """;
 
-    @Value("${payment-confirmation.persistence.copy-threshold}")
-    private int copyThreshold;
+    private static final String COPY_INSERT_POSTGRES = """
+    COPY payment (correlation_id, amount, requested_at, payment_processor) FROM STDIN WITH (FORMAT text)
+    """;
 
     private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
@@ -37,37 +39,43 @@ public class PaymentRepositoryQueriesImpl implements PaymentRepositoryQueries {
     }
 
     @Override
-    public int savePayments(List<PaymentProcessed> payments) {
-        return payments.size() < copyThreshold
-            ? this.saveWithJdbcBatch(payments)
-            : this.saveWithPostgresCopy(payments);
-    }
-
-    private int saveWithJdbcBatch(List<PaymentProcessed> payments) {
+    public int batchSave(List<PaymentProcessed> payments) {
         List<Object[]> args = payments.stream()
-            .map(p -> new Object[]{
-                p.paymentInput().getCorrelationId(),
-                p.paymentInput().getAmount(),
-                Timestamp.from(p.paymentInput().getRequestedAt()),
-                p.processedAt().isDefaultProcessor()
+            .map(payment -> new Object[]{
+                payment.getPaymentInput().getCorrelationId(),
+                payment.getPaymentInput().getAmount(),
+                Timestamp.from(payment.getPaymentInput().getRequestedAt()),
+                payment.getProcessor().isDefaultProcessor()
             })
             .toList();
 
-        int[] rows = jdbcTemplate.batchUpdate(BATCH_INSERT_SQL, args);
+        int[] rows = jdbcTemplate.batchUpdate(INSERT_IGNORE_SQL, args);
         return Arrays.stream(rows).sum();
     }
 
-    private int saveWithPostgresCopy(List<PaymentProcessed> payments) {
+    @Override
+    public int saveIndividually(List<PaymentProcessed> payments) {
+        int totalRows = 0;
+        for (PaymentProcessed payment : payments) {
+            int rows = jdbcTemplate.update(INSERT_IGNORE_SQL,
+                payment.getPaymentInput().getCorrelationId(),
+                payment.getPaymentInput().getAmount(),
+                Timestamp.from(payment.getPaymentInput().getRequestedAt()),
+                payment.getProcessor().isDefaultProcessor()
+            );
+            totalRows += rows;
+        }
+        return totalRows;
+    }
+
+    @Override
+    public int saveWithPostgresCopy(List<PaymentProcessed> payments) {
         StringBuilder sb = new StringBuilder();
-
-        for (PaymentProcessed p : payments) {
-            PaymentInput input = p.paymentInput();
-            PaymentProcessor processor = p.processedAt();
-
-            sb.append(input.getCorrelationId()).append('\t');
-            sb.append(input.getAmount()).append('\t');
-            sb.append(input.getRequestedAt()).append('\t');
-            sb.append(processor.isDefaultProcessor()).append('\n');
+        for (PaymentProcessed payment : payments) {
+            sb.append(payment.getPaymentInput().getCorrelationId()).append('\t');
+            sb.append(payment.getPaymentInput().getAmount()).append('\t');
+            sb.append(payment.getPaymentInput().getRequestedAt()).append('\t');
+            sb.append(payment.getProcessor().isDefaultProcessor()).append('\n');
         }
 
         byte[] data = sb.toString().getBytes(StandardCharsets.UTF_8);
@@ -75,11 +83,7 @@ public class PaymentRepositoryQueriesImpl implements PaymentRepositoryQueries {
         try (Connection conn = dataSource.getConnection()) {
             CopyManager copyManager = new CopyManager(conn.unwrap(BaseConnection.class));
 
-            long rowsInserted = copyManager.copyIn(
-                "COPY payment (correlation_id, amount, requested_at, payment_processor) FROM STDIN WITH (FORMAT text)",
-                new ByteArrayInputStream(data)
-            );
-
+            long rowsInserted = copyManager.copyIn(COPY_INSERT_POSTGRES, new ByteArrayInputStream(data));
             return (int) rowsInserted;
         } catch (SQLException | IOException e) {
             throw new RuntimeException("Error inserting payments with COPY", e);
