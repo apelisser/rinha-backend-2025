@@ -27,7 +27,7 @@ public class PaymentRepositoryQueriesImpl implements PaymentRepositoryQueries {
     """;
 
     private static final String COPY_INSERT_POSTGRES = """
-    COPY payment (correlation_id, amount, requested_at, payment_processor) FROM STDIN WITH (FORMAT text)
+    COPY payment (correlation_id, amount, requested_at, default_processor) FROM STDIN WITH (FORMAT text)
     """;
 
     private final DataSource dataSource;
