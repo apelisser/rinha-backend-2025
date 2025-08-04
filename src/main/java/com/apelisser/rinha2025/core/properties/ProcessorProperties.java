@@ -21,6 +21,9 @@ public class ProcessorProperties {
     @Value("${payment-processor.extra-worker-interval-millis}")
     private int extraWorkerIntervalMillis;
 
+    @Value("${payment-processor-selection.use-default-when-less}")
+    private int defaultThreshold;
+
     @Value("${payment-processor-selection.default.advantage-threshold}")
     private int advantageThreshold;
 
@@ -54,6 +57,10 @@ public class ProcessorProperties {
 
     public int getExtraWorkerIntervalMillis() {
         return extraWorkerIntervalMillis;
+    }
+
+    public int getDefaultThreshold() {
+        return defaultThreshold;
     }
 
     public int getAdvantageThreshold() {

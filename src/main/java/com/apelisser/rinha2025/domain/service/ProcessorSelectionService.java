@@ -40,6 +40,10 @@ public class ProcessorSelectionService {
             return null;
         }
 
+        if (defaultScore < processorProps.getDefaultThreshold()) {
+            return DEFAULT;
+        }
+
         return defaultScore <= fallbackScore
             ? DEFAULT
             : FALLBACK;
