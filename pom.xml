@@ -22,6 +22,17 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
 
         <dependency>
@@ -72,7 +83,7 @@
                     <plugin>
                         <groupId>org.graalvm.buildtools</groupId>
                         <artifactId>native-maven-plugin</artifactId>
-                        <version>0.10.6</version> <!-- É bom especificar uma versão -->
+                        <version>0.11.0</version> <!-- É bom especificar uma versão -->
                         <extensions>true</extensions>
                         <executions>
                             <execution>
@@ -91,6 +102,23 @@
                                 <buildArg>--static</buildArg> <!-- Gera um binário estaticamente linkado, ideal para containers distroless -->
                                 <buildArg>--libc=musl</buildArg>
                                 <buildArg>-march=native</buildArg> <!-- Otimiza para a CPU específica onde o build está rodando -->
+
+                                <!-- Configurações de heap corretas para GraalVM -->
+                                <buildArg>-R:MaxHeapSize=60m</buildArg>
+                                <buildArg>-R:MinHeapSize=30m</buildArg>
+                                <buildArg>-R:MaxNewSize=20m</buildArg>
+
+                                <!-- Otimizações de performance -->
+                                <buildArg>-H:+ReportExceptionStackTraces</buildArg>
+                                <buildArg>-H:+RemoveSaturatedTypeFlows</buildArg>
+                                <buildArg>-H:-SpawnIsolates</buildArg>
+
+                                <!-- Reduzir tamanho do binário -->
+                                <buildArg>-H:+StripDebugInfo</buildArg>
+                                <buildArg>-H:+DeleteLocalSymbols</buildArg>
+
+                                <!-- GC otimizado para baixa memória -->
+                                <buildArg>-H:+UseSerialGC</buildArg>
                             </buildArgs>
                         </configuration>
                     </plugin>
