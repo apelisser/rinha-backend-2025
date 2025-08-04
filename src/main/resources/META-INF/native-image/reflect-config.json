@@ -45,6 +45,9 @@
   "name":"[Ljava.lang.String;"
 },
 {
+  "name":"[Ljava.lang.annotation.Annotation;"
+},
+{
   "name":"[Ljava.rmi.server.ObjID;"
 },
 {
@@ -112,7 +115,30 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.domain.queue.InputPaymentQueue","com.apelisser.rinha2025.domain.service.PaymentService","boolean","com.apelisser.rinha2025.core.task.SimpleTaskExecutor"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.domain.queue.InputPaymentQueue","com.apelisser.rinha2025.domain.service.PaymentService","boolean","com.apelisser.rinha2025.core.task.SimpleTaskExecutor"] }, {"name":"getSummary","parameterTypes":["java.time.Instant","java.time.Instant"] }, {"name":"payment","parameterTypes":["com.apelisser.rinha2025.domain.model.PaymentInput"] }]
+},
+{
+  "name":"com.apelisser.rinha2025.core.jackson.JacksonConfig",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"jacksonDisableDefaultFeatures","parameterTypes":[] }, {"name":"jacksonInstallAfterburner","parameterTypes":[] }, {"name":"jacksonInstallTimeModule","parameterTypes":[] }, {"name":"setBeanFactory","parameterTypes":["org.springframework.beans.factory.BeanFactory"] }]
+},
+{
+  "name":"com.apelisser.rinha2025.core.jackson.JacksonConfig$$SpringCGLIB$$0",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "fields":[{"name":"CGLIB$FACTORY_DATA"}],
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"CGLIB$SET_STATIC_CALLBACKS","parameterTypes":["org.springframework.cglib.proxy.Callback[]"] }, {"name":"CGLIB$SET_THREAD_CALLBACKS","parameterTypes":["org.springframework.cglib.proxy.Callback[]"] }]
+},
+{
+  "name":"com.apelisser.rinha2025.core.jackson.JacksonConfig$$SpringCGLIB$$FastClass$$0",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class"] }]
+},
+{
+  "name":"com.apelisser.rinha2025.core.jackson.JacksonConfig$$SpringCGLIB$$FastClass$$1",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class"] }]
 },
 {
   "name":"com.apelisser.rinha2025.core.properties.ConfirmationProperties",
@@ -208,7 +234,7 @@
   "queryAllDeclaredConstructors":true
 },
 {
-  "name":"com.apelisser.rinha2025.domain.entity.HealthCheckStatus_Instantiator_ogzcy9",
+  "name":"com.apelisser.rinha2025.domain.entity.HealthCheckStatus_Instantiator_q7qpg2",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
@@ -220,7 +246,35 @@
 },
 {
   "name":"com.apelisser.rinha2025.domain.model.AggregatedSummary",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
   "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.apelisser.rinha2025.domain.model.AggregatedSummary_Instantiator_3u1d5",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.apelisser.rinha2025.domain.model.PaymentInput",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.apelisser.rinha2025.domain.model.PaymentSummaryResponse",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"defaultProcessor","parameterTypes":[] }, {"name":"fallbackProcessor","parameterTypes":[] }]
+},
+{
+  "name":"com.apelisser.rinha2025.domain.model.ProcessorSummary",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"totalAmount","parameterTypes":[] }, {"name":"totalRequests","parameterTypes":[] }]
 },
 {
   "name":"com.apelisser.rinha2025.domain.queue.AbstractQueue",
@@ -255,7 +309,8 @@
 {
   "name":"com.apelisser.rinha2025.domain.repository.PaymentRepository",
   "queryAllDeclaredMethods":true,
-  "queryAllPublicMethods":true
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"getAggregatedSummaryBetween","parameterTypes":["java.time.Instant","java.time.Instant"] }, {"name":"getFullAggregatedSummary","parameterTypes":[] }]
 },
 {
   "name":"com.apelisser.rinha2025.domain.repository.PaymentRepositoryQueries",
@@ -288,7 +343,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.domain.repository.PaymentRepository","com.apelisser.rinha2025.domain.repository.PaymentRepositoryQueries"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.domain.repository.PaymentRepository","com.apelisser.rinha2025.domain.repository.PaymentRepositoryQueries"] }, {"name":"getSummary","parameterTypes":["java.time.Instant","java.time.Instant"] }, {"name":"save","parameterTypes":["java.util.List"] }]
 },
 {
   "name":"com.apelisser.rinha2025.domain.service.PaymentService$$SpringCGLIB$$0",
@@ -363,10 +418,6 @@
 },
 {
   "name":"com.fasterxml.jackson.annotation.JacksonAnnotation",
-  "queryAllDeclaredMethods":true
-},
-{
-  "name":"com.fasterxml.jackson.annotation.JsonIgnore",
   "queryAllDeclaredMethods":true
 },
 {
@@ -636,6 +687,10 @@
   "methods":[{"name":"from","parameterTypes":["javax.management.openmbean.CompositeData"] }]
 },
 {
+  "name":"float",
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"freemarker.template.Configuration"
 },
 {
@@ -704,8 +759,20 @@
   "fields":[{"name":"referenceCount"}]
 },
 {
+  "name":"io.undertow.server.HttpServerExchange",
+  "fields":[{"name":"state"}]
+},
+{
   "name":"io.undertow.server.handlers.GracefulShutdownHandler",
   "fields":[{"name":"state"}]
+},
+{
+  "name":"io.undertow.server.handlers.cache.LRUCache$CacheEntry",
+  "fields":[{"name":"accessToken"}, {"name":"hits"}]
+},
+{
+  "name":"io.undertow.server.protocol.http.HttpReadListener",
+  "fields":[{"name":"requestState"}]
 },
 {
   "name":"io.undertow.server.protocol.http.HttpRequestParser$$generated",
@@ -737,6 +804,14 @@
   "name":"io.undertow.servlet.spec.ServletContextImpl",
   "queryAllDeclaredMethods":true,
   "methods":[{"name":"addFilter","parameterTypes":["java.lang.String","jakarta.servlet.Filter"] }, {"name":"addFilter","parameterTypes":["java.lang.String","java.lang.Class"] }, {"name":"addFilter","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"addJspFile","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"addListener","parameterTypes":["java.lang.Class"] }, {"name":"addListener","parameterTypes":["java.lang.String"] }, {"name":"addListener","parameterTypes":["java.util.EventListener"] }, {"name":"addServlet","parameterTypes":["java.lang.String","jakarta.servlet.Servlet"] }, {"name":"addServlet","parameterTypes":["java.lang.String","java.lang.Class"] }, {"name":"addServlet","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"createFilter","parameterTypes":["java.lang.Class"] }, {"name":"createListener","parameterTypes":["java.lang.Class"] }, {"name":"createServlet","parameterTypes":["java.lang.Class"] }, {"name":"declareRoles","parameterTypes":["java.lang.String[]"] }, {"name":"getAttribute","parameterTypes":["java.lang.String"] }, {"name":"getAttributeNames","parameterTypes":[] }, {"name":"getClassLoader","parameterTypes":[] }, {"name":"getContext","parameterTypes":["java.lang.String"] }, {"name":"getContextPath","parameterTypes":[] }, {"name":"getDefaultSessionTrackingModes","parameterTypes":[] }, {"name":"getEffectiveMajorVersion","parameterTypes":[] }, {"name":"getEffectiveMinorVersion","parameterTypes":[] }, {"name":"getEffectiveSessionTrackingModes","parameterTypes":[] }, {"name":"getFilterRegistration","parameterTypes":["java.lang.String"] }, {"name":"getFilterRegistrations","parameterTypes":[] }, {"name":"getInitParameter","parameterTypes":["java.lang.String"] }, {"name":"getInitParameterNames","parameterTypes":[] }, {"name":"getJspConfigDescriptor","parameterTypes":[] }, {"name":"getMajorVersion","parameterTypes":[] }, {"name":"getMimeType","parameterTypes":["java.lang.String"] }, {"name":"getMinorVersion","parameterTypes":[] }, {"name":"getNamedDispatcher","parameterTypes":["java.lang.String"] }, {"name":"getRealPath","parameterTypes":["java.lang.String"] }, {"name":"getRequestCharacterEncoding","parameterTypes":[] }, {"name":"getRequestDispatcher","parameterTypes":["java.lang.String"] }, {"name":"getResource","parameterTypes":["java.lang.String"] }, {"name":"getResourceAsStream","parameterTypes":["java.lang.String"] }, {"name":"getResourcePaths","parameterTypes":["java.lang.String"] }, {"name":"getResponseCharacterEncoding","parameterTypes":[] }, {"name":"getServerInfo","parameterTypes":[] }, {"name":"getServletContextName","parameterTypes":[] }, {"name":"getServletRegistration","parameterTypes":["java.lang.String"] }, {"name":"getServletRegistrations","parameterTypes":[] }, {"name":"getSessionCookieConfig","parameterTypes":[] }, {"name":"getSessionTimeout","parameterTypes":[] }, {"name":"getVirtualServerName","parameterTypes":[] }, {"name":"log","parameterTypes":["java.lang.String"] }, {"name":"log","parameterTypes":["java.lang.String","java.lang.Throwable"] }, {"name":"removeAttribute","parameterTypes":["java.lang.String"] }, {"name":"setAttribute","parameterTypes":["java.lang.String","java.lang.Object"] }, {"name":"setInitParameter","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"setRequestCharacterEncoding","parameterTypes":["java.lang.String"] }, {"name":"setResponseCharacterEncoding","parameterTypes":["java.lang.String"] }, {"name":"setSessionTimeout","parameterTypes":["int"] }, {"name":"setSessionTrackingModes","parameterTypes":["java.util.Set"] }]
+},
+{
+  "name":"io.undertow.servlet.spec.ServletInputStreamImpl",
+  "fields":[{"name":"state"}]
+},
+{
+  "name":"io.undertow.servlet.spec.ServletOutputStreamImpl",
+  "fields":[{"name":"state"}]
 },
 {
   "name":"io.undertow.util.FastConcurrentDirectDeque",
@@ -965,6 +1040,10 @@
   "name":"java.lang.CloneNotSupportedException"
 },
 {
+  "name":"java.lang.Comparable",
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"java.lang.Deprecated",
   "queryAllPublicMethods":true
 },
@@ -995,6 +1074,11 @@
 },
 {
   "name":"java.lang.Module",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.Number",
+  "allDeclaredFields":true,
   "queryAllDeclaredMethods":true
 },
 {
@@ -1034,7 +1118,8 @@
 },
 {
   "name":"java.lang.Thread",
-  "fields":[{"name":"contextClassLoader"}, {"name":"threadLocalRandomProbe"}]
+  "fields":[{"name":"contextClassLoader"}, {"name":"threadLocalRandomProbe"}],
+  "methods":[{"name":"isVirtual","parameterTypes":[] }]
 },
 {
   "name":"java.lang.Throwable",
@@ -1169,7 +1254,10 @@
   "methods":[{"name":"getLowerBounds","parameterTypes":[] }, {"name":"getUpperBounds","parameterTypes":[] }]
 },
 {
-  "name":"java.math.BigDecimal"
+  "name":"java.math.BigDecimal",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
 },
 {
   "name":"java.math.BigInteger"
@@ -1262,7 +1350,14 @@
   "methods":[{"name":"getFirst","parameterTypes":[] }]
 },
 {
-  "name":"java.util.UUID"
+  "name":"java.util.UUID",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"java.util.concurrent.Callable",
+  "methods":[{"name":"call","parameterTypes":[] }]
 },
 {
   "name":"java.util.concurrent.ForkJoinTask",
@@ -1613,6 +1708,10 @@
 {
   "name":"org.jboss.threads.EnhancedQueueExecutor$MXBeanImpl",
   "queryAllPublicConstructors":true
+},
+{
+  "name":"org.jboss.threads.EnhancedQueueExecutor$PoolThreadNode",
+  "fields":[{"name":"parked"}, {"name":"task"}]
 },
 {
   "name":"org.jboss.threads.EnhancedQueueExecutor$QNode",
@@ -3923,7 +4022,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["org.springframework.data.jdbc.core.JdbcAggregateOperations","org.springframework.data.mapping.PersistentEntity","org.springframework.data.jdbc.core.convert.JdbcConverter"] }, {"name":"count","parameterTypes":[] }, {"name":"count","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"delete","parameterTypes":["java.lang.Object"] }, {"name":"deleteAll","parameterTypes":[] }, {"name":"deleteAll","parameterTypes":["java.lang.Iterable"] }, {"name":"deleteAllById","parameterTypes":["java.lang.Iterable"] }, {"name":"deleteById","parameterTypes":["java.lang.Object"] }, {"name":"exists","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"existsById","parameterTypes":["java.lang.Object"] }, {"name":"findAll","parameterTypes":[] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example","org.springframework.data.domain.Pageable"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example","org.springframework.data.domain.Sort"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Pageable"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Sort"] }, {"name":"findAllById","parameterTypes":["java.lang.Iterable"] }, {"name":"findBy","parameterTypes":["org.springframework.data.domain.Example","java.util.function.Function"] }, {"name":"findById","parameterTypes":["java.lang.Object"] }, {"name":"findOne","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"save","parameterTypes":["java.lang.Object"] }, {"name":"saveAll","parameterTypes":["java.lang.Iterable"] }, {"name":"update","parameterTypes":["boolean","boolean","long","java.time.Instant"] }]
+  "methods":[{"name":"<init>","parameterTypes":["org.springframework.data.jdbc.core.JdbcAggregateOperations","org.springframework.data.mapping.PersistentEntity","org.springframework.data.jdbc.core.convert.JdbcConverter"] }, {"name":"count","parameterTypes":[] }, {"name":"count","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"delete","parameterTypes":["java.lang.Object"] }, {"name":"deleteAll","parameterTypes":[] }, {"name":"deleteAll","parameterTypes":["java.lang.Iterable"] }, {"name":"deleteAllById","parameterTypes":["java.lang.Iterable"] }, {"name":"deleteById","parameterTypes":["java.lang.Object"] }, {"name":"exists","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"existsById","parameterTypes":["java.lang.Object"] }, {"name":"findAll","parameterTypes":[] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example","org.springframework.data.domain.Pageable"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example","org.springframework.data.domain.Sort"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Pageable"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Sort"] }, {"name":"findAllById","parameterTypes":["java.lang.Iterable"] }, {"name":"findBy","parameterTypes":["org.springframework.data.domain.Example","java.util.function.Function"] }, {"name":"findById","parameterTypes":["java.lang.Object"] }, {"name":"findOne","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"getAggregatedSummaryBetween","parameterTypes":["java.time.Instant","java.time.Instant"] }, {"name":"getFullAggregatedSummary","parameterTypes":[] }, {"name":"save","parameterTypes":["java.lang.Object"] }, {"name":"saveAll","parameterTypes":["java.lang.Iterable"] }, {"name":"update","parameterTypes":["boolean","boolean","long","java.time.Instant"] }]
 },
 {
   "name":"org.springframework.data.jpa.repository.JpaRepository"
@@ -4795,6 +4894,10 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"org.springframework.web.bind.annotation.RequestParam",
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"org.springframework.web.bind.annotation.ResponseBody",
   "queryAllDeclaredMethods":true
 },
@@ -5218,6 +5321,10 @@
   "name":"org.xmlbeam.XBProjector"
 },
 {
+  "name":"org.xnio.Connection",
+  "fields":[{"name":"state"}]
+},
+{
   "name":"org.xnio.SslClientAuthMode"
 },
 {
@@ -5259,6 +5366,10 @@
 },
 {
   "name":"org.xnio.nio.Log_$logger_en_US"
+},
+{
+  "name":"org.xnio.nio.NioSocketConduit",
+  "fields":[{"name":"readTimeout"}, {"name":"writeTimeout"}]
 },
 {
   "name":"org.xnio.nio.NioTcpServer",
@@ -5344,7 +5455,7 @@
 {
   "name":"sun.misc.Unsafe",
   "fields":[{"name":"theUnsafe"}],
-  "methods":[{"name":"getAndAddLong","parameterTypes":["java.lang.Object","long","long"] }, {"name":"getAndSetObject","parameterTypes":["java.lang.Object","long","java.lang.Object"] }]
+  "methods":[{"name":"getAndAddLong","parameterTypes":["java.lang.Object","long","long"] }, {"name":"getAndSetObject","parameterTypes":["java.lang.Object","long","java.lang.Object"] }, {"name":"invokeCleaner","parameterTypes":["java.nio.ByteBuffer"] }]
 },
 {
   "name":"sun.reflect.ReflectionFactory",

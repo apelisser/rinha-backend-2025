@@ -16,6 +16,8 @@
 
     <properties>
         <java.version>21</java.version>
+        <jctools-core.version>4.0.5</jctools-core.version>
+        <jackson-afterburner.version>2.19.2</jackson-afterburner.version>
     </properties>
 
     <dependencies>
@@ -53,7 +55,13 @@
         <dependency>
             <groupId>org.jctools</groupId>
             <artifactId>jctools-core</artifactId>
-            <version>4.0.5</version>
+            <version>${jctools-core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-afterburner</artifactId>
+            <version>${jackson-afterburner.version}</version>
         </dependency>
 
         <dependency>

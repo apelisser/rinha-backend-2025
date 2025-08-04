@@ -67,6 +67,8 @@
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/api/controller/PaymentController.class\\E"
   }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/core/jackson/JacksonConfig.class\\E"
+  }, {
     "pattern":"\\Qcom/apelisser/rinha2025/core/properties/ConfirmationProperties.class\\E"
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/core/properties/ProcessorProperties.class\\E"
