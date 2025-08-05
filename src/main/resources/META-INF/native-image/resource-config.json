@@ -85,6 +85,8 @@
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/core/task/TaskPoolManager.class\\E"
   }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/core/web/filter/PaymentFilterBeanConfig.class\\E"
+  }, {
     "pattern":"\\Qcom/apelisser/rinha2025/core/worker/PaymentProcessedWorker.class\\E"
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/core/worker/PaymentProcessorWorker.class\\E"
@@ -146,6 +148,8 @@
     "pattern":"\\Qdata.sql\\E"
   }, {
     "pattern":"\\Qio/undertow/version.properties\\E"
+  }, {
+    "pattern":"\\Qjakarta/servlet/Filter.class\\E"
   }, {
     "pattern":"\\Qjndi.properties\\E"
   }, {

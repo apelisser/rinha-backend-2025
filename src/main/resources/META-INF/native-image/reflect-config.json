@@ -213,6 +213,29 @@
   "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"shutdown","parameterTypes":[] }]
 },
 {
+  "name":"com.apelisser.rinha2025.core.web.filter.PaymentFilterBeanConfig",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.core.task.SimpleTaskExecutor","com.apelisser.rinha2025.domain.service.PaymentInputService"] }, {"name":"setBeanFactory","parameterTypes":["org.springframework.beans.factory.BeanFactory"] }]
+},
+{
+  "name":"com.apelisser.rinha2025.core.web.filter.PaymentFilterBeanConfig$$SpringCGLIB$$0",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "fields":[{"name":"CGLIB$FACTORY_DATA"}],
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.core.task.SimpleTaskExecutor","com.apelisser.rinha2025.domain.service.PaymentInputService"] }, {"name":"CGLIB$SET_STATIC_CALLBACKS","parameterTypes":["org.springframework.cglib.proxy.Callback[]"] }, {"name":"CGLIB$SET_THREAD_CALLBACKS","parameterTypes":["org.springframework.cglib.proxy.Callback[]"] }]
+},
+{
+  "name":"com.apelisser.rinha2025.core.web.filter.PaymentFilterBeanConfig$$SpringCGLIB$$FastClass$$0",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class"] }]
+},
+{
+  "name":"com.apelisser.rinha2025.core.web.filter.PaymentFilterBeanConfig$$SpringCGLIB$$FastClass$$1",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class"] }]
+},
+{
   "name":"com.apelisser.rinha2025.core.worker.PaymentProcessedWorker",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
@@ -234,7 +257,7 @@
   "queryAllDeclaredConstructors":true
 },
 {
-  "name":"com.apelisser.rinha2025.domain.entity.HealthCheckStatus_Instantiator_pug4nc",
+  "name":"com.apelisser.rinha2025.domain.entity.HealthCheckStatus_Instantiator_2y9ltj",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
