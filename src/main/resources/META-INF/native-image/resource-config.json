@@ -103,6 +103,8 @@
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/domain/repository/PaymentRepositoryQueries.class\\E"
   }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/domain/service/PaymentInputService.class\\E"
+  }, {
     "pattern":"\\Qcom/apelisser/rinha2025/domain/service/PaymentProcessedService.class\\E"
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/domain/service/PaymentProcessorGateway.class\\E"
