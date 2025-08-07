@@ -1,6 +1,6 @@
 package com.apelisser.rinha2025.core.web.filter;
 
-import com.apelisser.rinha2025.core.task.SimpleTaskExecutor;
+import com.apelisser.rinha2025.core.concurrency.SimpleTaskExecutor;
 import com.apelisser.rinha2025.domain.service.PaymentInputService;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;

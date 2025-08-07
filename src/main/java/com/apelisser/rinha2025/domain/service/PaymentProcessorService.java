@@ -1,7 +1,7 @@
 package com.apelisser.rinha2025.domain.service;
 
 import com.apelisser.rinha2025.core.properties.ProcessorProperties;
-import com.apelisser.rinha2025.core.task.SimpleTaskExecutor;
+import com.apelisser.rinha2025.core.concurrency.SimpleTaskExecutor;
 import com.apelisser.rinha2025.domain.enums.PaymentProcessor;
 import com.apelisser.rinha2025.domain.model.PaymentInput;
 import com.apelisser.rinha2025.domain.model.PaymentProcessed;
@@ -10,6 +10,8 @@ import com.apelisser.rinha2025.domain.queue.ProcessedPaymentQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.Semaphore;
 
 @Service
 public class PaymentProcessorService {
@@ -23,13 +25,15 @@ public class PaymentProcessorService {
     private final ProcessedPaymentQueue processedPaymentQueue;
     private final ProcessorProperties processorProps;
     private final SimpleTaskExecutor taskExecutor;
+    private final Semaphore paymentGatewaySemaphore;
 
     public PaymentProcessorService(
             PaymentProcessorGateway paymentProcessorGateway,
             InputPaymentQueue inputPaymentQueue,
             ProcessedPaymentQueue processedPaymentQueue,
             ProcessorProperties processorProps,
-            SimpleTaskExecutor taskExecutor) {
+            SimpleTaskExecutor taskExecutor,
+            Semaphore paymentGatewaySemaphore) {
         this.paymentProcessorGateway = paymentProcessorGateway;
         this.inputPaymentQueue = inputPaymentQueue;
         this.processedPaymentQueue = processedPaymentQueue;
@@ -37,6 +41,7 @@ public class PaymentProcessorService {
         this.taskExecutor = taskExecutor;
 
         this.buffer = new PaymentInput[processorProps.getMaxSize()];
+        this.paymentGatewaySemaphore = paymentGatewaySemaphore;
     }
 
     public void process(int maxSize) {
@@ -56,6 +61,8 @@ public class PaymentProcessorService {
     private void processPayment(PaymentInput payment) {
         taskExecutor.submit(() -> {
             try {
+                paymentGatewaySemaphore.acquire();
+
                 PaymentProcessor processor = paymentProcessorGateway.process(payment);
                 if (processor != null) {
                     processedPaymentQueue.enqueue(new PaymentProcessed(payment, processor));
@@ -64,6 +71,8 @@ public class PaymentProcessorService {
                 }
             } catch (Exception e) {
                 tryRequeue(payment);
+            } finally {
+                paymentGatewaySemaphore.release();
             }
         });
     }

@@ -1,4 +1,4 @@
-package com.apelisser.rinha2025.core.task;
+package com.apelisser.rinha2025.core.concurrency;
 
 import jakarta.annotation.PreDestroy;
 import org.springframework.stereotype.Component;

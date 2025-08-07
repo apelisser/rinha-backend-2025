@@ -1,7 +1,7 @@
 package com.apelisser.rinha2025.domain.service;
 
 import com.apelisser.rinha2025.core.properties.ConfirmationProperties;
-import com.apelisser.rinha2025.core.task.SimpleTaskExecutor;
+import com.apelisser.rinha2025.core.concurrency.SimpleTaskExecutor;
 import com.apelisser.rinha2025.domain.model.PaymentProcessed;
 import com.apelisser.rinha2025.domain.queue.ProcessedPaymentQueue;
 import org.slf4j.Logger;
@@ -20,8 +20,11 @@ public class PaymentProcessedService {
     private final ConfirmationProperties processorProps;
     private final SimpleTaskExecutor taskExecutor;
 
-    public PaymentProcessedService(PaymentService paymentService, ProcessedPaymentQueue processedPaymentQueue,
-            ConfirmationProperties processorProps, SimpleTaskExecutor taskExecutor) {
+    public PaymentProcessedService(
+            PaymentService paymentService,
+            ProcessedPaymentQueue processedPaymentQueue,
+            ConfirmationProperties processorProps,
+            SimpleTaskExecutor taskExecutor) {
         this.paymentService = paymentService;
         this.processedPaymentQueue = processedPaymentQueue;
         this.processorProps = processorProps;

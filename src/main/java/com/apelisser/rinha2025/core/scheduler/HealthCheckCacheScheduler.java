@@ -1,6 +1,6 @@
 package com.apelisser.rinha2025.core.scheduler;
 
-import com.apelisser.rinha2025.core.task.TaskPoolManager;
+import com.apelisser.rinha2025.core.concurrency.TaskPoolManager;
 import com.apelisser.rinha2025.domain.service.health_check.HealthStatusHolder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;

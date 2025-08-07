@@ -1,7 +1,7 @@
 package com.apelisser.rinha2025.core.worker;
 
 import com.apelisser.rinha2025.core.properties.ProcessorProperties;
-import com.apelisser.rinha2025.core.task.TaskPoolManager;
+import com.apelisser.rinha2025.core.concurrency.TaskPoolManager;
 import com.apelisser.rinha2025.core.util.ThreadUtil;
 import com.apelisser.rinha2025.domain.service.PaymentProcessorService;
 import com.apelisser.rinha2025.domain.service.health_check.HealthStatusHolder;

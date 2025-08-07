@@ -1,7 +1,7 @@
 package com.apelisser.rinha2025.core.worker;
 
 import com.apelisser.rinha2025.core.properties.ConfirmationProperties;
-import com.apelisser.rinha2025.core.task.TaskPoolManager;
+import com.apelisser.rinha2025.core.concurrency.TaskPoolManager;
 import com.apelisser.rinha2025.domain.service.PaymentProcessedService;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;

@@ -67,6 +67,12 @@
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/api/controller/PaymentController.class\\E"
   }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/core/concurrency/SemaphoreConfig.class\\E"
+  }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/core/concurrency/SimpleTaskExecutor.class\\E"
+  }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/core/concurrency/TaskPoolManager.class\\E"
+  }, {
     "pattern":"\\Qcom/apelisser/rinha2025/core/jackson/JacksonConfig.class\\E"
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/core/properties/ConfirmationProperties.class\\E"
@@ -81,9 +87,7 @@
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/core/scheduler/ProcessorSelectionScheduler.class\\E"
   }, {
-    "pattern":"\\Qcom/apelisser/rinha2025/core/task/SimpleTaskExecutor.class\\E"
-  }, {
-    "pattern":"\\Qcom/apelisser/rinha2025/core/task/TaskPoolManager.class\\E"
+    "pattern":"\\Qcom/apelisser/rinha2025/core/server/UndertowConfig.class\\E"
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/core/web/filter/PaymentFilterBeanConfig.class\\E"
   }, {
@@ -456,6 +460,8 @@
     "pattern":"\\Qorg/springframework/boot/context/properties/EnableConfigurationPropertiesRegistrar.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/boot/sql/init/dependency/DatabaseInitializationDependencyConfigurer.class\\E"
+  }, {
+    "pattern":"\\Qorg/springframework/boot/web/server/WebServerFactoryCustomizer.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/boot/web/server/mime-mappings.properties\\E"
   }, {

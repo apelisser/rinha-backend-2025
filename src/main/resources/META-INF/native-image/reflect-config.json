@@ -115,7 +115,44 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.domain.service.PaymentService","boolean","com.apelisser.rinha2025.core.task.SimpleTaskExecutor","com.apelisser.rinha2025.domain.service.PaymentInputService"] }, {"name":"payment","parameterTypes":["byte[]"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.domain.service.PaymentService","boolean","int","com.apelisser.rinha2025.domain.service.PaymentInputService"] }, {"name":"getSummary","parameterTypes":["java.time.Instant","java.time.Instant"] }]
+},
+{
+  "name":"com.apelisser.rinha2025.core.concurrency.SemaphoreConfig",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.core.properties.ProcessorProperties"] }, {"name":"paymentGatewaySemaphore","parameterTypes":[] }, {"name":"setBeanFactory","parameterTypes":["org.springframework.beans.factory.BeanFactory"] }]
+},
+{
+  "name":"com.apelisser.rinha2025.core.concurrency.SemaphoreConfig$$SpringCGLIB$$0",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "fields":[{"name":"CGLIB$FACTORY_DATA"}],
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.core.properties.ProcessorProperties"] }, {"name":"CGLIB$SET_STATIC_CALLBACKS","parameterTypes":["org.springframework.cglib.proxy.Callback[]"] }, {"name":"CGLIB$SET_THREAD_CALLBACKS","parameterTypes":["org.springframework.cglib.proxy.Callback[]"] }]
+},
+{
+  "name":"com.apelisser.rinha2025.core.concurrency.SemaphoreConfig$$SpringCGLIB$$FastClass$$0",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class"] }]
+},
+{
+  "name":"com.apelisser.rinha2025.core.concurrency.SemaphoreConfig$$SpringCGLIB$$FastClass$$1",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class"] }]
+},
+{
+  "name":"com.apelisser.rinha2025.core.concurrency.SimpleTaskExecutor",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"shutdown","parameterTypes":[] }]
+},
+{
+  "name":"com.apelisser.rinha2025.core.concurrency.TaskPoolManager",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"shutdown","parameterTypes":[] }]
 },
 {
   "name":"com.apelisser.rinha2025.core.jackson.JacksonConfig",
@@ -182,42 +219,43 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.core.task.TaskPoolManager","com.apelisser.rinha2025.domain.service.health_check.HealthStatusHolder"] }, {"name":"setUp","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.core.concurrency.TaskPoolManager","com.apelisser.rinha2025.domain.service.health_check.HealthStatusHolder"] }, {"name":"setUp","parameterTypes":[] }]
 },
 {
   "name":"com.apelisser.rinha2025.core.scheduler.HealthCheckScheduler",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.core.task.TaskPoolManager","com.apelisser.rinha2025.domain.service.health_check.HealthCheckService"] }, {"name":"setUp","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.core.concurrency.TaskPoolManager","com.apelisser.rinha2025.domain.service.health_check.HealthCheckService"] }, {"name":"setUp","parameterTypes":[] }]
 },
 {
   "name":"com.apelisser.rinha2025.core.scheduler.ProcessorSelectionScheduler",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.core.task.TaskPoolManager","com.apelisser.rinha2025.domain.service.ProcessorSelectionService"] }, {"name":"setUp","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.core.concurrency.TaskPoolManager","com.apelisser.rinha2025.domain.service.ProcessorSelectionService"] }, {"name":"setUp","parameterTypes":[] }]
 },
 {
-  "name":"com.apelisser.rinha2025.core.task.SimpleTaskExecutor",
+  "name":"com.apelisser.rinha2025.core.server.UndertowConfig",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"shutdown","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"customize","parameterTypes":["org.springframework.boot.web.server.WebServerFactory"] }, {"name":"setBeanFactory","parameterTypes":["org.springframework.beans.factory.BeanFactory"] }]
 },
 {
-  "name":"com.apelisser.rinha2025.core.task.TaskPoolManager",
+  "name":"com.apelisser.rinha2025.core.server.UndertowConfig$$SpringCGLIB$$0",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"shutdown","parameterTypes":[] }]
+  "fields":[{"name":"CGLIB$FACTORY_DATA"}],
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"CGLIB$SET_STATIC_CALLBACKS","parameterTypes":["org.springframework.cglib.proxy.Callback[]"] }, {"name":"CGLIB$SET_THREAD_CALLBACKS","parameterTypes":["org.springframework.cglib.proxy.Callback[]"] }]
 },
 {
   "name":"com.apelisser.rinha2025.core.web.filter.PaymentFilterBeanConfig",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.core.task.SimpleTaskExecutor","com.apelisser.rinha2025.domain.service.PaymentInputService"] }, {"name":"setBeanFactory","parameterTypes":["org.springframework.beans.factory.BeanFactory"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.core.concurrency.SimpleTaskExecutor","com.apelisser.rinha2025.domain.service.PaymentInputService"] }, {"name":"requestIdContextFilter","parameterTypes":[] }, {"name":"setBeanFactory","parameterTypes":["org.springframework.beans.factory.BeanFactory"] }]
 },
 {
   "name":"com.apelisser.rinha2025.core.web.filter.PaymentFilterBeanConfig$$SpringCGLIB$$0",
@@ -225,7 +263,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "fields":[{"name":"CGLIB$FACTORY_DATA"}],
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.core.task.SimpleTaskExecutor","com.apelisser.rinha2025.domain.service.PaymentInputService"] }, {"name":"CGLIB$SET_STATIC_CALLBACKS","parameterTypes":["org.springframework.cglib.proxy.Callback[]"] }, {"name":"CGLIB$SET_THREAD_CALLBACKS","parameterTypes":["org.springframework.cglib.proxy.Callback[]"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.core.concurrency.SimpleTaskExecutor","com.apelisser.rinha2025.domain.service.PaymentInputService"] }, {"name":"CGLIB$SET_STATIC_CALLBACKS","parameterTypes":["org.springframework.cglib.proxy.Callback[]"] }, {"name":"CGLIB$SET_THREAD_CALLBACKS","parameterTypes":["org.springframework.cglib.proxy.Callback[]"] }]
 },
 {
   "name":"com.apelisser.rinha2025.core.web.filter.PaymentFilterBeanConfig$$SpringCGLIB$$FastClass$$0",
@@ -240,14 +278,14 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.domain.service.PaymentProcessedService","com.apelisser.rinha2025.core.task.TaskPoolManager","com.apelisser.rinha2025.core.properties.ConfirmationProperties"] }, {"name":"setUp","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.domain.service.PaymentProcessedService","com.apelisser.rinha2025.core.concurrency.TaskPoolManager","com.apelisser.rinha2025.core.properties.ConfirmationProperties"] }, {"name":"setUp","parameterTypes":[] }]
 },
 {
   "name":"com.apelisser.rinha2025.core.worker.PaymentProcessorWorker",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.core.task.TaskPoolManager","com.apelisser.rinha2025.core.properties.ProcessorProperties","com.apelisser.rinha2025.domain.service.PaymentProcessorService","com.apelisser.rinha2025.domain.service.health_check.HealthStatusHolder"] }, {"name":"setUp","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.core.concurrency.TaskPoolManager","com.apelisser.rinha2025.core.properties.ProcessorProperties","com.apelisser.rinha2025.domain.service.PaymentProcessorService","com.apelisser.rinha2025.domain.service.health_check.HealthStatusHolder"] }, {"name":"setUp","parameterTypes":[] }]
 },
 {
   "name":"com.apelisser.rinha2025.domain.entity.HealthCheckStatus",
@@ -257,7 +295,7 @@
   "queryAllDeclaredConstructors":true
 },
 {
-  "name":"com.apelisser.rinha2025.domain.entity.HealthCheckStatus_Instantiator_2y9ltj",
+  "name":"com.apelisser.rinha2025.domain.entity.HealthCheckStatus_Instantiator_s75k3k",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
@@ -269,7 +307,14 @@
 },
 {
   "name":"com.apelisser.rinha2025.domain.model.AggregatedSummary",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
   "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.apelisser.rinha2025.domain.model.AggregatedSummary_Instantiator_2dnioa",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"com.apelisser.rinha2025.domain.model.PaymentInput",
@@ -277,6 +322,20 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.apelisser.rinha2025.domain.model.PaymentSummaryResponse",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"defaultProcessor","parameterTypes":[] }, {"name":"fallbackProcessor","parameterTypes":[] }]
+},
+{
+  "name":"com.apelisser.rinha2025.domain.model.ProcessorSummary",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"totalAmount","parameterTypes":[] }, {"name":"totalRequests","parameterTypes":[] }]
 },
 {
   "name":"com.apelisser.rinha2025.domain.queue.AbstractQueue",
@@ -311,7 +370,8 @@
 {
   "name":"com.apelisser.rinha2025.domain.repository.PaymentRepository",
   "queryAllDeclaredMethods":true,
-  "queryAllPublicMethods":true
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"getFullAggregatedSummary","parameterTypes":[] }]
 },
 {
   "name":"com.apelisser.rinha2025.domain.repository.PaymentRepositoryQueries",
@@ -330,7 +390,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.domain.service.PaymentService","com.apelisser.rinha2025.domain.queue.ProcessedPaymentQueue","com.apelisser.rinha2025.core.properties.ConfirmationProperties","com.apelisser.rinha2025.core.task.SimpleTaskExecutor"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.domain.service.PaymentService","com.apelisser.rinha2025.domain.queue.ProcessedPaymentQueue","com.apelisser.rinha2025.core.properties.ConfirmationProperties","com.apelisser.rinha2025.core.concurrency.SimpleTaskExecutor"] }]
 },
 {
   "name":"com.apelisser.rinha2025.domain.service.PaymentProcessorGateway",
@@ -344,14 +404,14 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.domain.service.PaymentProcessorGateway","com.apelisser.rinha2025.domain.queue.InputPaymentQueue","com.apelisser.rinha2025.domain.queue.ProcessedPaymentQueue","com.apelisser.rinha2025.core.properties.ProcessorProperties","com.apelisser.rinha2025.core.task.SimpleTaskExecutor"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.domain.service.PaymentProcessorGateway","com.apelisser.rinha2025.domain.queue.InputPaymentQueue","com.apelisser.rinha2025.domain.queue.ProcessedPaymentQueue","com.apelisser.rinha2025.core.properties.ProcessorProperties","com.apelisser.rinha2025.core.concurrency.SimpleTaskExecutor","java.util.concurrent.Semaphore"] }]
 },
 {
   "name":"com.apelisser.rinha2025.domain.service.PaymentService",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.domain.repository.PaymentRepository","com.apelisser.rinha2025.domain.repository.PaymentRepositoryQueries"] }, {"name":"save","parameterTypes":["java.util.List"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.domain.repository.PaymentRepository","com.apelisser.rinha2025.domain.repository.PaymentRepositoryQueries"] }, {"name":"getSummary","parameterTypes":["java.time.Instant","java.time.Instant"] }, {"name":"save","parameterTypes":["java.util.List"] }]
 },
 {
   "name":"com.apelisser.rinha2025.domain.service.PaymentService$$SpringCGLIB$$0",
@@ -1089,6 +1149,11 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"java.lang.Number",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"java.lang.Object",
   "allDeclaredClasses":true,
   "queryAllDeclaredMethods":true,
@@ -1261,7 +1326,10 @@
   "methods":[{"name":"getLowerBounds","parameterTypes":[] }, {"name":"getUpperBounds","parameterTypes":[] }]
 },
 {
-  "name":"java.math.BigDecimal"
+  "name":"java.math.BigDecimal",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
 },
 {
   "name":"java.math.BigInteger"
@@ -1370,6 +1438,10 @@
 {
   "name":"java.util.concurrent.Future",
   "methods":[{"name":"state","parameterTypes":[] }]
+},
+{
+  "name":"java.util.concurrent.Semaphore",
+  "methods":[{"name":"close","parameterTypes":[] }, {"name":"shutdown","parameterTypes":[] }]
 },
 {
   "name":"java.util.concurrent.atomic.AtomicBoolean",
@@ -2871,21 +2943,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getUndertow","parameterTypes":[] }, {"name":"setPort","parameterTypes":["java.lang.Integer"] }]
-},
-{
-  "name":"org.springframework.boot.autoconfigure.web.ServerProperties$Undertow",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"getThreads","parameterTypes":[] }, {"name":"setBufferSize","parameterTypes":["org.springframework.util.unit.DataSize"] }, {"name":"setDirectBuffers","parameterTypes":["java.lang.Boolean"] }]
-},
-{
-  "name":"org.springframework.boot.autoconfigure.web.ServerProperties$Undertow$Threads",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"setIo","parameterTypes":["java.lang.Integer"] }, {"name":"setWorker","parameterTypes":["java.lang.Integer"] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setPort","parameterTypes":["java.lang.Integer"] }]
 },
 {
   "name":"org.springframework.boot.autoconfigure.web.WebProperties",
@@ -3539,13 +3597,22 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"org.springframework.boot.web.servlet.AbstractFilterRegistrationBean",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"addServletNames","parameterTypes":["java.lang.String[]"] }, {"name":"addServletRegistrationBeans","parameterTypes":["org.springframework.boot.web.servlet.ServletRegistrationBean[]"] }, {"name":"addUrlPatterns","parameterTypes":["java.lang.String[]"] }, {"name":"determineDispatcherTypes","parameterTypes":[] }, {"name":"getFilterName","parameterTypes":[] }, {"name":"getServletNames","parameterTypes":[] }, {"name":"getServletRegistrationBeans","parameterTypes":[] }, {"name":"getUrlPatterns","parameterTypes":[] }, {"name":"isMatchAfter","parameterTypes":[] }, {"name":"setDispatcherTypes","parameterTypes":["jakarta.servlet.DispatcherType","jakarta.servlet.DispatcherType[]"] }, {"name":"setDispatcherTypes","parameterTypes":["java.util.EnumSet"] }, {"name":"setMatchAfter","parameterTypes":["boolean"] }, {"name":"setServletNames","parameterTypes":["java.util.Collection"] }, {"name":"setServletRegistrationBeans","parameterTypes":["java.util.Collection"] }, {"name":"setUrlPatterns","parameterTypes":["java.util.Collection"] }, {"name":"toString","parameterTypes":[] }]
+},
+{
   "name":"org.springframework.boot.web.servlet.DynamicRegistrationBean",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "methods":[{"name":"addInitParameter","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"configure","parameterTypes":["jakarta.servlet.Registration$Dynamic"] }, {"name":"getInitParameters","parameterTypes":[] }, {"name":"isAsyncSupported","parameterTypes":[] }, {"name":"setAsyncSupported","parameterTypes":["boolean"] }, {"name":"setBeanName","parameterTypes":["java.lang.String"] }, {"name":"setIgnoreRegistrationFailure","parameterTypes":["boolean"] }, {"name":"setInitParameters","parameterTypes":["java.util.Map"] }, {"name":"setName","parameterTypes":["java.lang.String"] }]
 },
 {
-  "name":"org.springframework.boot.web.servlet.FilterRegistrationBean"
+  "name":"org.springframework.boot.web.servlet.FilterRegistrationBean",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"close","parameterTypes":[] }, {"name":"getFilter","parameterTypes":[] }, {"name":"shutdown","parameterTypes":[] }]
 },
 {
   "name":"org.springframework.boot.web.servlet.RegistrationBean",
@@ -4026,7 +4093,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["org.springframework.data.jdbc.core.JdbcAggregateOperations","org.springframework.data.mapping.PersistentEntity","org.springframework.data.jdbc.core.convert.JdbcConverter"] }, {"name":"count","parameterTypes":[] }, {"name":"count","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"delete","parameterTypes":["java.lang.Object"] }, {"name":"deleteAll","parameterTypes":[] }, {"name":"deleteAll","parameterTypes":["java.lang.Iterable"] }, {"name":"deleteAllById","parameterTypes":["java.lang.Iterable"] }, {"name":"deleteById","parameterTypes":["java.lang.Object"] }, {"name":"exists","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"existsById","parameterTypes":["java.lang.Object"] }, {"name":"findAll","parameterTypes":[] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example","org.springframework.data.domain.Pageable"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example","org.springframework.data.domain.Sort"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Pageable"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Sort"] }, {"name":"findAllById","parameterTypes":["java.lang.Iterable"] }, {"name":"findBy","parameterTypes":["org.springframework.data.domain.Example","java.util.function.Function"] }, {"name":"findById","parameterTypes":["java.lang.Object"] }, {"name":"findOne","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"save","parameterTypes":["java.lang.Object"] }, {"name":"saveAll","parameterTypes":["java.lang.Iterable"] }, {"name":"update","parameterTypes":["boolean","boolean","long","java.time.Instant"] }]
+  "methods":[{"name":"<init>","parameterTypes":["org.springframework.data.jdbc.core.JdbcAggregateOperations","org.springframework.data.mapping.PersistentEntity","org.springframework.data.jdbc.core.convert.JdbcConverter"] }, {"name":"count","parameterTypes":[] }, {"name":"count","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"delete","parameterTypes":["java.lang.Object"] }, {"name":"deleteAll","parameterTypes":[] }, {"name":"deleteAll","parameterTypes":["java.lang.Iterable"] }, {"name":"deleteAllById","parameterTypes":["java.lang.Iterable"] }, {"name":"deleteById","parameterTypes":["java.lang.Object"] }, {"name":"exists","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"existsById","parameterTypes":["java.lang.Object"] }, {"name":"findAll","parameterTypes":[] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example","org.springframework.data.domain.Pageable"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example","org.springframework.data.domain.Sort"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Pageable"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Sort"] }, {"name":"findAllById","parameterTypes":["java.lang.Iterable"] }, {"name":"findBy","parameterTypes":["org.springframework.data.domain.Example","java.util.function.Function"] }, {"name":"findById","parameterTypes":["java.lang.Object"] }, {"name":"findOne","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"getFullAggregatedSummary","parameterTypes":[] }, {"name":"save","parameterTypes":["java.lang.Object"] }, {"name":"saveAll","parameterTypes":["java.lang.Iterable"] }, {"name":"update","parameterTypes":["boolean","boolean","long","java.time.Instant"] }]
 },
 {
   "name":"org.springframework.data.jpa.repository.JpaRepository"
@@ -4052,7 +4119,7 @@
   "name":"org.springframework.data.mapping.context.MappingContext",
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
-  "methods":[{"name":"getPersistentEntity","parameterTypes":["org.springframework.data.mapping.PersistentProperty"] }, {"name":"getPersistentEntity","parameterTypes":["org.springframework.data.util.TypeInformation"] }, {"name":"getRequiredPersistentEntity","parameterTypes":["java.lang.Class"] }, {"name":"getRequiredPersistentEntity","parameterTypes":["org.springframework.data.mapping.PersistentProperty"] }, {"name":"getRequiredPersistentEntity","parameterTypes":["org.springframework.data.util.TypeInformation"] }]
+  "methods":[{"name":"getPersistentEntity","parameterTypes":["java.lang.Class"] }, {"name":"getPersistentEntity","parameterTypes":["org.springframework.data.util.TypeInformation"] }, {"name":"getRequiredPersistentEntity","parameterTypes":["java.lang.Class"] }, {"name":"getRequiredPersistentEntity","parameterTypes":["org.springframework.data.mapping.PersistentProperty"] }, {"name":"getRequiredPersistentEntity","parameterTypes":["org.springframework.data.util.TypeInformation"] }]
 },
 {
   "name":"org.springframework.data.mapping.model.ClassGeneratingEntityInstantiator$ObjectInstantiator"
@@ -4853,9 +4920,6 @@
   "queryAllPublicMethods":true
 },
 {
-  "name":"org.springframework.util.unit.DataSizeEditor"
-},
-{
   "name":"org.springframework.validation.Validator",
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
@@ -4895,6 +4959,10 @@
 },
 {
   "name":"org.springframework.web.bind.annotation.RequestMapping",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"org.springframework.web.bind.annotation.RequestParam",
   "queryAllDeclaredMethods":true
 },
 {

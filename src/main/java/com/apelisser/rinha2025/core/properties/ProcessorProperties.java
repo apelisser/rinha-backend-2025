@@ -36,6 +36,9 @@ public class ProcessorProperties {
     @Value("${payment-processor.max-quantity.reduction-percentage}")
     private float reductionWhenDefaultIsOut;
 
+    @Value("${payment-processor.semaphore-max-concurrency}")
+    private int maxSemaphoreConcurrency;
+
     @Value("${payment-processor.max-retries}")
     private int maxRetries;
 
@@ -79,6 +82,10 @@ public class ProcessorProperties {
         if (reductionWhenDefaultIsOut > 1) return 1;
         if (reductionWhenDefaultIsOut < 0) return 0;
         return reductionWhenDefaultIsOut;
+    }
+
+    public int getMaxSemaphoreConcurrency() {
+        return maxSemaphoreConcurrency;
     }
 
     public int getMaxRetries() {
