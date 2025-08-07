@@ -1,6 +1,5 @@
 package com.apelisser.rinha2025.api.controller;
 
-import com.apelisser.rinha2025.core.task.SimpleTaskExecutor;
 import com.apelisser.rinha2025.core.util.ThreadUtil;
 import com.apelisser.rinha2025.domain.model.PaymentSummaryResponse;
 import com.apelisser.rinha2025.domain.service.PaymentInputService;
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 @RestController
@@ -25,22 +26,27 @@ public class PaymentController {
 
     private final Consumer<byte[]> paymentConsumer;
 
-    private final SimpleTaskExecutor taskExecutor;
     private final PaymentService paymentService;
     private final PaymentInputService paymentInputService;
+    private final ExecutorService fixedThreadPool;
 
     public PaymentController(
             PaymentService paymentService,
             @Value("${payment.api.async-input}") boolean paymentsAsync,
-            SimpleTaskExecutor taskExecutor,
+            @Value("${payment.api.async-input.pool-size}") int fixedThreadPoolSize,
             PaymentInputService paymentInputService) {
         this.paymentService = paymentService;
         this.paymentInputService = paymentInputService;
-        this.taskExecutor = taskExecutor;
 
-        this.paymentConsumer = paymentsAsync
-            ? this.asyncPaymentInputConsumer()
-            : this.paymentInputConsumer();
+        if (paymentsAsync) {
+            fixedThreadPool = fixedThreadPoolSize >= 1
+                ? Executors.newFixedThreadPool(fixedThreadPoolSize)
+                : Executors.newFixedThreadPool(1);
+            this.paymentConsumer = this.asyncPaymentInputConsumer();
+        } else {
+            fixedThreadPool = null;
+            this.paymentConsumer = this.paymentInputConsumer();
+        }
     }
 
     @PostMapping("/payments")
@@ -58,7 +64,7 @@ public class PaymentController {
     }
 
     public Consumer<byte[]> asyncPaymentInputConsumer() {
-        return input -> taskExecutor.submit(() -> paymentInputService.convertAndSendToQueue(input));
+        return input -> fixedThreadPool.submit(() -> paymentInputService.convertAndSendToQueue(input));
     }
 
     public Consumer<byte[]> paymentInputConsumer() {
