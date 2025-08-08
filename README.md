@@ -1,8 +1,8 @@
-[#  Rinha de Backend 2025
+# 🏆 Rinha de Backend 2025
 
 Este projeto é uma implementação para o desafio [Rinha de Backend 2025](https://github.com/zanfranceschi/rinha-de-backend-2025/blob/main/INSTRUCOES.md).
 
-##  Tecnologias Utilizadas
+## 🚀 Tecnologias Utilizadas
 
 - **Linguagem:** Java 21
 - **Framework:** Spring Boot 3
@@ -13,7 +13,7 @@ Este projeto é uma implementação para o desafio [Rinha de Backend 2025](https
 - **Load Balancer:** Nginx
 - **Compilação Nativa:** GraalVM
 
-## ️ Arquitetura
+## 🏗️ Arquitetura
 
 A arquitetura da aplicação foi projetada para ser resiliente, escalável e de alta performance, com foco em baixa latência na resposta ao cliente. Para isso, a aplicação utiliza um fluxo de processamento totalmente assíncrono.
 
@@ -32,7 +32,7 @@ A arquitetura da aplicação foi projetada para ser resiliente, escalável e de 
 - **Health Check:** Um sistema de health check monitora a saúde dos processadores de pagamento, permitindo que a aplicação troque para um processador de fallback caso o principal fique indisponível.
 - **Build Multi-Stage:** O `Dockerfile` utiliza um build multi-stage para criar uma imagem nativa com GraalVM e, em seguida, copia o executável para uma imagem `distroless`, resultando em uma imagem final extremamente enxuta e segura.
 
-##  Fluxo da Aplicação
+## 🌊 Fluxo da Aplicação
 
 O fluxo de processamento de um pagamento é totalmente assíncrono, garantindo uma resposta rápida ao cliente:
 
