@@ -1,8 +1,8 @@
 name: rinha-2025
 
 # max
-# cpu=1.5
-# mem=350MB
+#   cpu=1.5
+#   mem=350MB
 
 x-service-templates:
   load-balancer: &load-balancer
@@ -31,46 +31,98 @@ x-service-templates:
       - POSTGRES_DB=rinha_2025
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    command: postgres -c timezone=UTC -c max_connections=40 -c shared_buffers=32MB -c effective_cache_size=100MB -c work_mem=2MB -c maintenance_work_mem=16MB -c synchronous_commit=off -c fsync=off -c wal_buffers=4MB -c checkpoint_timeout=600 -c max_wal_size=4096 -c commit_delay=100 -c full_page_writes=off
+    command: postgres
+      -c max_connections=20
+      -c shared_buffers=32MB
+      -c work_mem=8MB
+      -c effective_cache_size=128MB
+      -c synchronous_commit=off
+      -c fsync=off
+      -c full_page_writes=off
+      -c autovacuum=off
+      -c wal_level=minimal
+      -c max_wal_senders=0
+      -c log_min_messages=fatal
+      -c wal_writer_delay=1000ms
+      -c commit_delay=100
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d rinha_2025"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      interval: 3s
+      timeout: 3s
+      retries: 2
       start_period: 6s
 
   backend-application: &backend-application
-    image: rinha-2025-backend:0.0.2
+    image: rinha-2025-backend:1.1.0
     environment:
       - SERVER_PORT=8080
-      - PAYMENT_API_SUMMARY_DELAY=10
+      - UNDERTOW_CUSTOMIZER=true
+      - UNDERTOW_THREADS_IO=2
+      - UNDERTOW_THREADS_WORKER=15
+      - UNDERTOW_BUFFER_SIZE=8192
+      - UNDERTOW_DIRECT_BUFFERS=true
+
+      - LOGGING_LEVEL=OFF
+      - PAYMENT_API_SUMMARY_DELAY=50
+      - PAYMENT_API_ASYNC_INPUT=true
+      - PAYMENT_API_ASYNC_INPUT_POOL_SIZE=10
+      - PAYMENT_API_FILTER_PROCESS=false
+
+      - JACKSON_INSTALL_AFTERBURNER=true
+      - JACKSON_DISABLE_DEFAULT_FEATURES=true
 
       - DEFAULT_PAYMENT_PROCESSOR_URL=http://payment-processor-default:8080
-      - DEFAULT_PAYMENT_PROCESSOR_READ_TIMEOUT=7000
+      - DEFAULT_PAYMENT_PROCESSOR_READ_TIMEOUT=30000
 
       - FALLBACK_PAYMENT_PROCESSOR_URL=http://payment-processor-fallback:8080
-      - FALLBACK_PAYMENT_PROCESSOR_READ_TIMEOUT=10000
+      - FALLBACK_PAYMENT_PROCESSOR_READ_TIMEOUT=30000
 
-      - DB_URL=jdbc:postgresql://backend-database:5432/rinha_2025?stringtype=unspecified
+      - DB_URL=jdbc:postgresql://backend-database:5432/rinha_2025
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
 
-      - DB_POOL_MINIMUM_SIZE=10
-      - DB_POOL_MAXIMUM_SIZE=20
+      - DB_POOL_MINIMUM_SIZE=8
+      - DB_POOL_MAXIMUM_SIZE=15
       - DB_POOL_IDLE_TIMEOUT=30000
 
-      - OUTBOX_PROCESSOR_PULL_MAX_AMOUNT=40
-      - OUTBOX_PROCESSOR_SCHEDULER_INTERVAL_MS=180
-      - OUTBOX_PROCESSOR_SCHEDULER_INITIAL_DELAY_MS=3000
-      - PAYMENT_PROCESSOR_CONCURRENCY_TYPE=parallel_vt
-      - PAYMENT_PROCESSOR_SELECTION_DEFAULT_ADVANTAGE=0.5
-      - PAYMENT_PROCESSOR_CONFIRMATION_NUMBER_OF_RETRIES=0
-      - PAYMENT_PROCESSOR_CONFIRMATION_INTERVAL_RETRIES_EXECUTION_MS=50
-      - OUTBOX_CLEANER_SCHEDULER_INTERVAL_MS=8000
-      - OUTBOX_CLEANER_SCHEDULER_INITIAL_DELAY_MS=5000
+      # health check
+      - HEALTH_CHECK_EXECUTION_SCHEDULER_INTERVAL=500
+      - HEALTH_CHECK_CACHE_SCHEDULER_INTERVAL=500
+
+      # payment processor selection
+      - PAYMENT_PROCESSOR_SELECTION_SCHEDULER_INTERVAL=200
+      - PAYMENT_PROCESSOR_SELECTION_FALLBACK_ENABLED=true
+      - PAYMENT_PROCESSOR_SELECTION_DEFAULT_ADVANTAGE_THRESHOLD=450
+      - PAYMENT_PROCESSOR_SELECTION_DEFAULT_ADVANTAGE=0.8
+      - PAYMENT_PROCESSOR_SELECTION_USE_DEFAULT_WHEN_LESS=450
+
+      # payment processor
+      - PAYMENT_PROCESSOR_WORKER=1
+      - PAYMENT_PROCESSOR_WORKER_INTERVAL=1
+      - PAYMENT_PROCESSOR_QUEUE_LENGTH=150000
+      - PAYMENT_PROCESSOR_MAX_DEQUEUE=50
+      - PAYMENT_PROCESSOR_SEMAPHORE_MAX_CONCURRENCY=80
+      - PAYMENT_PROCESSOR_MAX_RETRIES=6
+      - PAYMENT_PROCESSOR_MAX_QUANTITY_REDUCTION_PERCENTAGE=0.95
+      - PAYMENT_PROCESSOR_EXTRA_WORKER_INTERVAL=50
+
+      # payment processed
+      - PAYMENT_PROCESSED_WORKER=1
+      - PAYMENT_PROCESSED_WORKER_INTERVAL=200
+      - PAYMENT_PROCESSED_QUEUE_LENGTH=150000
+      - PAYMENT_PROCESSED_MAX_DEQUEUE=1000
+      - PAYMENT_PROCESSED_MAX_RETRIES=2
+
+      # payment persistence
+      - PAYMENT_PERSISTENCE_INDIVIDUAL_THRESHOLD=5
+      - PAYMENT_PERSISTENCE_COPY_THRESHOLD=400
     networks:
       - rinha-net
       - payment-processor
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
     depends_on:
       database:
         condition: service_healthy
@@ -83,8 +135,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.7"
-          memory: "180MB"
+          cpus: "0.4"
+          memory: "150MB"
 
   load-balancer:
     <<: *load-balancer
@@ -96,7 +148,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.1"
+          cpus: "0.2"
           memory: "20MB"
 
   backend01:
@@ -108,8 +160,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.35"
-          memory: "75MB"
+          cpus: "0.5"
+          memory: "90MB"
 
   backend02:
     <<: *backend-application
@@ -120,8 +172,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.35"
-          memory: "75MB"
+          cpus: "0.5"
+          memory: "90MB"
 
 networks:
   rinha-net:
