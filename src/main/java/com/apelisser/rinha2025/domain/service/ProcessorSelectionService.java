@@ -34,14 +34,15 @@ public class ProcessorSelectionService {
 
     private PaymentProcessor chooseBestProcessor() {
         long defaultScore = calculateScore(healthStatusHolder.getDefaultStatus(), true);
+
+        if (defaultScore < processorProps.getDefaultThreshold()) {
+            return DEFAULT;
+        }
+
         long fallbackScore = calculateScore(healthStatusHolder.getFallbackStatus(), false);
 
         if (defaultScore == Long.MAX_VALUE && fallbackScore == Long.MAX_VALUE) {
             return null;
-        }
-
-        if (defaultScore < processorProps.getDefaultThreshold()) {
-            return DEFAULT;
         }
 
         return defaultScore <= fallbackScore

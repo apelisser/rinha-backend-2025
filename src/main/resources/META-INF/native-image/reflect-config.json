@@ -115,7 +115,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.domain.service.PaymentService","boolean","int","com.apelisser.rinha2025.domain.service.PaymentInputService"] }, {"name":"getSummary","parameterTypes":["java.time.Instant","java.time.Instant"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.domain.service.PaymentService","boolean","int","com.apelisser.rinha2025.domain.service.PaymentInputService"] }, {"name":"getSummary","parameterTypes":["java.time.Instant","java.time.Instant"] }, {"name":"payment","parameterTypes":["byte[]"] }]
 },
 {
   "name":"com.apelisser.rinha2025.core.concurrency.SemaphoreConfig",
@@ -251,29 +251,6 @@
   "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"CGLIB$SET_STATIC_CALLBACKS","parameterTypes":["org.springframework.cglib.proxy.Callback[]"] }, {"name":"CGLIB$SET_THREAD_CALLBACKS","parameterTypes":["org.springframework.cglib.proxy.Callback[]"] }]
 },
 {
-  "name":"com.apelisser.rinha2025.core.web.filter.PaymentFilterBeanConfig",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.core.concurrency.SimpleTaskExecutor","com.apelisser.rinha2025.domain.service.PaymentInputService"] }, {"name":"requestIdContextFilter","parameterTypes":[] }, {"name":"setBeanFactory","parameterTypes":["org.springframework.beans.factory.BeanFactory"] }]
-},
-{
-  "name":"com.apelisser.rinha2025.core.web.filter.PaymentFilterBeanConfig$$SpringCGLIB$$0",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true,
-  "fields":[{"name":"CGLIB$FACTORY_DATA"}],
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.core.concurrency.SimpleTaskExecutor","com.apelisser.rinha2025.domain.service.PaymentInputService"] }, {"name":"CGLIB$SET_STATIC_CALLBACKS","parameterTypes":["org.springframework.cglib.proxy.Callback[]"] }, {"name":"CGLIB$SET_THREAD_CALLBACKS","parameterTypes":["org.springframework.cglib.proxy.Callback[]"] }]
-},
-{
-  "name":"com.apelisser.rinha2025.core.web.filter.PaymentFilterBeanConfig$$SpringCGLIB$$FastClass$$0",
-  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class"] }]
-},
-{
-  "name":"com.apelisser.rinha2025.core.web.filter.PaymentFilterBeanConfig$$SpringCGLIB$$FastClass$$1",
-  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class"] }]
-},
-{
   "name":"com.apelisser.rinha2025.core.worker.PaymentProcessedWorker",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
@@ -295,7 +272,7 @@
   "queryAllDeclaredConstructors":true
 },
 {
-  "name":"com.apelisser.rinha2025.domain.entity.HealthCheckStatus_Instantiator_s75k3k",
+  "name":"com.apelisser.rinha2025.domain.entity.HealthCheckStatus_Instantiator_i3p5yc",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
@@ -313,7 +290,7 @@
   "queryAllDeclaredConstructors":true
 },
 {
-  "name":"com.apelisser.rinha2025.domain.model.AggregatedSummary_Instantiator_2dnioa",
+  "name":"com.apelisser.rinha2025.domain.model.AggregatedSummary_Instantiator_pd3106",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
@@ -3597,22 +3574,13 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"org.springframework.boot.web.servlet.AbstractFilterRegistrationBean",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "methods":[{"name":"addServletNames","parameterTypes":["java.lang.String[]"] }, {"name":"addServletRegistrationBeans","parameterTypes":["org.springframework.boot.web.servlet.ServletRegistrationBean[]"] }, {"name":"addUrlPatterns","parameterTypes":["java.lang.String[]"] }, {"name":"determineDispatcherTypes","parameterTypes":[] }, {"name":"getFilterName","parameterTypes":[] }, {"name":"getServletNames","parameterTypes":[] }, {"name":"getServletRegistrationBeans","parameterTypes":[] }, {"name":"getUrlPatterns","parameterTypes":[] }, {"name":"isMatchAfter","parameterTypes":[] }, {"name":"setDispatcherTypes","parameterTypes":["jakarta.servlet.DispatcherType","jakarta.servlet.DispatcherType[]"] }, {"name":"setDispatcherTypes","parameterTypes":["java.util.EnumSet"] }, {"name":"setMatchAfter","parameterTypes":["boolean"] }, {"name":"setServletNames","parameterTypes":["java.util.Collection"] }, {"name":"setServletRegistrationBeans","parameterTypes":["java.util.Collection"] }, {"name":"setUrlPatterns","parameterTypes":["java.util.Collection"] }, {"name":"toString","parameterTypes":[] }]
-},
-{
   "name":"org.springframework.boot.web.servlet.DynamicRegistrationBean",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "methods":[{"name":"addInitParameter","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"configure","parameterTypes":["jakarta.servlet.Registration$Dynamic"] }, {"name":"getInitParameters","parameterTypes":[] }, {"name":"isAsyncSupported","parameterTypes":[] }, {"name":"setAsyncSupported","parameterTypes":["boolean"] }, {"name":"setBeanName","parameterTypes":["java.lang.String"] }, {"name":"setIgnoreRegistrationFailure","parameterTypes":["boolean"] }, {"name":"setInitParameters","parameterTypes":["java.util.Map"] }, {"name":"setName","parameterTypes":["java.lang.String"] }]
 },
 {
-  "name":"org.springframework.boot.web.servlet.FilterRegistrationBean",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "methods":[{"name":"close","parameterTypes":[] }, {"name":"getFilter","parameterTypes":[] }, {"name":"shutdown","parameterTypes":[] }]
+  "name":"org.springframework.boot.web.servlet.FilterRegistrationBean"
 },
 {
   "name":"org.springframework.boot.web.servlet.RegistrationBean",
@@ -4119,7 +4087,7 @@
   "name":"org.springframework.data.mapping.context.MappingContext",
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
-  "methods":[{"name":"getPersistentEntity","parameterTypes":["java.lang.Class"] }, {"name":"getPersistentEntity","parameterTypes":["org.springframework.data.util.TypeInformation"] }, {"name":"getRequiredPersistentEntity","parameterTypes":["java.lang.Class"] }, {"name":"getRequiredPersistentEntity","parameterTypes":["org.springframework.data.mapping.PersistentProperty"] }, {"name":"getRequiredPersistentEntity","parameterTypes":["org.springframework.data.util.TypeInformation"] }]
+  "methods":[{"name":"getPersistentEntity","parameterTypes":["org.springframework.data.mapping.PersistentProperty"] }, {"name":"getPersistentEntity","parameterTypes":["org.springframework.data.util.TypeInformation"] }, {"name":"getRequiredPersistentEntity","parameterTypes":["java.lang.Class"] }, {"name":"getRequiredPersistentEntity","parameterTypes":["org.springframework.data.mapping.PersistentProperty"] }, {"name":"getRequiredPersistentEntity","parameterTypes":["org.springframework.data.util.TypeInformation"] }]
 },
 {
   "name":"org.springframework.data.mapping.model.ClassGeneratingEntityInstantiator$ObjectInstantiator"
