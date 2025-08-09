@@ -10,14 +10,14 @@ Este projeto é uma implementação para o desafio [Rinha de Backend 2025](https
 - **Servidor Web:** Undertow
 - **Build:** Maven
 - **Virtualização:** Docker
-- **Load Balancer:** Nginx
+- **Load Balancer:** HAProxy
 - **Compilação Nativa:** GraalVM
 
 ## 🏗️ Arquitetura
 
 A arquitetura da aplicação foi projetada para ser resiliente, escalável e de alta performance, com foco em baixa latência na resposta ao cliente. Para isso, a aplicação utiliza um fluxo de processamento totalmente assíncrono.
 
-- **Nginx:** Atua como um load balancer, distribuindo as requisições entre as instâncias da aplicação backend.
+- **HAProxy:** Atua como um load balancer, distribuindo as requisições entre as instâncias da aplicação backend.
 - **Backend (Spring Boot):** A aplicação principal, responsável por receber as requisições de pagamento e orquestrar o processamento assíncrono. O `docker-compose.yml` está configurado para executar duas instâncias da aplicação para alta disponibilidade.
 - **PostgreSQL:** O banco de dados utilizado para persistir os dados da aplicação, com otimizações para alta performance.
 - **GraalVM:** O projeto está configurado para compilar uma imagem nativa, o que resulta em um tempo de inicialização mais rápido e menor consumo de memória.
@@ -38,7 +38,7 @@ O fluxo de processamento de um pagamento é totalmente assíncrono, garantindo u
 
 ```mermaid
 graph TD
-    A[Cliente] --> B[Nginx];
+    A[Cliente] --> B[HAProxy];
     B --> C;
     H --> I[PostgreSQL];
     SEM --> F{Payment Processor};
@@ -52,8 +52,8 @@ graph TD
     end
 ```
 
-1.  O cliente envia uma requisição de pagamento para o Nginx.
-2.  O Nginx encaminha a requisição para uma das instâncias do backend.
+1.  O cliente envia uma requisição de pagamento para o HAProxy.
+2.  O HAProxy encaminha a requisição para uma das instâncias do backend.
 3.  A API recebe a requisição, a enfileira na `InputPaymentQueue` e retorna imediatamente `202 ACCEPTED`.
 4.  O `PaymentProcessorWorker` consome da `InputPaymentQueue`, envia o pagamento para o processador externo e enfileira o resultado na `ProcessedPaymentQueue`.
 5.  O `PaymentProcessedWorker` consome da `ProcessedPaymentQueue` e persiste o pagamento processado no PostgreSQL.
