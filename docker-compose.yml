@@ -20,9 +20,9 @@ x-service-templates:
       - POSTGRES_PASSWORD=postgres
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d rinha_2025"]
-      interval: 4s
+      interval: 2s
       timeout: 5s
-      retries: 2
+      retries: 4
       start_period: 10s
 
   backend-application: &backend-application
@@ -38,8 +38,8 @@ x-service-templates:
       - LOGGING_LEVEL=OFF
       - PAYMENT_API_SUMMARY_DELAY=50
       - PAYMENT_API_ASYNC_INPUT=true
-      - PAYMENT_API_ASYNC_THREAD_TYPE=virtual
-      - PAYMENT_API_ASYNC_INPUT_POOL_SIZE=10
+      - PAYMENT_API_ASYNC_THREAD_TYPE=platform
+      - PAYMENT_API_ASYNC_INPUT_POOL_SIZE=7
 
       - JACKSON_INSTALL_AFTERBURNER=true
       - JACKSON_DISABLE_DEFAULT_FEATURES=true
@@ -73,17 +73,17 @@ x-service-templates:
       # payment processor
       - PAYMENT_PROCESSOR_WORKER=1
       - PAYMENT_PROCESSOR_WORKER_INTERVAL=1
-      - PAYMENT_PROCESSOR_QUEUE_LENGTH=150000
-      - PAYMENT_PROCESSOR_MAX_DEQUEUE=200
-      - PAYMENT_PROCESSOR_SEMAPHORE_MAX_CONCURRENCY=150
+      - PAYMENT_PROCESSOR_QUEUE_LENGTH=100000
+      - PAYMENT_PROCESSOR_MAX_DEQUEUE=4
+      - PAYMENT_PROCESSOR_SEMAPHORE_MAX_CONCURRENCY=20
       - PAYMENT_PROCESSOR_MAX_RETRIES=6
       - PAYMENT_PROCESSOR_MAX_QUANTITY_REDUCTION_PERCENTAGE=0.90
-      - PAYMENT_PROCESSOR_EXTRA_WORKER_INTERVAL=50
+      - PAYMENT_PROCESSOR_EXTRA_WORKER_INTERVAL=100
 
       # payment processed
       - PAYMENT_PROCESSED_WORKER=1
       - PAYMENT_PROCESSED_WORKER_INTERVAL=100
-      - PAYMENT_PROCESSED_QUEUE_LENGTH=150000
+      - PAYMENT_PROCESSED_QUEUE_LENGTH=100000
       - PAYMENT_PROCESSED_MAX_DEQUEUE=1000
       - PAYMENT_PROCESSED_MAX_RETRIES=3
 
@@ -109,7 +109,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.35"
+          cpus: "0.31"
           memory: "130MB"
 
   load-balancer:
@@ -143,7 +143,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.55"
+          cpus: "0.57"
           memory: "105MB"
 
   backend02:
@@ -155,7 +155,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.55"
+          cpus: "0.57"
           memory: "105MB"
 
 networks:
