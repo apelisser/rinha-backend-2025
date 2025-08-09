@@ -1,10 +1,11 @@
 package com.apelisser.rinha2025.api.controller;
 
+import com.apelisser.rinha2025.core.concurrency.SimpleTaskExecutor;
+import com.apelisser.rinha2025.core.properties.ApiProperties;
 import com.apelisser.rinha2025.core.util.ThreadUtil;
 import com.apelisser.rinha2025.domain.model.PaymentSummaryResponse;
 import com.apelisser.rinha2025.domain.service.PaymentInputService;
 import com.apelisser.rinha2025.domain.service.PaymentService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,34 +19,46 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
+import static com.apelisser.rinha2025.core.properties.ApiProperties.ThreadType.PLATFORM;
+import static com.apelisser.rinha2025.core.properties.ApiProperties.ThreadType.VIRTUAL;
+
 @RestController
 public class PaymentController {
-
-    @Value("${payment.api.summary-delay.ms}")
-    private int sleepTimeMillis;
 
     private final Consumer<byte[]> paymentConsumer;
 
     private final PaymentService paymentService;
     private final PaymentInputService paymentInputService;
+    private final SimpleTaskExecutor taskExecutor;
     private final ExecutorService fixedThreadPool;
+    private final ApiProperties apiProps;
 
     public PaymentController(
             PaymentService paymentService,
-            @Value("${payment.api.async-input}") boolean paymentsAsync,
-            @Value("${payment.api.async-input.pool-size}") int fixedThreadPoolSize,
-            PaymentInputService paymentInputService) {
+            PaymentInputService paymentInputService,
+            SimpleTaskExecutor taskExecutor,
+            ApiProperties apiProps) {
         this.paymentService = paymentService;
         this.paymentInputService = paymentInputService;
+        this.taskExecutor = taskExecutor;
+        this.apiProps = apiProps;
 
-        if (paymentsAsync) {
-            fixedThreadPool = fixedThreadPoolSize >= 1
-                ? Executors.newFixedThreadPool(fixedThreadPoolSize)
-                : Executors.newFixedThreadPool(1);
-            this.paymentConsumer = this.asyncPaymentInputConsumer();
+        if (apiProps.isAsyncProcessing()) {
+            if (apiProps.getThreadType() == VIRTUAL) {
+                fixedThreadPool = null;
+                this.paymentConsumer = this.virtualAsyncConsumer();
+            } else if (apiProps.getThreadType() == PLATFORM) {
+                fixedThreadPool = apiProps.getPlatformThreadPoolSize() > 1
+                    ? Executors.newFixedThreadPool(apiProps.getPlatformThreadPoolSize())
+                    : Executors.newFixedThreadPool(1);
+
+                this.paymentConsumer = this.platformAsyncConsumer();
+            } else {
+                throw new IllegalArgumentException("Unknown thread type: " + apiProps.getThreadType());
+            }
         } else {
             fixedThreadPool = null;
-            this.paymentConsumer = this.paymentInputConsumer();
+            this.paymentConsumer = this.syncConsumer();
         }
     }
 
@@ -59,15 +72,21 @@ public class PaymentController {
     public PaymentSummaryResponse getSummary(
             @RequestParam(required = false) Instant from,
             @RequestParam(required = false) Instant to) {
-        ThreadUtil.sleep(sleepTimeMillis);
+        if (apiProps.getSummaryDelayMillis() > 0) {
+            ThreadUtil.sleep(apiProps.getSummaryDelayMillis());
+        }
         return paymentService.getSummary(from, to);
     }
 
-    public Consumer<byte[]> asyncPaymentInputConsumer() {
+    public Consumer<byte[]> virtualAsyncConsumer() {
+        return input -> taskExecutor.submit(() -> paymentInputService.convertAndSendToQueue(input));
+    }
+
+    public Consumer<byte[]> platformAsyncConsumer() {
         return input -> fixedThreadPool.submit(() -> paymentInputService.convertAndSendToQueue(input));
     }
 
-    public Consumer<byte[]> paymentInputConsumer() {
+    public Consumer<byte[]> syncConsumer() {
         return paymentInputService::convertAndSendToQueue;
     }
 

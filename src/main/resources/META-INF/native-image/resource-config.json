@@ -75,6 +75,10 @@
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/core/jackson/JacksonConfig.class\\E"
   }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/core/properties/ApiProperties$ThreadType.class\\E"
+  }, {
+    "pattern":"\\Qcom/apelisser/rinha2025/core/properties/ApiProperties.class\\E"
+  }, {
     "pattern":"\\Qcom/apelisser/rinha2025/core/properties/ConfirmationProperties.class\\E"
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/core/properties/ProcessorProperties.class\\E"

@@ -115,7 +115,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.domain.service.PaymentService","boolean","int","com.apelisser.rinha2025.domain.service.PaymentInputService"] }, {"name":"getSummary","parameterTypes":["java.time.Instant","java.time.Instant"] }, {"name":"payment","parameterTypes":["byte[]"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.apelisser.rinha2025.domain.service.PaymentService","com.apelisser.rinha2025.domain.service.PaymentInputService","com.apelisser.rinha2025.core.concurrency.SimpleTaskExecutor","com.apelisser.rinha2025.core.properties.ApiProperties"] }, {"name":"getSummary","parameterTypes":["java.time.Instant","java.time.Instant"] }, {"name":"payment","parameterTypes":["byte[]"] }]
 },
 {
   "name":"com.apelisser.rinha2025.core.concurrency.SemaphoreConfig",
@@ -176,6 +176,13 @@
 {
   "name":"com.apelisser.rinha2025.core.jackson.JacksonConfig$$SpringCGLIB$$FastClass$$1",
   "methods":[{"name":"<init>","parameterTypes":["java.lang.Class"] }]
+},
+{
+  "name":"com.apelisser.rinha2025.core.properties.ApiProperties",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"com.apelisser.rinha2025.core.properties.ConfirmationProperties",
@@ -272,7 +279,7 @@
   "queryAllDeclaredConstructors":true
 },
 {
-  "name":"com.apelisser.rinha2025.domain.entity.HealthCheckStatus_Instantiator_i3p5yc",
+  "name":"com.apelisser.rinha2025.domain.entity.HealthCheckStatus_Instantiator_lgox5h",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
@@ -290,7 +297,7 @@
   "queryAllDeclaredConstructors":true
 },
 {
-  "name":"com.apelisser.rinha2025.domain.model.AggregatedSummary_Instantiator_pd3106",
+  "name":"com.apelisser.rinha2025.domain.model.AggregatedSummary_Instantiator_w9u8v5",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
