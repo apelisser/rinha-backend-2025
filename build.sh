@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # ====== Lê parâmetros ======
-while getopts "y:" opt; do
+while getopts "y:u:" opt; do
   case $opt in
     y) YEAR="$OPTARG" ;;
-    *) echo "Uso: $0 -y <ano>"; exit 1 ;;
+    u) DOCKER_ID="$OPTARG" ;;
+    *) echo "Uso: $0 -y <ano> [-u <docker_id>]"; exit 1 ;;
   esac
 done
 
@@ -21,12 +22,17 @@ echo "Versão encontrada: $VERSION"
 # ====== Define nome base da imagem ======
 IMAGE_NAME="rinha-backend-${YEAR}"
 
+# Se DOCKER_ID for informado, prefixa
+if [ -n "$DOCKER_ID" ]; then
+  IMAGE_NAME="$DOCKER_ID/$IMAGE_NAME"
+fi
+
 # ====== Build ======
 echo "Construindo a imagem Docker: $IMAGE_NAME:$VERSION"
 docker build -t "$IMAGE_NAME:$VERSION" .
 
 # ====== Tags extras ======
-echo "Adicionando a tag 'latest' para a imagem."
+echo "Adicionando tags extras..."
 docker tag "$IMAGE_NAME:$VERSION" "$IMAGE_NAME:latest"
 
 echo "Build concluído com sucesso!"
