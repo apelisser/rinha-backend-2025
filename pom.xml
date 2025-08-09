@@ -119,14 +119,13 @@
                                 <buildArg>-march=native</buildArg> <!-- Otimiza para a CPU específica onde o build está rodando -->
 
                                 <!-- Configurações de heap corretas para GraalVM -->
-                                <buildArg>-R:MaxHeapSize=60m</buildArg>
-                                <buildArg>-R:MinHeapSize=30m</buildArg>
-                                <buildArg>-R:MaxNewSize=20m</buildArg>
+                                <buildArg>-R:MaxHeapSize=80m</buildArg>
+                                <buildArg>-R:MinHeapSize=40m</buildArg>
+                                <buildArg>-R:MaxNewSize=30m</buildArg>
 
                                 <!-- Otimizações de performance -->
                                 <buildArg>-H:+ReportExceptionStackTraces</buildArg>
                                 <buildArg>-H:+RemoveSaturatedTypeFlows</buildArg>
-                                <buildArg>-H:-SpawnIsolates</buildArg>
 
                                 <!-- Reduzir tamanho do binário -->
                                 <buildArg>-H:+StripDebugInfo</buildArg>
