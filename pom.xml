@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.apelisser</groupId>
     <artifactId>rinha2025</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <name>Rinha Backend 2025</name>
     <description>Rinha Backend 2025</description>
 
@@ -109,7 +109,8 @@
                                 <buildArg>-O3</buildArg> <!-- Otimização agressiva de performance -->
                                 <buildArg>--static</buildArg> <!-- Gera um binário estaticamente linkado, ideal para containers distroless -->
                                 <buildArg>--libc=musl</buildArg>
-                                <buildArg>-march=native</buildArg> <!-- Otimiza para a CPU específica onde o build está rodando -->
+                                <buildArg>-march=x86-64</buildArg>
+                                <!-- <buildArg>-march=native</buildArg> --> <!-- Otimiza para a CPU específica onde o build está rodando -->
 
                                 <!-- Configurações de heap corretas para GraalVM -->
                                 <buildArg>-R:MaxHeapSize=80m</buildArg>
