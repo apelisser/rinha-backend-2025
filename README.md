@@ -74,4 +74,4 @@ Para executar o projeto, você precisa ter o Docker e o Docker Compose instalado
    docker-compose up -d
    ```
 
-A aplicação estará disponível na porta `9999`.]()
+A aplicação estará disponível na porta `9999`.
