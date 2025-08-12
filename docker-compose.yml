@@ -23,7 +23,7 @@ x-service-templates:
       interval: 2s
       timeout: 5s
       retries: 4
-      start_period: 5s
+      start_period: 10s
 
   backend-application: &backend-application
     image: apelisser/rinha-backend-2025:1.2.1
@@ -74,8 +74,8 @@ x-service-templates:
       - PAYMENT_PROCESSOR_WORKER=1
       - PAYMENT_PROCESSOR_WORKER_INTERVAL=1
       - PAYMENT_PROCESSOR_QUEUE_LENGTH=100000
-      - PAYMENT_PROCESSOR_MAX_DEQUEUE=4
-      - PAYMENT_PROCESSOR_SEMAPHORE_MAX_CONCURRENCY=20
+      - PAYMENT_PROCESSOR_MAX_DEQUEUE=1
+      - PAYMENT_PROCESSOR_SEMAPHORE_MAX_CONCURRENCY=30
       - PAYMENT_PROCESSOR_MAX_RETRIES=6
       - PAYMENT_PROCESSOR_MAX_QUANTITY_REDUCTION_PERCENTAGE=0.90
       - PAYMENT_PROCESSOR_EXTRA_WORKER_INTERVAL=100
