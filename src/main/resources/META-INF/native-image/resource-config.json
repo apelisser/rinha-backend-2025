@@ -7,10 +7,6 @@
   }, {
     "pattern":"\\QMETA-INF/services/ch.qos.logback.classic.spi.Configurator\\E"
   }, {
-    "pattern":"\\QMETA-INF/services/io.undertow.servlet.ServletExtension\\E"
-  }, {
-    "pattern":"\\QMETA-INF/services/io.undertow.websockets.jsr.WebsocketClientSslProvider\\E"
-  }, {
     "pattern":"\\QMETA-INF/services/java.lang.System$LoggerFinder\\E"
   }, {
     "pattern":"\\QMETA-INF/services/java.net.spi.InetAddressResolverProvider\\E"
@@ -29,9 +25,15 @@
   }, {
     "pattern":"\\QMETA-INF/services/javax.management.remote.JMXConnectorServerProvider\\E"
   }, {
-    "pattern":"\\QMETA-INF/services/org.slf4j.spi.SLF4JServiceProvider\\E"
+    "pattern":"\\QMETA-INF/services/org.eclipse.jetty.ee10.webapp.Configuration\\E"
   }, {
-    "pattern":"\\QMETA-INF/services/org.xnio.XnioProvider\\E"
+    "pattern":"\\QMETA-INF/services/org.eclipse.jetty.http.HttpFieldPreEncoder\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.eclipse.jetty.security.Authenticator$Factory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.eclipse.jetty.websocket.core.Extension\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.slf4j.spi.SLF4JServiceProvider\\E"
   }, {
     "pattern":"\\QMETA-INF/spring-autoconfigure-metadata.properties\\E"
   }, {
@@ -91,7 +93,7 @@
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/core/scheduler/ProcessorSelectionScheduler.class\\E"
   }, {
-    "pattern":"\\Qcom/apelisser/rinha2025/core/server/UndertowConfig.class\\E"
+    "pattern":"\\Qcom/apelisser/rinha2025/core/server/JettyUnixSocketConfiguration.class\\E"
   }, {
     "pattern":"\\Qcom/apelisser/rinha2025/core/worker/PaymentProcessedWorker.class\\E"
   }, {
@@ -153,8 +155,6 @@
   }, {
     "pattern":"\\Qdata.sql\\E"
   }, {
-    "pattern":"\\Qio/undertow/version.properties\\E"
-  }, {
     "pattern":"\\Qjndi.properties\\E"
   }, {
     "pattern":"\\Qlogback-spring.groovy\\E"
@@ -179,7 +179,11 @@
   }, {
     "pattern":"\\Qmessages.properties\\E"
   }, {
-    "pattern":"\\Qorg/jboss/threads/Version.properties\\E"
+    "pattern":"\\Qorg/eclipse/jetty/http/encoding.properties\\E"
+  }, {
+    "pattern":"\\Qorg/eclipse/jetty/http/mime.properties\\E"
+  }, {
+    "pattern":"\\Qorg/eclipse/jetty/version/build.properties\\E"
   }, {
     "pattern":"\\Qorg/postgresql/driverconfig.properties\\E"
   }, {
@@ -353,6 +357,8 @@
   }, {
     "pattern":"\\Qorg/springframework/boot/autoconfigure/jdbc/NamedParameterJdbcTemplateConfiguration.class\\E"
   }, {
+    "pattern":"\\Qorg/springframework/boot/autoconfigure/jdbc/XADataSourceAutoConfiguration.class\\E"
+  }, {
     "pattern":"\\Qorg/springframework/boot/autoconfigure/jdbc/metadata/DataSourcePoolMetadataProvidersConfiguration$CommonsDbcp2PoolDataSourceMetadataProviderConfiguration.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/boot/autoconfigure/jdbc/metadata/DataSourcePoolMetadataProvidersConfiguration$HikariPoolDataSourceMetadataProviderConfiguration.class\\E"
@@ -392,6 +398,10 @@
     "pattern":"\\Qorg/springframework/boot/autoconfigure/transaction/TransactionAutoConfiguration.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/boot/autoconfigure/transaction/TransactionManagerCustomizationAutoConfiguration.class\\E"
+  }, {
+    "pattern":"\\Qorg/springframework/boot/autoconfigure/transaction/jta/JndiJtaConfiguration.class\\E"
+  }, {
+    "pattern":"\\Qorg/springframework/boot/autoconfigure/transaction/jta/JtaAutoConfiguration.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/boot/autoconfigure/web/client/NotReactiveWebApplicationCondition$ReactiveWebApplication.class\\E"
   }, {
@@ -460,8 +470,6 @@
     "pattern":"\\Qorg/springframework/boot/context/properties/EnableConfigurationPropertiesRegistrar.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/boot/sql/init/dependency/DatabaseInitializationDependencyConfigurer.class\\E"
-  }, {
-    "pattern":"\\Qorg/springframework/boot/web/server/WebServerFactoryCustomizer.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/boot/web/server/mime-mappings.properties\\E"
   }, {
@@ -548,10 +556,6 @@
     "pattern":"\\Qorg/springframework/web/servlet/config/annotation/WebMvcConfigurationSupport.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/web/servlet/config/annotation/WebMvcConfigurer.class\\E"
-  }, {
-    "pattern":"\\Qorg/xnio/Version.properties\\E"
-  }, {
-    "pattern":"\\Qorg/xnio/nio/Version.properties\\E"
   }, {
     "pattern":"\\Qpublic/index.html\\E"
   }, {
